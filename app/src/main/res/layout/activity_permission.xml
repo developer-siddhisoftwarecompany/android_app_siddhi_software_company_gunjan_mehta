@@ -3,29 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:overScrollMode="never">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/_15sdp">
 
-        <!-- top image of permission 3 images  -->
+        <!-- group images -->
         <ImageView
             android:id="@+id/topImage"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:src="@drawable/permissions_top_image"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintDimensionRatio="H,1080:1053"
-            />
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- main text  -->
+        <!-- title -->
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
@@ -37,9 +37,9 @@
             android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@id/topImage"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- permission's before text -->
+        <!-- SUB TEXT -->
         <TextView
             android:id="@+id/subText"
             android:layout_width="0dp"
@@ -51,10 +51,9 @@
             android:layout_marginTop="@dimen/_8sdp"
             app:layout_constraintTop_toBottomOf="@id/titleText"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-
-        <!-- permission's ... this is camera -->
+        <!-- CAMERA permission -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/boxCamera"
             android:layout_width="0dp"
@@ -72,7 +71,7 @@
                 android:layout_height="@dimen/_45sdp"
                 android:src="@drawable/cam_icon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/camTitle"
@@ -85,7 +84,7 @@
                 android:layout_marginStart="@dimen/_12sdp"
                 app:layout_constraintStart_toEndOf="@id/camIcon"
                 app:layout_constraintTop_toTopOf="@id/camIcon"
-                app:layout_constraintEnd_toStartOf="@id/toggleCamera" />
+                app:layout_constraintEnd_toStartOf="@id/toggleCamera"/>
 
             <TextView
                 android:id="@+id/camDesc"
@@ -98,7 +97,7 @@
                 android:layout_marginTop="@dimen/_4sdp"
                 app:layout_constraintStart_toEndOf="@id/camIcon"
                 app:layout_constraintTop_toBottomOf="@id/camTitle"
-                app:layout_constraintEnd_toStartOf="@id/toggleCamera" />
+                app:layout_constraintEnd_toStartOf="@id/toggleCamera"/>
 
             <ImageView
                 android:id="@+id/toggleCamera"
@@ -107,12 +106,10 @@
                 android:src="@drawable/toggle_off"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <!-- location -->
+        <!-- LOCATION permission -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/boxLocation"
             android:layout_width="0dp"
@@ -130,7 +127,7 @@
                 android:layout_height="@dimen/_45sdp"
                 android:src="@drawable/location_icon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/locTitle"
@@ -143,7 +140,7 @@
                 android:layout_marginStart="@dimen/_12sdp"
                 app:layout_constraintStart_toEndOf="@id/locIcon"
                 app:layout_constraintTop_toTopOf="@id/locIcon"
-                app:layout_constraintEnd_toStartOf="@id/toggleLocation" />
+                app:layout_constraintEnd_toStartOf="@id/toggleLocation"/>
 
             <TextView
                 android:id="@+id/locDesc"
@@ -156,7 +153,7 @@
                 android:layout_marginTop="@dimen/_4sdp"
                 app:layout_constraintStart_toEndOf="@id/locIcon"
                 app:layout_constraintTop_toBottomOf="@id/locTitle"
-                app:layout_constraintEnd_toStartOf="@id/toggleLocation" />
+                app:layout_constraintEnd_toStartOf="@id/toggleLocation"/>
 
             <ImageView
                 android:id="@+id/toggleLocation"
@@ -165,12 +162,10 @@
                 android:src="@drawable/toggle_off"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <!-- photos -->
+        <!-- PHOTO permission -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/boxPhotos"
             android:layout_width="0dp"
@@ -188,7 +183,7 @@
                 android:layout_height="@dimen/_45sdp"
                 android:src="@drawable/gallary_icon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/photoTitle"
@@ -201,7 +196,7 @@
                 android:layout_marginStart="@dimen/_12sdp"
                 app:layout_constraintStart_toEndOf="@id/photoIcon"
                 app:layout_constraintTop_toTopOf="@id/photoIcon"
-                app:layout_constraintEnd_toStartOf="@id/togglePhotos" />
+                app:layout_constraintEnd_toStartOf="@id/togglePhotos"/>
 
             <TextView
                 android:id="@+id/photoDesc"
@@ -214,7 +209,7 @@
                 android:layout_marginTop="@dimen/_4sdp"
                 app:layout_constraintStart_toEndOf="@id/photoIcon"
                 app:layout_constraintTop_toBottomOf="@id/photoTitle"
-                app:layout_constraintEnd_toStartOf="@id/togglePhotos" />
+                app:layout_constraintEnd_toStartOf="@id/togglePhotos"/>
 
             <ImageView
                 android:id="@+id/togglePhotos"
@@ -223,9 +218,15 @@
                 android:src="@drawable/toggle_off"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- SPACER constraint layout me end lgate h  -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@id/boxPhotos"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
