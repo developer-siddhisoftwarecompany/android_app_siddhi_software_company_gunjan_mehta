@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- GRID OVERLAY THEME -->
+    <style name="Theme.GridOverlay"
+        parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+
+        <!-- No animation flicker -->
+        <item name="android:windowAnimationStyle">@null</item>
+
+    </style>
+
+</resources>

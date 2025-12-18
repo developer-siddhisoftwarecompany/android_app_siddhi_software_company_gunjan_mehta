@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="icon_24">@dimen/_24sdp</dimen>
+    <dimen name="text_14">@dimen/_14ssp</dimen>
+    <dimen name="text_16">@dimen/_16ssp</dimen>
+</resources>

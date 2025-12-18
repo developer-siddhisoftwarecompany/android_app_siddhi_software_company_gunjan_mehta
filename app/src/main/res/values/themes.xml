@@ -1,9 +1,22 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Gunjan_siddhisoftwarecompany" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- MAIN APP THEME -->
+    <style name="Theme.Gunjan_siddhisoftwarecompany"
+        parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- App primary colors -->
+        <item name="colorPrimary">#0B141A</item>
+        <item name="colorPrimaryVariant">#1E2A32</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <!-- Status bar -->
+        <item name="android:statusBarColor">#0B141A</item>
+
+        <!-- Disable default action bar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
     </style>
 
-    <style name="Theme.Gunjan_siddhisoftwarecompany" parent="Base.Theme.Gunjan_siddhisoftwarecompany" />
 </resources>

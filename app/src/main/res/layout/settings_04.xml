@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0B141A">
+
+    <!-- ================= TOP BAR ================= -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="#1E2A32"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/iconGallery"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/gallery_wide"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iconFlash"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/iconFlash"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/flashlight_on"
+            app:layout_constraintStart_toEndOf="@id/iconGallery"
+            app:layout_constraintEnd_toStartOf="@id/iconCamera"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/iconCamera"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/camera_rotate"
+            app:layout_constraintStart_toEndOf="@id/iconFlash"
+            app:layout_constraintEnd_toStartOf="@id/iconSliders"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/iconSliders"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/tuning_2_blue"
+            app:layout_constraintStart_toEndOf="@id/iconCamera"
+            app:layout_constraintEnd_toStartOf="@id/iconSettings"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/iconSettings"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/setting_2"
+            app:layout_constraintStart_toEndOf="@id/iconSliders"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- ================= SECOND LAYER (MODES) ================= -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/modeBar"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:background="#0F1B22"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Grid -->
+        <ImageView
+            android:id="@+id/iconGrid"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/grid_setting_pg_04"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iconFocus"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- Focus -->
+        <ImageView
+            android:id="@+id/iconFocus"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/focus_setting_pg_04"
+            app:layout_constraintStart_toEndOf="@id/iconGrid"
+            app:layout_constraintEnd_toStartOf="@id/iconYes"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- Yes -->
+        <ImageView
+            android:id="@+id/iconYes"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/yes_setting_pg_04"
+            app:layout_constraintStart_toEndOf="@id/iconFocus"
+            app:layout_constraintEnd_toStartOf="@id/iconTimer"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- Timer -->
+        <ImageView
+            android:id="@+id/iconTimer"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/timer_04_setting"
+            app:layout_constraintStart_toEndOf="@id/iconYes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- ================= BACKGROUND IMAGE ================= -->
+    <ImageView
+        android:id="@+id/imgPartyText"
+        android:layout_width="213dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/christma_text_setting_pg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.395"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bgImage" />
+
+    <ImageView
+        android:id="@+id/bgImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/girl_background"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toBottomOf="@id/modeBar"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- ================= BOTTOM BAR ================= -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:background="#1E2A32"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- ===== LEFT : STAMP ===== -->
+
+        <ImageView
+            android:id="@+id/iconStamp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/stamp_settings_pg_bottom_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnCapture"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/txtStamp"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:layout_marginStart="24dp"/>
+
+        <TextView
+            android:id="@+id/txtStamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stamp"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/iconStamp"
+            app:layout_constraintStart_toStartOf="@id/iconStamp"
+            app:layout_constraintEnd_toEndOf="@id/iconStamp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- ===== CENTER : CAPTURE ===== -->
+
+        <ImageButton
+            android:id="@+id/btnCapture"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/mid_click_setting_04"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- ===== RIGHT : MY PHOTOS ===== -->
+
+        <ImageView
+            android:id="@+id/iconPhotos"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/girl_image_setting_04pg"
+            app:layout_constraintStart_toEndOf="@id/btnCapture"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/txtPhotos"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:layout_marginEnd="24dp"/>
+
+        <TextView
+            android:id="@+id/txtPhotos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Photos"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/iconPhotos"
+            app:layout_constraintStart_toStartOf="@id/iconPhotos"
+            app:layout_constraintEnd_toEndOf="@id/iconPhotos"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- ================= FLOATING QUESTION MARK ================= -->
+    <ImageView
+        android:id="@+id/iconHelp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/question_circle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

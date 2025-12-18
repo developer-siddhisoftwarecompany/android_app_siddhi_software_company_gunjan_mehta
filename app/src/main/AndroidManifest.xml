@@ -6,16 +6,17 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gunjan_siddhisoftwarecompany"
         tools:targetApi="31">
 
-        <!-- Permission Screen FIRST -->
+        <!-- MAIN / LAUNCHER ACTIVITY -->
         <activity
-            android:name=".PermissionActivity"
+            android:name=".MainActivity"
             android:exported="true">
 
             <intent-filter>
@@ -25,8 +26,11 @@
 
         </activity>
 
-        <!-- MainActivity SECOND -->
-        <activity android:name=".MainActivity" />
+        <!-- GRID OVERLAY ACTIVITY -->
+        <activity
+            android:name=".grid_05"
+            android:theme="@style/Theme.GridOverlay"
+            android:exported="false" />
 
     </application>
 
