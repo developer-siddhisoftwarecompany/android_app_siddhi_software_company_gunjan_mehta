@@ -1,0 +1,8 @@
+<resources>
+    <string name="photo_information">Photo Information</string>
+    <string name="image_details">Image Details</string>
+    <string name="location">Location</string>
+    <string name="address_text">
+        401, Oasis Corner, Dharmanagar Society, Ruchirak Society, Surat, Gujarat - 395005
+    </string>
+</resources>
