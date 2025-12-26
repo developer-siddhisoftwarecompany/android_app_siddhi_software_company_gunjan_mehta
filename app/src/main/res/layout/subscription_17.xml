@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- TOP IMAGE (FULL WIDTH) -->
+        <!-- ================= TOP IMAGE ================= -->
         <ImageView
             android:id="@+id/imgTop"
             android:layout_width="0dp"
@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="22:9"/>
 
-        <!-- CLOSE ICON (OVER IMAGE) -->
+        <!-- CLOSE ICON -->
         <ImageView
             android:id="@+id/btnClose"
             android:layout_width="@dimen/_24sdp"
@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="@id/imgTop"
             app:layout_constraintEnd_toEndOf="@id/imgTop"/>
 
-        <!-- CONTENT CONTAINER -->
+        <!-- ================= CONTENT ================= -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentBox"
             android:layout_width="match_parent"
@@ -48,12 +48,11 @@
                 android:text="GPS Map Camera – Add Timestamp"
                 android:textStyle="bold"
                 android:textSize="@dimen/_16ssp"
-                android:layout_marginTop="@dimen/_12sdp"
-                app:layout_constraintTop_toBottomOf="@id/imgTop"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <!-- INCLUDED -->
+            <!-- INCLUDED FEATURES -->
             <TextView
                 android:id="@+id/txtIncluded"
                 android:layout_width="wrap_content"
@@ -65,7 +64,7 @@
                 app:layout_constraintTop_toBottomOf="@id/txtTitle"
                 app:layout_constraintStart_toStartOf="parent"/>
 
-            <!-- FEATURES -->
+            <!-- FEATURE ROWS -->
             <include
                 android:id="@+id/rowStamp"
                 layout="@layout/item_feature_row_17"
@@ -106,7 +105,98 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <!-- BUTTON -->
+            <!-- CHOOSE PLAN -->
+            <TextView
+                android:id="@+id/txtChoosePlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Your Subscription"
+                android:textStyle="bold"
+                android:textSize="@dimen/_14ssp"
+                android:layout_marginTop="@dimen/_24sdp"
+                app:layout_constraintTop_toBottomOf="@id/rowAds"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <!-- MONTHLY CARD -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardMonthly"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card_round_i11"
+                android:padding="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                app:layout_constraintTop_toBottomOf="@id/txtChoosePlan"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/cardYearly"
+                app:layout_constraintWidth_percent="0.48">
+
+                <ImageView
+                    android:id="@+id/imgUser"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:src="@drawable/subs_plan_btm_user_image"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/txtMonthly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monthly Plan"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/imgUser"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/txtMonthlyPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹299 / month"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/txtMonthly"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- YEARLY CARD -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardYearly"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card_border_orange_17"
+                android:padding="@dimen/_12sdp"
+                app:layout_constraintTop_toTopOf="@id/cardMonthly"
+                app:layout_constraintStart_toEndOf="@id/cardMonthly"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintWidth_percent="0.48">
+
+                <ImageView
+                    android:id="@+id/imgThumb"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:src="@drawable/subs_plan_btm_thumbs_up"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/txtYearly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Special Offer"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/imgThumb"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/txtYearlyPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹999 / year"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/txtYearly"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- START TRIAL BUTTON -->
             <TextView
                 android:id="@+id/btnStartTrial"
                 android:layout_width="0dp"
@@ -117,7 +207,7 @@
                 android:textStyle="bold"
                 android:background="@drawable/save_button_09"
                 android:layout_marginTop="@dimen/_24sdp"
-                app:layout_constraintTop_toBottomOf="@id/rowAds"
+                app:layout_constraintTop_toBottomOf="@id/cardMonthly"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
