@@ -5,31 +5,31 @@
     android:viewportHeight="100">
   <path
       android:pathData="M50,50m-48.89,0a48.89,48.89 0,1 1,97.78 0a48.89,48.89 0,1 1,-97.78 0"
-      android:fillColor="url(#pattern0_10_4877)"/>
+     />
   <path
       android:pathData="M50,50m-48.89,0a48.89,48.89 0,1 1,97.78 0a48.89,48.89 0,1 1,-97.78 0"
-      android:fillColor="url(#pattern1_10_4877)"/>
+     />
   <path
       android:pathData="M50,50m-48.89,0a48.89,48.89 0,1 1,97.78 0a48.89,48.89 0,1 1,-97.78 0"
-      android:fillColor="url(#pattern2_10_4877)"/>
+ />
   <path
       android:pathData="M50,50m-48.89,0a48.89,48.89 0,1 1,97.78 0a48.89,48.89 0,1 1,-97.78 0"
-      android:fillColor="url(#pattern3_10_4877)"/>
+      />
   <path
       android:pathData="M50,50m-48.89,0a48.89,48.89 0,1 1,97.78 0a48.89,48.89 0,1 1,-97.78 0"
-      android:fillColor="url(#pattern4_10_4877)"/>
+     />
   <path
       android:pathData="M50,50m-48.89,0a48.89,48.89 0,1 1,97.78 0a48.89,48.89 0,1 1,-97.78 0"
-      android:fillColor="url(#pattern5_10_4877)"/>
+     />
   <path
       android:pathData="M50,50m-48.89,0a48.89,48.89 0,1 1,97.78 0a48.89,48.89 0,1 1,-97.78 0"
-      android:fillColor="url(#pattern6_10_4877)"/>
+     />
   <path
       android:pathData="M50,50m-48.89,0a48.89,48.89 0,1 1,97.78 0a48.89,48.89 0,1 1,-97.78 0"
-      android:fillColor="url(#pattern7_10_4877)"/>
+     />
   <path
       android:pathData="M50,50m-48.89,0a48.89,48.89 0,1 1,97.78 0a48.89,48.89 0,1 1,-97.78 0"
-      android:fillColor="url(#pattern8_10_4877)"/>
+ />
   <path
       android:pathData="M50,50m-48.89,0a48.89,48.89 0,1 1,97.78 0a48.89,48.89 0,1 1,-97.78 0"
       android:strokeWidth="2.22222"

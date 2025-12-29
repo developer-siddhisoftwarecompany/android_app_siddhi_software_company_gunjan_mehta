@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_feature_card"
+    android:layout_marginBottom="12dp"
+    android:padding="12dp">
+
+    <!-- ICON -->
+    <ImageView
+        android:id="@+id/imgIcon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- TITLE -->
+    <TextView
+        android:id="@+id/txtFeatureTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Stamp Data"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textColor="#000"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/imgIcon"
+        app:layout_constraintTop_toTopOf="@id/imgIcon"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/imgTick"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/language16_tick_circle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <!-- DESCRIPTION -->
+    <TextView
+        android:id="@+id/txtFeatureDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Get location, date &amp; time on the stamp"
+        android:textSize="12sp"
+        android:textColor="#777777"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@id/txtFeatureTitle"
+        app:layout_constraintTop_toBottomOf="@id/txtFeatureTitle"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_64sdp"
+    android:background="@drawable/bg_language_row"
+    android:layout_marginHorizontal="@dimen/_16sdp"
+    android:layout_marginVertical="@dimen/_6sdp"
+    android:padding="@dimen/_12sdp">
+
+    <!-- FLAG -->
+    <ImageView
+        android:id="@+id/imgFlag"
+        android:layout_width="@dimen/_32sdp"
+        android:layout_height="@dimen/_32sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <!-- LANGUAGE NAME -->
+    <TextView
+        android:id="@+id/txtLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="English"
+        android:textSize="@dimen/_14ssp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/imgFlag"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/_12sdp"/>
+
+    <!-- SUBTITLE -->
+    <TextView
+        android:id="@+id/txtSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="English"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="#8A8A8A"
+        app:layout_constraintStart_toStartOf="@id/txtLanguage"
+        app:layout_constraintTop_toBottomOf="@id/txtLanguage"/>
+
+    <TextView
+        android:id="@+id/txtNative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="English"
+        android:textSize="12sp"
+        android:textColor="#777777"
+        app:layout_constraintTop_toBottomOf="@id/txtLanguage"
+        app:layout_constraintStart_toStartOf="@id/txtLanguage"/>
+
+    <!-- CHECK ICON -->
+    <ImageView
+        android:id="@+id/imgCheck"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:src="@drawable/language16_tick_circle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
