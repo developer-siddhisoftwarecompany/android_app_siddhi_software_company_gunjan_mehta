@@ -25,10 +25,12 @@
 <!--            android:name=".LanguagesActivity16"-->
 <!--            android:exported="true">-->
 
+<!--        <activity-->
+<!--            android:name=".PermissionActivity1"-->
+<!--            android:exported="true">-->
         <activity
-            android:name=".PermissionActivity1"
+            android:name=".WatermarkActivity"
             android:exported="true">
-
 
         <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
