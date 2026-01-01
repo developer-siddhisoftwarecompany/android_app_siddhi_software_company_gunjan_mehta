@@ -14,4 +14,49 @@
 
     </style>
 
+
+    <style name="RowStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:background">#FFFFFF</item>
+    </style>
+
+    <style name="RowTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+    </style>
+
+    <style name="RowValue">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#6B6B6B</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+    </style>
+
+    <style name="RowArrow">
+        <item name="android:layout_width">14dp</item>
+        <item name="android:layout_height">14dp</item>
+        <item name="android:src">@drawable/arrow___right_07</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+    </style>
+
+    <style name="RowToggle">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+    </style>
+
+
 </resources>

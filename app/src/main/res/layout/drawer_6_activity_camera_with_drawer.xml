@@ -1,141 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    tools:openDrawer="start">
 
-    <!-- ================= TOP BAR ================= -->
+    <!-- ================= MAIN CAMERA SCREEN ================= -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topBar"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:background="#1E2A32"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000">
 
-        <ImageView
-            android:id="@+id/iconGallery"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/gallery_wide"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/topBar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:background="#1E2A32"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/gallery_wide"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/setting_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/iconFlash"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/flashlight_on"
-            app:layout_constraintStart_toEndOf="@id/iconGallery"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <ImageView
-            android:id="@+id/iconRotate"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/camera_rotate"
-            app:layout_constraintStart_toEndOf="@id/iconFlash"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <ImageView
-            android:id="@+id/iconSetting"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/setting_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- ================= IMAGE + DARK OVERLAY ================= -->
-    <FrameLayout
-        android:id="@+id/imageContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/topBar"
-        app:layout_constraintBottom_toTopOf="@id/bottomBar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <ImageView
-            android:id="@+id/imagePreview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/girl_background"/>
-
-        <!-- Dark overlay -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#66000000"/>
-    </FrameLayout>
-
-    <!-- ================= BOTTOM BAR ================= -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottomBar"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:background="#1E2A32"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:text="Stamp"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:layout_marginStart="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <ImageButton
-            android:id="@+id/btnCapture"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/capture_button"
-            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/girl_background"
+            app:layout_constraintTop_toBottomOf="@id/topBar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <TextView
-            android:text="My Photos"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- ================= LEFT DRAWER ================= -->
-    <!-- ================= LEFT DRAWER ================= -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/drawerLayout"
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        android:elevation="20dp"
-        android:translationX="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_gravity="start"
+        android:background="#FFFFFF">
 
         <!-- HEADER -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/drawerHeader"
+            android:id="@+id/header"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:background="#2196F3"
@@ -144,7 +71,7 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
-                android:id="@+id/app_logo"
+                android:id="@+id/appLogo"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
@@ -154,7 +81,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
-                android:id="@+id/txtAppName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="GPS Map Camera"
@@ -162,26 +88,67 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginStart="12dp"
-                app:layout_constraintStart_toEndOf="@id/app_logo"
+                app:layout_constraintStart_toEndOf="@id/appLogo"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- MENU : KEEP ORIGINAL -->
+        <!-- KEEP ORIGINAL -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/rowKeepOriginal"
+            android:id="@+id/rowKeep"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/drawerHeader"
+            app:layout_constraintTop_toBottomOf="@id/header"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
+                android:id="@+id/iconKeep"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/how_to_use_gallary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:text="Keep Original Photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@id/iconKeep"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/toggleKeep"
+                android:layout_width="40dp"
+                android:layout_height="22dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/drawer_6_act_c_w_d_switch_off"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>   </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- STAMP -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowStamp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            app:layout_constraintTop_toBottomOf="@id/rowKeep"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/iconStamp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/how_to_use_zoom"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
@@ -189,55 +156,275 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Keep Original Photo"
+                android:text="Stamp Zoom in-out"
                 android:textSize="14sp"
                 android:textColor="#000"
                 android:layout_marginStart="12dp"
-                app:layout_constraintStart_toEndOf="@id/rowKeepOriginal"
+                app:layout_constraintStart_toEndOf="@id/iconStamp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/toggleKeep"
+                android:layout_width="40dp"
+                android:layout_height="22dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/drawer_6_act_c_w_d_switch_on"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- MENU : LANGUAGE -->
+        <!-- WATERMARK -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/rowLanguage"
+            android:id="@+id/rowWatermark"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/rowKeepOriginal"
+            app:layout_constraintTop_toBottomOf="@id/rowStamp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
+                android:id="@+id/iconWatermark"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="16dp"
-                android:src="@drawable/how_to_use_gallary"
+                android:src="@drawable/drawer_6_act_c_w_d_watermark"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Watermark"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@id/iconWatermark"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/toggleKeep"
+                android:layout_width="40dp"
+                android:layout_height="22dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/drawer_6_act_c_w_d_switch_on_crown"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--        language-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowLanguage"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            app:layout_constraintTop_toBottomOf="@id/rowWatermark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/iconLanguage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/drawer_6_act_c_w_d_languages"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/txtLanguage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Languages"
                 android:textSize="14sp"
                 android:textColor="#000"
                 android:layout_marginStart="12dp"
-                app:layout_constraintStart_toEndOf="@id/rowLanguage"
+                app:layout_constraintStart_toEndOf="@id/iconLanguage"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- PREMIUM BUTTON -->
+            <TextView
+                android:id="@+id/txtSelectedLang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="English"
+                android:textSize="12sp"
+                android:textColor="#888888"
+                app:layout_constraintEnd_toStartOf="@id/iconArrowLang"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/iconArrowLang"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toBottomOf="@id/rowLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
         <TextView
-            android:id="@+id/btnPremium"
+            android:id="@+id/txtGeneral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="General"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#666666"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/rowLanguage"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+<!--        how to use-->
+<!--        -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowHowToUse"
             android:layout_width="0dp"
             android:layout_height="48dp"
+            app:layout_constraintTop_toBottomOf="@id/txtGeneral"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/iconHow"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/setting_15_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How to use ?"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@id/iconHow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--        share app-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowShare"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            app:layout_constraintTop_toBottomOf="@id/rowHowToUse"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/iconShare"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/setting_15_5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:text="Share App"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@id/iconShare"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--        more app-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowMoreApp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            app:layout_constraintTop_toBottomOf="@id/rowShare"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/iconMore"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/drawer_6_act_c_w_d_more_apps"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:text="More App"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@id/iconMore"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- PREMIUM -->
+        <TextView
             android:text="GO PREMIUM"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
             android:layout_margin="16dp"
             android:background="@drawable/bg_premium"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -245,4 +432,5 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

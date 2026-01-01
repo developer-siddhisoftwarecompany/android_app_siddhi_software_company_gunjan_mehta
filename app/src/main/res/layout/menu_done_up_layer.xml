@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#FFFFFFx">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="24dp">
+
+        <!-- ================= TOP BAR ================= -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/topBar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/arrow___left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="More Options"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/crown"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ================= PHOTOS ================= -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/txtPhotos"
+            android:text="Photos"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toBottomOf="@id/topBar"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- Timer -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowTimer"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/txtPhotos"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Timer"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Disable"
+                android:textSize="12sp"
+                android:textColor="#777"
+                app:layout_constraintEnd_toStartOf="@id/arrowTimer"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/arrowTimer"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Mirror -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowMirror"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowTimer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Mirror Front Camera"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="20dp"
+                android:src="@drawable/drawer_6_act_c_w_d_switch_off"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Volume -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowVolume"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowMirror"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView'android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Volume Button Capture"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="20dp"
+                android:src="@drawable/drawer_6_act_c_w_d_switch_off"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ================= VIDEOS ================= -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/txtVideos"
+            android:text="Videos"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowVolume"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- Record Audio -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowAudio"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/txtVideos"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Record With Audio"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="20dp"
+                android:src="@drawable/toggle_on"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Video Quality -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowQuality"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowAudio"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Video Quality"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="720p 30fps"
+                android:textSize="12sp"
+                android:textColor="#777"
+                app:layout_constraintEnd_toStartOf="@id/arrowQ"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/arrowQ"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Video Format -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowFormat"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowQuality"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Video Format"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="MOV"
+                android:textSize="12sp"
+                android:textColor="#777"
+                app:layout_constraintEnd_toStartOf="@id/arrowF"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/arrowF"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Video Segmentation -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowSegmentation"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowFormat"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Video Segmentation"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="720p 30fps"
+                android:textSize="12sp"
+                android:textColor="#777"
+                app:layout_constraintEnd_toStartOf="@id/arrowSeg"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/arrowSeg"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ================= OTHER ================= -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/txtOther"
+            android:text="Other"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowSegmentation"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- Time-lapse -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowTimelapse"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/txtOther"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Time-lapse Interval"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="0.5 Seconds"
+                android:textSize="12sp"
+                android:textColor="#777"
+                app:layout_constraintEnd_toStartOf="@id/arrowT"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/arrowT"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Show Index Number -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowShowIndex"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowTimelapse"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show Index Number"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="20dp"
+                android:src="@drawable/drawer_6_act_c_w_d_switch_off"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Reset File Name Index Number -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowResetIndex"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowShowIndex"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reset File Name Index Number"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Camera Orientation -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowOrientation"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowResetIndex"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Camera Orientation"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Auto"
+                android:textSize="12sp"
+                android:textColor="#777"
+                app:layout_constraintEnd_toStartOf="@id/arrowOrientation"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/arrowOrientation"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Focus -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowFocus"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowOrientation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Focus"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="20dp"
+                android:src="@drawable/drawer_6_act_c_w_d_switch_off"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Level -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowLevel"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowFocus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="20dp"
+                android:src="@drawable/drawer_6_act_c_w_d_switch_off"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- File Name Format -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowFileName"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowLevel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="File Name Format"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Default"
+                android:textSize="12sp"
+                android:textColor="#777"
+                app:layout_constraintEnd_toStartOf="@id/arrowFile"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/arrowFile"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Display Shortcut Button -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowShortcut"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/rowFileName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Display Shortcut Button"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/arrow___right_07"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
