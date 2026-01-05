@@ -127,7 +127,7 @@
             android:id="@+id/imgPhotos"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
-            android:src="@drawable/myphoto19"
+            android:src="@drawable/girl_image_setting_04pg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

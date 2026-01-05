@@ -32,11 +32,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textColor="#000000"
                 android:text="More Options"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#000"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -87,25 +87,27 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-
                 android:text="Timer"
                 android:textSize="14sp"
+                android:textColor="#111111"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/txtTimerValue"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
-
             <TextView
+                android:id="@+id/txtTimerValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="Disable"
                 android:textSize="12sp"
-                android:textColor="#777"
+                android:textColor="#777777"
                 app:layout_constraintEnd_toStartOf="@id/arrowTimer"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="6dp"/>
+
 
             <ImageView
                 android:id="@+id/arrowTimer"
@@ -114,8 +116,7 @@
                 android:src="@drawable/arrow___right_07"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintBottom_toBottomOf="parent"/>  </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Mirror -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -128,22 +129,25 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-
                 android:text="Mirror Front Camera"
                 android:textSize="14sp"
+                android:textColor="#111111"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/switchMirror"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ImageView
+                android:id="@+id/switchMirror"
                 android:layout_width="36dp"
                 android:layout_height="20dp"
                 android:src="@drawable/drawer_6_act_c_w_d_switch_off"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Volume -->
@@ -157,11 +161,11 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="Volume Button Capture"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Video Quality"
                 android:textSize="14sp"
+                android:textColor="#111111"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
@@ -185,7 +189,8 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
 
                 android:text="Send Email After Photo Take"
@@ -213,7 +218,8 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
 
                 android:text="Send Photos By Email Settings"
@@ -266,7 +272,8 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
 
                 android:text="Record With Audio"
@@ -295,7 +302,8 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
 
                 android:text="Video Quality"
@@ -305,12 +313,13 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
 
                 android:text="720p 30fps"
                 android:textSize="12sp"
-                android:textColor="#777"
+
                 app:layout_constraintEnd_toStartOf="@id/arrowQ"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
@@ -336,9 +345,9 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-
+                android:textColor="#111111"
                 android:text="Video Format"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -346,12 +355,13 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
 
                 android:text="MOV"
                 android:textSize="12sp"
-                android:textColor="#777"
+
                 app:layout_constraintEnd_toStartOf="@id/arrowF"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
@@ -377,7 +387,8 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
 
                 android:text="Video Segmentation"
@@ -387,12 +398,13 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
 
                 android:text="1 Min"
                 android:textSize="12sp"
-                android:textColor="#777"
+
                 app:layout_constraintEnd_toStartOf="@id/arrowSeg"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
@@ -417,7 +429,8 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
 
                 android:text="Video Stabilization"
@@ -429,8 +442,8 @@
 
             <ImageView
                 android:id="@+id/arrowSta"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
+                android:layout_width="36dp"
+                android:layout_height="20dp"
                 android:src="@drawable/toggle_off"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -449,7 +462,8 @@
 
             <!-- Title -->
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
                 android:text="Video Bitrate"
                 android:textSize="14sp"
@@ -463,7 +477,7 @@
                 android:layout_height="wrap_content"
                 android:text="Normal"
                 android:textSize="12sp"
-                android:textColor="#777"
+                android:textColor="#777777"
                 app:layout_constraintEnd_toStartOf="@id/arrowBitrate"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -484,8 +498,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-        <!-- ================= OTHER ================= -->
-    <!-- ================= OTHER ================= -->
     <TextView
         android:id="@+id/txtOther"
         android:layout_width="wrap_content"
@@ -521,19 +533,21 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:text="Time-lapse Interval"
                 android:textSize="14sp"
-                android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:text="0.5 Seconds"
                 android:textSize="12sp"
-                android:textColor="#777"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toStartOf="@id/arrowT"
                 app:layout_constraintTop_toTopOf="parent"
@@ -560,9 +574,10 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:text="Show Index Number"
                 android:textSize="14sp"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -590,7 +605,8 @@
             <TextView
                 android:text="Reset File Name Index Number"
                 android:textSize="14sp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -618,7 +634,8 @@
             <TextView
                 android:text="Camera Orientation"
                 android:textSize="14sp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -627,8 +644,9 @@
             <TextView
                 android:text="Auto"
                 android:textSize="12sp"
-                android:textColor="#777"
-                android:layout_width="wrap_content"
+
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toStartOf="@id/arrowOrientation"
                 app:layout_constraintTop_toTopOf="parent"
@@ -657,7 +675,8 @@
             <TextView
                 android:text="Focus"
                 android:textSize="14sp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -685,7 +704,8 @@
             <TextView
                 android:text="Level"
                 android:textSize="14sp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -713,7 +733,8 @@
             <TextView
                 android:text="File Name Format"
                 android:textSize="14sp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -722,8 +743,9 @@
             <TextView
                 android:text="Default"
                 android:textSize="12sp"
-                android:textColor="#777"
-                android:layout_width="wrap_content"
+                android:textColor="#777777"
+                android:layout_width="0dp"
+
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toStartOf="@id/arrowFile"
                 app:layout_constraintTop_toTopOf="parent"
@@ -752,7 +774,8 @@
             <TextView
                 android:text="Display Shortcut Button"
                 android:textSize="14sp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:textColor="#111111"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

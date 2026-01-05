@@ -133,7 +133,7 @@
                 android:id="@+id/trendingBig"
                 android:layout_width="0dp"
                 android:layout_height="260dp"
-                android:background="@drawable/bg_card_20"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/trendingRightTop"
@@ -144,7 +144,7 @@
                 android:id="@+id/trendingRightTop"
                 android:layout_width="0dp"
                 android:layout_height="125dp"
-                android:background="@drawable/bg_card_20"
+                android:background="@drawable/bg_card_border_orange_17"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/trendingBig"
@@ -155,7 +155,8 @@
                 android:id="@+id/trendingRightBottom"
                 android:layout_width="0dp"
                 android:layout_height="125dp"
-                android:background="@drawable/bg_card_20"
+
+
                 app:layout_constraintTop_toBottomOf="@id/trendingRightTop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/trendingBig" />
@@ -196,7 +197,7 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="160dp"
-                android:background="@drawable/bg_card_20"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/fest2"
@@ -206,7 +207,7 @@
                 android:id="@+id/fest2"
                 android:layout_width="0dp"
                 android:layout_height="160dp"
-                android:background="@drawable/bg_card_20"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.48" />
