@@ -51,6 +51,7 @@ public class image12file extends AppCompatActivity {
     }
 
     private void setRow(View row, int icon, String label, String value) {
+
         ImageView img = row.findViewById(R.id.imgIcon);
         TextView txtLabel = row.findViewById(R.id.txtLabel);
         TextView txtValue = row.findViewById(R.id.txtValue);

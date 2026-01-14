@@ -54,6 +54,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
+        android:overScrollMode=""
         app:layout_constraintTop_toBottomOf="@id/topBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +67,7 @@
             <!-- IMAGE DETAILS TITLE -->
             <TextView
                 android:id="@+id/txtImageDetails"
+                android:textStyle="bold"
                 android:text="@string/image_details"
                 android:textSize="@dimen/_13ssp"
                 android:textColor="#9E9E9E"
@@ -91,35 +93,50 @@
 
                 <include
                     android:id="@+id/row1"
-                    layout="@layout/item_info_row_i11"
+                    layout="@layout/item_image_info_row_12"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <include
                     android:id="@+id/row2"
-                    layout="@layout/item_info_row_i11"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
+                    layout="@layout/item_image_info_row_12"
                     app:layout_constraintTop_toBottomOf="@id/row1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <include
                     android:id="@+id/row3"
-                    layout="@layout/item_info_row_i11"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
+                    layout="@layout/item_image_info_row_12"
                     app:layout_constraintTop_toBottomOf="@id/row2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <include
                     android:id="@+id/row4"
-                    layout="@layout/item_info_row_i11"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
+                    layout="@layout/item_image_info_row_12"
                     app:layout_constraintTop_toBottomOf="@id/row3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <include
                     android:id="@+id/row5"
-                    layout="@layout/item_info_row_i11"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
+                    layout="@layout/item_image_info_row_12"
                     app:layout_constraintTop_toBottomOf="@id/row4"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -130,6 +147,7 @@
             <!-- LOCATION TITLE -->
             <TextView
                 android:id="@+id/txtLocationTitle"
+                android:textStyle="bold"
                 android:text="@string/location"
                 android:textSize="@dimen/_13ssp"
                 android:textColor="#9E9E9E"
@@ -145,9 +163,10 @@
             <ImageView
                 android:id="@+id/imgMap"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_180sdp"
+                android:layout_height="@dimen/_200sdp"
                 android:layout_marginHorizontal="@dimen/_16sdp"
-                android:src="@drawable/map_loca_12_i"
+                android:minHeight="@dimen/_200sdp"
+                android:src="@drawable/map_location_09"
                 android:scaleType="centerCrop"
                 android:background="@drawable/bg_card_round_i11"
                 app:layout_constraintTop_toBottomOf="@id/txtLocationTitle"

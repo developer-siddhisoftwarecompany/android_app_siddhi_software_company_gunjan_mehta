@@ -16,6 +16,8 @@ public class Btn  extends AppCompatActivity {
         findViewById(R.id.btn1).setOnClickListener(v ->
                 startActivity(new Intent(this, grid_05.class)));
 
+        findViewById(R.id.btn2).setOnClickListener(v ->
+                startActivity(new Intent(this, cam1.class)));
 
         findViewById(R.id.btn3).setOnClickListener(v ->
                 startActivity(new Intent(this, settings_04.class)));
@@ -24,6 +26,8 @@ public class Btn  extends AppCompatActivity {
 
         findViewById(R.id.btn5).setOnClickListener(v ->
                 startActivity(new Intent(this, Date_time_07.class)));
+        findViewById(R.id.btn6).setOnClickListener(v ->
+                startActivity(new Intent(this, LanguagesActivity16.class)));
 
         findViewById(R.id.btn7).setOnClickListener(v ->
                 startActivity(new Intent(this, MainActivity.class)));
@@ -73,6 +77,8 @@ public class Btn  extends AppCompatActivity {
                 startActivity(new Intent(this, menu_done_8_up.class)));
        findViewById(R.id.btn32).setOnClickListener(v ->
                 startActivity(new Intent(this, activity_preview.class)));
+        findViewById(R.id.btn31).setOnClickListener(v ->
+                startActivity(new Intent(this, image12file.class)));
 
     }
 }

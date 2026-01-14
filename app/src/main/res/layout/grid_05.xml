@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="#0B141A">
 
+
     <!-- ================= TOP BAR ================= -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
@@ -22,6 +23,7 @@
             android:layout_height="24dp"
             android:src="@drawable/gallery_wide"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iconFlash"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -31,6 +33,7 @@
             android:layout_height="24dp"
             android:src="@drawable/flashlight_on"
             app:layout_constraintStart_toEndOf="@id/iconGallery"
+            app:layout_constraintEnd_toStartOf="@id/iconCamera"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -40,6 +43,7 @@
             android:layout_height="24dp"
             android:src="@drawable/camera_rotate"
             app:layout_constraintStart_toEndOf="@id/iconFlash"
+            app:layout_constraintEnd_toStartOf="@id/iconSliders"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -49,6 +53,7 @@
             android:layout_height="24dp"
             android:src="@drawable/tuning_2_blue"
             app:layout_constraintStart_toEndOf="@id/iconCamera"
+            app:layout_constraintEnd_toStartOf="@id/iconSettings"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -57,12 +62,14 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/setting_2"
+            app:layout_constraintStart_toEndOf="@id/iconSliders"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- ================= MODE BAR ================= -->
+    <!-- ================= SECOND LAYER (MODES) ================= -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/modeBar"
         android:layout_width="0dp"
@@ -72,33 +79,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Grid -->
         <ImageView
             android:id="@+id/iconGrid"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/grid_setting_pg_04"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iconFocus"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+        <!-- Focus -->
         <ImageView
             android:id="@+id/iconFocus"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/focus_setting_pg_04"
             app:layout_constraintStart_toEndOf="@id/iconGrid"
+            app:layout_constraintEnd_toStartOf="@id/iconYes"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+        <!-- Yes -->
         <ImageView
             android:id="@+id/iconYes"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/yes_setting_pg_04"
             app:layout_constraintStart_toEndOf="@id/iconFocus"
+            app:layout_constraintEnd_toStartOf="@id/iconTimer"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+        <!-- Timer -->
         <ImageView
             android:id="@+id/iconTimer"
             android:layout_width="24dp"
@@ -108,6 +122,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- ================= BACKGROUND IMAGE ================= -->
@@ -214,13 +229,13 @@
         android:layout_marginBottom="8dp"/>
 
     <!-- ================= GRID BLACK OVERLAY ================= -->
-    <!-- ================= GRID BLACK OVERLAY ================= -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/gridOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#99000000"
-        android:elevation="40dp"
+        android:background="#B3000000"
+        android:clickable="true"
+        android:focusable="true"
         android:visibility="visible">
 
         <!-- BACK -->
@@ -229,6 +244,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/arrow___left"
+            android:tint="#FFFFFF"
             android:layout_margin="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"

@@ -101,14 +101,18 @@
 
             <TextView
                 android:id="@+id/txtDateValue"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Friday, 14th June 2024 14:57"
                 android:textColor="#6B6B6B"
                 android:textSize="@dimen/_12ssp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="end"
+                app:layout_constraintStart_toEndOf="@id/txtDateTitle"
                 app:layout_constraintEnd_toStartOf="@id/iconDateArrow"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ImageView
                 android:id="@+id/iconDateArrow"
