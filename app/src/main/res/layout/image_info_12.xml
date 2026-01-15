@@ -6,14 +6,11 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <!-- ================= TOP BAR ================= -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/_56sdp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/btnBack"
@@ -21,22 +18,22 @@
             android:layout_height="@dimen/_24sdp"
             android:layout_marginStart="@dimen/_16sdp"
             android:src="@drawable/arrow___left"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txtTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/photo_information"
+            android:text="Photo Information"
+            android:textColor="#000000"
             android:textSize="@dimen/_16ssp"
             android:textStyle="bold"
-            android:textColor="#000000"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/btnCrown"
@@ -44,166 +41,111 @@
             android:layout_height="@dimen/_22sdp"
             android:layout_marginEnd="@dimen/_16sdp"
             android:src="@drawable/ic_crown"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- ================= SCROLL CONTENT ================= -->
     <ScrollView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        android:overScrollMode=""
-        app:layout_constraintTop_toBottomOf="@id/topBar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/topBar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/_24sdp">
 
-            <!-- IMAGE DETAILS TITLE -->
             <TextView
-                android:id="@+id/txtImageDetails"
-                android:textStyle="bold"
-                android:text="@string/image_details"
-                android:textSize="@dimen/_13ssp"
-                android:textColor="#9E9E9E"
+                android:id="@+id/labelDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_16sdp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="Image Details"
+                android:textColor="#9E9E9E"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- DETAILS CARD -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/detailsCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_card_round_i11"
-                android:padding="@dimen/_12sdp"
+            <include android:id="@+id/row1" layout="@layout/item_image_info_row_12"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_16sdp"
-                app:layout_constraintTop_toBottomOf="@id/txtImageDetails"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/labelDetails"/>
 
-                <include
-                    android:id="@+id/row1"
-                    layout="@layout/item_image_info_row_12"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+            <include android:id="@+id/row2" layout="@layout/item_image_info_row_12"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                app:layout_constraintTop_toBottomOf="@id/row1"/>
 
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+            <include android:id="@+id/row3" layout="@layout/item_image_info_row_12"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                app:layout_constraintTop_toBottomOf="@id/row2"/>
 
-                <include
-                    android:id="@+id/row2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+            <include android:id="@+id/row4" layout="@layout/item_image_info_row_12"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                app:layout_constraintTop_toBottomOf="@id/row3"/>
 
-                    layout="@layout/item_image_info_row_12"
-                    app:layout_constraintTop_toBottomOf="@id/row1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+            <include android:id="@+id/row5" layout="@layout/item_image_info_row_12"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                app:layout_constraintTop_toBottomOf="@id/row4"/>
 
-                <include
-                    android:id="@+id/row3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-
-                    layout="@layout/item_image_info_row_12"
-                    app:layout_constraintTop_toBottomOf="@id/row2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <include
-                    android:id="@+id/row4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-
-                    layout="@layout/item_image_info_row_12"
-                    app:layout_constraintTop_toBottomOf="@id/row3"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <include
-                    android:id="@+id/row5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-
-                    layout="@layout/item_image_info_row_12"
-                    app:layout_constraintTop_toBottomOf="@id/row4"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- LOCATION TITLE -->
             <TextView
-                android:id="@+id/txtLocationTitle"
-                android:textStyle="bold"
-                android:text="@string/location"
-                android:textSize="@dimen/_13ssp"
-                android:textColor="#9E9E9E"
-                android:layout_margin="@dimen/_16sdp"
-                app:layout_constraintTop_toBottomOf="@id/detailsCard"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="0dp"
+                android:id="@+id/labelLocation"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                />
+                android:layout_margin="@dimen/_16sdp"
+                android:text="Location"
+                android:textColor="#9E9E9E"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/row5" />
 
-            <!-- MAP SVG -->
             <ImageView
                 android:id="@+id/imgMap"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_200sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_180sdp"
                 android:layout_marginHorizontal="@dimen/_16sdp"
-                android:minHeight="@dimen/_200sdp"
-                android:src="@drawable/map_location_09"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:scaleType="centerCrop"
-                android:background="@drawable/bg_card_round_i11"
-                app:layout_constraintTop_toBottomOf="@id/txtLocationTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:src="@drawable/map_location_09"
+                android:background="@drawable/bg_card_12"
+                android:clipToOutline="true"
+                app:layout_constraintTop_toBottomOf="@id/labelLocation" />
 
-            <!-- ADDRESS CARD -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addressCard"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_card_round_i11"
-                android:padding="@dimen/_12sdp"
                 android:layout_margin="@dimen/_16sdp"
-                app:layout_constraintTop_toBottomOf="@id/imgMap"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:background="@drawable/bg_card_12"
+                android:padding="@dimen/_12sdp"
+                app:layout_constraintTop_toBottomOf="@id/imgMap">
 
                 <ImageView
-                    android:id="@+id/imgLoc"
+                    android:id="@+id/icLoc"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
                     android:src="@drawable/_12_6_image_loc"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/txtAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8sdp"
-                    android:text="@string/address_text"
-                    android:textSize="@dimen/_12ssp"
+                    android:text="401, Oasis Corner, Dharamnagar Society, Surat, Gujarat - 395005"
                     android:textColor="#000000"
-                    app:layout_constraintStart_toEndOf="@id/imgLoc"
-                    app:layout_constraintTop_toTopOf="@id/imgLoc"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/icLoc"
+                    app:layout_constraintTop_toTopOf="@id/icLoc" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,12 +15,12 @@ public class Btn  extends AppCompatActivity {
 
         findViewById(R.id.btn1).setOnClickListener(v ->
                 startActivity(new Intent(this, grid_05.class)));
-
-        findViewById(R.id.btn2).setOnClickListener(v ->
-                startActivity(new Intent(this, cam1.class)));
+//
+//        findViewById(R.id.btn2).setOnClickListener(v ->
+//                startActivity(new Intent(this, cam1.class)));
 
         findViewById(R.id.btn3).setOnClickListener(v ->
-                startActivity(new Intent(this, settings_04.class)));
+                startActivity(new Intent(this, Settings_04.class)));
         findViewById(R.id.btn4).setOnClickListener(v ->
                 startActivity(new Intent(this, focus_06.class)));
 

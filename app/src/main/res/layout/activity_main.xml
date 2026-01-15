@@ -89,11 +89,25 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomBar"
         android:layout_width="0dp"
-        android:layout_height="@dimen/_80sdp"
+        android:layout_height="90dp"
         android:background="#1E2A32"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- ===== LEFT : STAMP ===== -->
+
+        <ImageView
+            android:id="@+id/iconStamp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/stamp_settings_pg_bottom_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnCapture"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/txtStamp"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:layout_marginStart="24dp"/>
 
         <TextView
             android:id="@+id/txtStamp"
@@ -101,21 +115,39 @@
             android:layout_height="wrap_content"
             android:text="Stamp"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/_14ssp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/iconStamp"
+            app:layout_constraintStart_toStartOf="@id/iconStamp"
+            app:layout_constraintEnd_toEndOf="@id/iconStamp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="@dimen/_24sdp"/>
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- ===== CENTER : CAPTURE ===== -->
 
         <ImageButton
             android:id="@+id/btnCapture"
-            android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_70sdp"
-            android:background="@drawable/capture_button"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/mid_click_setting_04"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- ===== RIGHT : MY PHOTOS ===== -->
+
+        <ImageView
+            android:id="@+id/iconPhotos"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/girl_image_setting_04pg"
+            app:layout_constraintStart_toEndOf="@id/btnCapture"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/txtPhotos"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:layout_marginEnd="24dp"/>
 
         <TextView
             android:id="@+id/txtPhotos"
@@ -123,11 +155,13 @@
             android:layout_height="wrap_content"
             android:text="My Photos"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/_14ssp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/iconPhotos"
+            app:layout_constraintStart_toStartOf="@id/iconPhotos"
+            app:layout_constraintEnd_toEndOf="@id/iconPhotos"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="@dimen/_24sdp"/>
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

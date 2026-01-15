@@ -1,6 +1,7 @@
 package com.example.gunjan_siddhisoftwarecompany;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -15,7 +16,7 @@ public class MyPhotosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_photos);
-
+        ImageView btnBack;
         //  RecyclerView
         RecyclerView recyclerView = findViewById(R.id.recyclerPhotos);
 
@@ -49,5 +50,12 @@ public class MyPhotosActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        btnBack = findViewById(R.id.btnBack);
+        // Click listener to return to the previous screen
+        btnBack.setOnClickListener(v -> {
+            finish();
+
+
+        });
     }
 }

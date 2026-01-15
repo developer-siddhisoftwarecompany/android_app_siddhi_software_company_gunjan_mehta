@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -12,7 +13,8 @@
         android:layout_height="@dimen/photo_height"
         android:scaleType="centerCrop"
         android:background="@drawable/bg_pic_2_secreen"
-        android:src="@drawable/image_in_the_2_photo_pg"/>
+        android:src="@drawable/image_in_the_2_photo_pg"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

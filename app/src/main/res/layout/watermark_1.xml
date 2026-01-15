@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+        android:layout_height="wrap_content"
     android:background="#F6F7FB">
 
     <!-- BACK -->
     <ImageView
         android:id="@+id/btnBack"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_24sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
         android:src="@drawable/arrow___left"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -24,19 +28,19 @@
         android:layout_height="wrap_content"
         android:text="Custom Watermark"
         android:textStyle="bold"
-        android:textSize="16sp"
+        android:textSize="@dimen/_16ssp"
         android:textColor="#000"
         app:layout_constraintTop_toTopOf="@id/btnBack"
         app:layout_constraintBottom_toBottomOf="@id/btnBack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- PREVIEW SVG -->
+    <!-- PREVIEW -->
     <ImageView
         android:id="@+id/imgPreview"
         android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:layout_margin="16dp"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_margin="@dimen/_16sdp"
         android:scaleType="fitXY"
         android:src="@drawable/watermark_location_full"
         app:layout_constraintTop_toBottomOf="@id/btnBack"
@@ -47,18 +51,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rowWatermark"
         android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:layout_marginHorizontal="16dp"
+        android:layout_height="@dimen/_56sdp"
+        android:layout_marginHorizontal="@dimen/_16sdp"
         android:background="@drawable/bg_white_card_watermark1"
         app:layout_constraintTop_toBottomOf="@id/imgPreview"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_16sdp">
 
         <ImageView
             android:id="@+id/imgWatermarkIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginStart="@dimen/_16sdp"
             android:src="@drawable/watermark_0_blue_mark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -69,31 +74,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Watermark"
-            android:textSize="14sp"
-            android:textColor="#000"
-            android:layout_marginStart="12dp"
+            android:textSize="@dimen/_14ssp"
+            android:layout_marginStart="@dimen/_12sdp"
             app:layout_constraintStart_toEndOf="@id/imgWatermarkIcon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageView
             android:id="@+id/imgToggle"
-            android:layout_width="44dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="@dimen/_44sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
             android:src="@drawable/watermark_0_switch_on"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- CUSTOM LOGO CARD -->
+    <!-- CUSTOM LOGO -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardLogo"
         android:layout_width="0dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="@dimen/_90sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
         android:background="@drawable/bg_white_card_watermark1"
         app:layout_constraintTop_toBottomOf="@id/rowWatermark"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,8 +106,8 @@
 
         <ImageView
             android:id="@+id/imgLogo"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
             android:src="@drawable/watermark_0_cust_logo"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/txtLogo"
@@ -111,24 +115,24 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
-            android:id="@+id/txtLogo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_18sdp"
+            android:gravity="center"
+            android:id="@+id/txtLogo"
             android:text="Customised Logo"
-            android:textSize="12sp"
-            android:textColor="#000"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintTop_toBottomOf="@id/imgLogo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- ADD TEXT CARD -->
+    <!-- ADD TEXT -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardText"
         android:layout_width="0dp"
-        android:layout_height="90dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="@dimen/_90sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
         android:background="@drawable/bg_white_card_watermark1"
         app:layout_constraintTop_toTopOf="@id/cardLogo"
         app:layout_constraintStart_toEndOf="@id/cardLogo"
@@ -137,8 +141,8 @@
 
         <ImageView
             android:id="@+id/imgText"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
             android:src="@drawable/watermark_0_add_text"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/txtAddText"
@@ -146,12 +150,12 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
-            android:id="@+id/txtAddText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_18sdp"
+            android:gravity="center"
+            android:id="@+id/txtAddText"
             android:text="Add Text"
-            android:textSize="12sp"
-            android:textColor="#000"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintTop_toBottomOf="@id/imgText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -162,24 +166,23 @@
     <EditText
         android:id="@+id/edtWatermarkText"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_margin="16dp"
+        android:layout_height="@dimen/_48sdp"
+        android:layout_margin="@dimen/_16sdp"
         android:hint="Enter Watermark Text"
         android:background="@drawable/bg_edit_textwatermark1"
-        android:padding="12dp"
+        android:padding="@dimen/_12sdp"
         app:layout_constraintTop_toBottomOf="@id/cardLogo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- GRID -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerImages"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/edtWatermarkText"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerImages"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_240sdp"
+            android:padding="@dimen/_16sdp"
+            app:layout_constraintTop_toBottomOf="@id/edtWatermarkText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

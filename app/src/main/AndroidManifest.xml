@@ -29,7 +29,7 @@
 <!--            android:name=".PermissionActivity1"-->
 <!--            android:exported="true">-->
         <activity
-            android:name=".image12file"
+            android:name=".stamp_7_up"
             android:exported="true">
 
         <intent-filter>

@@ -7,13 +7,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.example.gunjan_siddhisoftwarecompany.util.funtionsAll;
 public class SettingsActivity_15 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_15_figma);
+        View rowLanguage = findViewById(R.id.rowLanguage);
+        rowLanguage.setOnClickListener(v ->
+
+                funtionsAll.openLanguage(this)
+        );
         Toast.makeText(this, "Settings Activity Loaded", Toast.LENGTH_LONG).show();
         setRow(R.id.rowLanguage, R.drawable.setting_15_1, "Language", "English");
         setRow(R.id.rowSubscription, R.drawable.setting_15_2, "Subscription", "");

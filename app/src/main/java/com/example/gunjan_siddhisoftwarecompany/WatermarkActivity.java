@@ -19,14 +19,16 @@ public class WatermarkActivity extends AppCompatActivity {
 
         int[] imageList = {
                 R.drawable.watermark_0_gallary_image,
+                R.drawable.watermark_0_cam,
                 R.drawable.watermark_0_crusise,
-                R.drawable.watermark_0_gate,
-                R.drawable.watermark_0_gate2,
                 R.drawable.watermark_0_temple,
-                R.drawable.watermark_0_unity
+                R.drawable.watermark_0_unity,
+                R.drawable.watermark_0_gate2,
+                R.drawable.watermark_0_gate22
         };
 
         recyclerImages.setLayoutManager(new GridLayoutManager(this, 3));
+
         recyclerImages.setAdapter(new ImageAdapterWatermark(this, imageList));
     }
 }
