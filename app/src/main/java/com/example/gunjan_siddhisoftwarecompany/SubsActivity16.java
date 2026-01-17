@@ -1,5 +1,6 @@
 package com.example.gunjan_siddhisoftwarecompany;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -46,6 +47,10 @@ public class SubsActivity16 extends AppCompatActivity {
                 true,
                 false
         );
+        findViewById(R.id.btnStartTrial).setOnClickListener(v ->
+                startActivity(new Intent(this, SubsActivity17.class))
+        );
+
     }
 
     private void setupRow(int rowId, int icon, String text, boolean premium, boolean basic) {

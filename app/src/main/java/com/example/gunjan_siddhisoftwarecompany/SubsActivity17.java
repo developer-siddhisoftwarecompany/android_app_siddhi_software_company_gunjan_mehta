@@ -1,5 +1,6 @@
 package com.example.gunjan_siddhisoftwarecompany;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -71,5 +72,11 @@ public class SubsActivity17 extends AppCompatActivity {
         imgBasic.setImageResource(
                 basic ? R.drawable.subs_plan_mid_tick : R.drawable.subs_plan_mid_cross
         );
+        findViewById(R.id.btnStartTrial).setOnClickListener(v ->
+                startActivity(new Intent(this, thanku_18.class))
+        );
+
+        findViewById(R.id.btnClose).setOnClickListener(v -> finish());
+
     }
 }

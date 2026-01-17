@@ -1,25 +1,54 @@
 package com.example.gunjan_siddhisoftwarecompany;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.gunjan_siddhisoftwarecompany.util.funtionsAll;
+
 public class SettingsActivity_15 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_15_figma);
-        View rowLanguage = findViewById(R.id.rowLanguage);
-        rowLanguage.setOnClickListener(v ->
 
+        // ROWS
+        View rowLanguage     = findViewById(R.id.rowLanguage);
+        View rowSubscription = findViewById(R.id.rowSubscription);
+        View rowShortcut     = findViewById(R.id.rowShortcut);
+        View rowHowTo        = findViewById(R.id.rowHowTo);
+
+        // BACK
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+
+        // LANGUAGE
+        rowLanguage.setOnClickListener(v ->
                 funtionsAll.openLanguage(this)
         );
-        Toast.makeText(this, "Settings Activity Loaded", Toast.LENGTH_LONG).show();
+
+        // SUBSCRIPTION
+        rowSubscription.setOnClickListener(v ->
+                startActivity(new Intent(this, SubsActivity16.class))
+        );
+
+        // SHORTCUT
+        rowShortcut.setOnClickListener(v ->
+                startActivity(new Intent(this, shortcut_13.class))
+        );
+
+        // HOW TO USE
+        rowHowTo.setOnClickListener(v ->
+                startActivity(new Intent(this, howtouse_16_u.class))
+        );
+
+
+
+        // SET UI TEXT
         setRow(R.id.rowLanguage, R.drawable.setting_15_1, "Language", "English");
         setRow(R.id.rowSubscription, R.drawable.setting_15_2, "Subscription", "");
         setRow(R.id.rowShortcut, R.drawable.setting_15_3, "Shortcut", "");

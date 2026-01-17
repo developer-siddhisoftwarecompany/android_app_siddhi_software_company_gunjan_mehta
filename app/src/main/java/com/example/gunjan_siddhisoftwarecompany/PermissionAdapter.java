@@ -14,12 +14,18 @@ import java.util.List;
 
 public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.ViewHolder> {
 
+    public interface OnPermissionChangeListener {
+        void onPermissionChanged();
+    }
+
     Context context;
     List<PermissionModel> list;
+    OnPermissionChangeListener listener;
 
-    public PermissionAdapter(Context context, List<PermissionModel> list) {
+    public PermissionAdapter(Context context, List<PermissionModel> list, OnPermissionChangeListener listener) {
         this.context = context;
         this.list = list;
+        this.listener = listener;
     }
 
     @NonNull
@@ -38,11 +44,13 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Vi
         holder.txtTitle.setText(model.title);
         holder.txtDesc.setText(model.desc);
 
-        if (model.checked) {
-            holder.imgTick.setVisibility(View.VISIBLE);
-        } else {
-            holder.imgTick.setVisibility(View.GONE);
-        }
+        holder.imgTick.setVisibility(model.checked ? View.VISIBLE : View.GONE);
+
+        holder.itemView.setOnClickListener(v -> {
+            model.setChecked(true);
+            notifyItemChanged(position);
+            if (listener != null) listener.onPermissionChanged();
+        });
     }
 
     @Override

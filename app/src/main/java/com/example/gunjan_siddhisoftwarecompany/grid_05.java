@@ -6,22 +6,22 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gunjan_siddhisoftwarecompany.util.ChangeTracker;
+import com.example.gunjan_siddhisoftwarecompany.util.SettingsStore;
+
 public class grid_05 extends AppCompatActivity {
 
-    // Back
     ImageView btnGridBack;
 
-    // Text options
     TextView gridNone, grid3x3, gridPhi, grid4x2;
-
-    // Tick icons
     ImageView tickNone, tick3x3, tickPhi, tick4x2;
+
+    private static final String KEY_GRID = "camera_grid";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grid_05);
-
 
         btnGridBack = findViewById(R.id.btnGridBack);
 
@@ -35,53 +35,51 @@ public class grid_05 extends AppCompatActivity {
         tickPhi  = findViewById(R.id.tickPhi);
         tick4x2  = findViewById(R.id.tick4x2);
 
-        // Default selection (None)
-        selectNone();
+        // Restore saved grid
+        restoreGrid();
 
-        //  BACK
         btnGridBack.setOnClickListener(v -> finish());
 
-        //  CLICK LISTENERS
-        gridNone.setOnClickListener(v -> selectNone());
-        tickNone.setOnClickListener(v -> selectNone());
+        gridNone.setOnClickListener(v -> selectGrid("none"));
+        tickNone.setOnClickListener(v -> selectGrid("none"));
 
-        grid3x3.setOnClickListener(v -> select3x3());
-        tick3x3.setOnClickListener(v -> select3x3());
+        grid3x3.setOnClickListener(v -> selectGrid("3x3"));
+        tick3x3.setOnClickListener(v -> selectGrid("3x3"));
 
-        gridPhi.setOnClickListener(v -> selectPhi());
-        tickPhi.setOnClickListener(v -> selectPhi());
+        gridPhi.setOnClickListener(v -> selectGrid("phi"));
+        tickPhi.setOnClickListener(v -> selectGrid("phi"));
 
-        grid4x2.setOnClickListener(v -> select4x2());
-        tick4x2.setOnClickListener(v -> select4x2());
+        grid4x2.setOnClickListener(v -> selectGrid("4x2"));
+        tick4x2.setOnClickListener(v -> selectGrid("4x2"));
     }
 
-    // SELECTION METHODS
-
-    private void selectNone() {
-        tickNone.setImageResource(R.drawable.tick_circle_05_pg);
-        tick3x3.setImageResource(R.drawable.untick_circle__05pg_);
-        tickPhi.setImageResource(R.drawable.untick_circle__05pg_);
-        tick4x2.setImageResource(R.drawable.untick_circle__05pg_);
+    private void restoreGrid() {
+        String grid = SettingsStore.get(this, KEY_GRID, "none");
+        selectGrid(grid, false);
     }
 
-    private void select3x3() {
-        tickNone.setImageResource(R.drawable.untick_circle__05pg_);
-        tick3x3.setImageResource(R.drawable.tick_circle_05_pg);
-        tickPhi.setImageResource(R.drawable.untick_circle__05pg_);
-        tick4x2.setImageResource(R.drawable.untick_circle__05pg_);
+    private void selectGrid(String grid) {
+        selectGrid(grid, true);
     }
 
-    private void selectPhi() {
-        tickNone.setImageResource(R.drawable.untick_circle__05pg_);
-        tick3x3.setImageResource(R.drawable.untick_circle__05pg_);
-        tickPhi.setImageResource(R.drawable.tick_circle_05_pg);
-        tick4x2.setImageResource(R.drawable.untick_circle__05pg_);
-    }
+    private void selectGrid(String grid, boolean save) {
 
-    private void select4x2() {
-        tickNone.setImageResource(R.drawable.untick_circle__05pg_);
-        tick3x3.setImageResource(R.drawable.untick_circle__05pg_);
-        tickPhi.setImageResource(R.drawable.untick_circle__05pg_);
-        tick4x2.setImageResource(R.drawable.tick_circle_05_pg);
+        tickNone.setImageResource(
+                grid.equals("none") ? R.drawable.tick_circle_05_pg : R.drawable.untick_circle__05pg_
+        );
+        tick3x3.setImageResource(
+                grid.equals("3x3") ? R.drawable.tick_circle_05_pg : R.drawable.untick_circle__05pg_
+        );
+        tickPhi.setImageResource(
+                grid.equals("phi") ? R.drawable.tick_circle_05_pg : R.drawable.untick_circle__05pg_
+        );
+        tick4x2.setImageResource(
+                grid.equals("4x2") ? R.drawable.tick_circle_05_pg : R.drawable.untick_circle__05pg_
+        );
+
+        if (save) {
+            SettingsStore.save(this, KEY_GRID, grid);
+            ChangeTracker.mark();
+        }
     }
 }

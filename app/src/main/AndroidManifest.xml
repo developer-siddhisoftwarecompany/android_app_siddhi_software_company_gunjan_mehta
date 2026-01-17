@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.gunjan_siddhisoftwarecompany">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Location (global use) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Media access (API 31+) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,22 +26,9 @@
         android:theme="@style/Theme.Gunjan_siddhisoftwarecompany"
         tools:targetApi="31">
 
-        <!-- MAIN / LAUNCHER ACTIVITY -->
-<!--        <activity-->
-<!--            android:name=".MainActivity"-->
-<!--            android:exported="true"/>-->
-<!--        <activity-->
-<!--            android:name=".SubsActivity17"-->
-<!--            android:exported="true">-->
-<!--        <activity-->
-<!--            android:name=".LanguagesActivity16"-->
-<!--            android:exported="true">-->
 
-<!--        <activity-->
-<!--            android:name=".PermissionActivity1"-->
-<!--            android:exported="true">-->
         <activity
-            android:name=".stamp_7_up"
+            android:name=".PermissionActivity"
             android:exported="true">
 
         <intent-filter>
@@ -39,43 +38,50 @@
 
         </activity>
 
-<!--        <activity android:name=".grid_05"/>-->
-<!--        <activity android:name=".settings_04"/>-->
-<!--        <activity android:name=".focus_06"/>-->
-<!--        <activity android:name=".Date_time_07"/>-->
+        <activity android:name=".MainActivity"/>
 
-<!--        <activity android:name=".MainActivity"/>-->
-<!--        <activity android:name=".MyPhotosActivity"/>-->
-<!--        <activity android:name=".PermissionActivity"/>-->
-<!--        <activity android:name=".PermissionActivity1"/>-->
-<!--        <activity android:name=".Stamp_7"/>-->
-<!--        <activity android:name=".loc_09"/>-->
-<!--        <activity android:name=".loc10"/>-->
-<!--        <activity android:name=".LanguagesActivity16"/>-->
-<!--        <activity android:name=".SettingsActivity_15"/>-->
-<!--        <activity android:name=".SubsActivity17"/>-->
-<!--        <activity android:name=".SubsActivity16"/>-->
-<!--        <activity android:name=".open_img_11"/>-->
-<!--        <activity android:name=".shortcut_13"/>-->
-<!--        <activity android:name=".withoutsav_14"/>-->
-<!--        <activity android:name=".thanku_18"/>-->
-<!--        <activity android:name=".open_img_19"/>-->
-<!--        <activity android:name=".per_req_20"/>-->
-<!--        <activity android:name=".howtouse_16_u"/>-->
-<!--        <activity android:name=".drawer6_up"/>-->
-<!--        <activity android:name=".cam_1_up"/>-->
-<!--        <activity android:name=".stamp_0_up"/>-->
 
-<!--        <activity android:name=".stamp_1_up"/>-->
-<!--        <activity android:name=".menu_done_8_up"/>-->
-<!--        <activity android:name=".activity_preview"/>-->
+        <activity android:name=".grid_05"/>
+        <activity android:name=".Settings_04"/>
+        <activity android:name=".focus_06"/>
 
-        <!-- GRID OVERLAY ACTIVITY -->
-<!--        <activity-->
-<!--            android:name=".grid_05"-->
-<!--            android:theme="@style/Theme.GridOverlay"-->
-<!--            android:exported="false" />-->
-<!--        <activity android:name=".cam1"/>-->
+
+        <activity android:name=".stamp_0_up"/>
+        <activity android:name=".Date_time_07"/>
+        <activity android:name=".cat_1"/>
+        <activity android:name=".activity_preview"/>
+
+        <activity android:name=".loc_09"/>
+        <activity android:name=".loc10"/>
+
+        <activity android:name=".MyPhotosActivity"/>
+        <activity android:name=".open_img_11"/>
+        <activity android:name=".open_img_19"/>
+        <activity android:name=".image12file"/>
+
+
+        <activity android:name=".LanguagesActivity16"/>
+        <activity android:name=".SettingsActivity_15"/>
+        <activity android:name=".howtouse_16_u"/>
+        <activity android:name=".shortcut_13"/>
+
+
+
+
+
+        <activity android:name=".SubsActivity17"/>
+        <activity android:name=".SubsActivity16"/>
+        <activity android:name=".thanku_18"/>
+
+
+
+
+        <activity android:name=".per_req_20"/>
+        <activity android:name=".PermissionActivity1"/>
+        <activity android:name=".withoutsav_14"/>
+
+
+
     </application>
 
 </manifest>
