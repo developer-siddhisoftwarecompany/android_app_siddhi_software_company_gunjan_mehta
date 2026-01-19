@@ -62,15 +62,14 @@ public class PermissionActivity1 extends AppCompatActivity {
         recyclerFeatures.setAdapter(adapter);
     }
 
-    private void checkAllPermissions() {
-        for (PermissionModel model : list) {
-            if (!model.checked) {
-                return;
-            }
+
+    public void checkAllPermissions() {
+        for (PermissionModel m : list) {
+            if (!m.isChecked()) return;
         }
-
-
-        startActivity(new Intent(this, stamp_7_up.class));
+        // All checked
+        startActivity(new Intent(this, stamp_0_up.class));
         finish();
     }
+
 }

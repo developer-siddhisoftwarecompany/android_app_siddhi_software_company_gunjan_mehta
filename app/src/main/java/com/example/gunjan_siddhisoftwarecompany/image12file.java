@@ -25,6 +25,7 @@ public class image12file extends AppCompatActivity {
         ImageView img = row.findViewById(R.id.imgIcon);
         TextView txtLabel = row.findViewById(R.id.txtLabel);
         TextView txtValue = row.findViewById(R.id.txtValue);
+        String path = getIntent().getStringExtra("path");
 
         img.setImageResource(icon);
         txtLabel.setText(label + " : ");

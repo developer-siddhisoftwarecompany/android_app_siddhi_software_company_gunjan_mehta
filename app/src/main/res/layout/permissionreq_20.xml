@@ -432,7 +432,10 @@
         android:id="@+id/blackOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#99000000" />
+        android:background="#99000000"
+        android:clickable="false"
+        android:focusable="false"
+        android:importantForAccessibility="no" />
 
     <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"

@@ -1,17 +1,36 @@
 package com.example.gunjan_siddhisoftwarecompany;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
+import androidx.camera.core.Preview;
+import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.camera.view.PreviewView;
+import androidx.core.content.ContextCompat;
 
+import com.example.gunjan_siddhisoftwarecompany.util.AppNavigator;
 import com.example.gunjan_siddhisoftwarecompany.util.CameraController;
 import com.example.gunjan_siddhisoftwarecompany.util.PermissionUtils;
 import com.example.gunjan_siddhisoftwarecompany.util.SettingsStore;
+import com.google.common.util.concurrent.ListenableFuture;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView iconGallery, iconFlash, iconRotate, iconTune, iconSetting;
 
     private int currentRotation = 0;
-
+    private ImageCapture imageCapture;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,31 +64,104 @@ public class MainActivity extends AppCompatActivity {
         iconTune     = findViewById(R.id.iconTune);
         iconSetting  = findViewById(R.id.iconSetting);
 
+        if (PermissionUtils.hasAll(this)) {
+            startCamera();
+        } else {
+            AppNavigator.openPermissionRequired(this);
+        }
         // ================= RESTORE STATE =================
         currentRotation = SettingsStore.get(this, "camera_rotation", 0);
 
         // ================= CAPTURE =================
-        btnCapture.setOnClickListener(v ->
-                Toast.makeText(
-                        this,
-                        "Camera capture will be added with CameraX",
-                        Toast.LENGTH_SHORT
-                ).show()
-        );
+        // ================= CAPTURE =================
+        btnCapture.setOnClickListener(v -> {
+            v.animate().scaleX(0.8f).scaleY(0.8f).setDuration(50).withEndAction(() -> {
+                v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(50);
+                takePhoto();
+            });
+        });
+
+
+
+
+        Button crashButton = findViewById(R.id.btn_test_crash);
+
+        crashButton.setText("Test Crash");
+        crashButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                throw new RuntimeException("Test Crash"); // Force a crash
+            }
+        });
+
+
 
         // ================= STAMP =================
-        iconStamp.setOnClickListener(v ->
-                startActivity(new Intent(this, stamp_0_up.class))
-        );
-        txtStamp.setOnClickListener(v ->
-                startActivity(new Intent(this, stamp_0_up.class))
-        );
+//        View.OnClickListener openStamp = v -> {
+//            if (!PermissionUtils.hasAll(this)) {
+//                startActivity(new Intent(this, per_req_20.class));
+//                finish();
+//                return;
+//            }
+//            startActivity(new Intent(this, stamp_0_up.class));
+//        };
+//
+//        iconStamp.setOnClickListener(v ->
+//                startActivity(new Intent(this, stamp_0_up.class)));
+//        txtStamp.setOnClickListener(openStamp);
+
+        // ================= STAMP =================
+//        View.OnClickListener stampListener = v -> {
+//            // 1. Check permissions using your PermissionUtils helper
+//            if (PermissionUtils.hasAll(MainActivity.this)) {
+//                // 2. Use your AppNavigator helper to open the page
+//                AppNavigator.openStamp(MainActivity.this);
+//            } else {
+//                // 3. Use your helper to open the permission request page
+//                AppNavigator.openPermissionRequired(MainActivity.this);
+//            }
+//        };
+
+// Set the listener to both the Icon and the Text
+//        iconStamp.setOnClickListener(stampListener);
+//        txtStamp.setOnClickListener(stampListener);
+//        ------------
+//        iconStamp.setOnClickListener(v ->
+//                startActivity(new Intent(this, stamp_0_up.class))
+//        );
+//
+//        txtStamp.setOnClickListener(v ->
+//                startActivity(new Intent(this,stamp_0_up.class))
+//        );
+
+
+        // ================= STAMP =================
+        View.OnClickListener stampListener = v -> {
+            // Use your helper to ensure permissions are granted before opening
+            if (PermissionUtils.hasAll(MainActivity.this)) {
+                AppNavigator.openStamp(MainActivity.this);
+            } else {
+                AppNavigator.openPermissionRequired(MainActivity.this);
+            }
+        };
+
+        // Apply to both the icon and the text
+        iconStamp.setOnClickListener(stampListener);
+        txtStamp.setOnClickListener(stampListener);
+
+
+
+
+
 
         // ================= MY PHOTOS =================
-        openWithPermission(
-                () -> startActivity(new Intent(this, MyPhotosActivity.class)),
-                iconPhotos, txtPhotos
+        iconPhotos.setOnClickListener(v ->
+                startActivity(new Intent(this, MyPhotosActivity.class))
         );
+
+        txtPhotos.setOnClickListener(v ->
+                startActivity(new Intent(this, MyPhotosActivity.class))
+        );
+
 
         // ================= GALLERY =================
         iconGallery.setOnClickListener(v -> {
@@ -111,6 +203,66 @@ public class MainActivity extends AppCompatActivity {
     // =====================================================
     // PERMISSION HELPER
     // =====================================================
+    private void startCamera() {
+        ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
+
+        cameraProviderFuture.addListener(() -> {
+            try {
+                ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+
+                // Setup Preview
+                Preview preview = new Preview.Builder().build();
+//                PreviewView viewFinder = findViewById(R.id.viewFinder);
+//                preview.setSurfaceProvider(viewFinder.getSurfaceProvider());
+                PreviewView viewFinder = (PreviewView) findViewById(R.id.viewFinder);
+                preview.setSurfaceProvider(viewFinder.getSurfaceProvider());
+                // Setup ImageCapture
+                imageCapture = new ImageCapture.Builder()
+                        .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+                        .build();
+
+                CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
+
+                cameraProvider.unbindAll();
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
+
+            } catch (Exception e) {
+                Toast.makeText(this, "Failed to start camera: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }, ContextCompat.getMainExecutor(this));
+    }
+
+    private void takePhoto() {
+        if (imageCapture == null) return;
+
+        String name = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US)
+                .format(System.currentTimeMillis());
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image");
+        }
+
+        ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions
+                .Builder(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                .build();
+
+        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this),
+                new ImageCapture.OnImageSavedCallback() {
+                    @Override
+                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                        Toast.makeText(MainActivity.this, "Photo saved successfully!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(@NonNull ImageCaptureException exception) {
+                        Toast.makeText(MainActivity.this, "Capture failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 
     private void openWithPermission(Runnable action, Object... views) {
         for (Object v : views) {
@@ -132,5 +284,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }
+
     }
+
 }

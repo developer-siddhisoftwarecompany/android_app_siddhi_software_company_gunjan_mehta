@@ -4,7 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B141A">
+    android:background="#0B141A"
+    android:clickable="false"
+    android:focusable="false"
+    android:descendantFocusability="afterDescendants"
+    >
 
     <!-- ================= TOP BAR ================= -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -132,7 +136,7 @@
 
     <!-- ================= PARTY TEXT ================= -->
     <ImageView
-        android:id="@+id/imgPartyText"
+        android:id="@+id/imgPartyText1"
         android:layout_width="120dp"
         android:layout_height="140dp"
         android:src="@drawable/christma_text_setting_pg"
@@ -149,6 +153,11 @@
         android:layout_height="160dp"
         android:src="@drawable/focus_06_screen"
         android:scaleType="fitCenter"
+        android:focusable="true"
+     android:clickable="true"
+       android:elevation="0dp"
+
+        android:importantForAccessibility="no"
         android:background="@android:color/transparent"
         app:layout_constraintTop_toTopOf="@id/bgImage"
         app:layout_constraintBottom_toBottomOf="@id/bgImage"
@@ -187,6 +196,8 @@
 
         <ImageButton
             android:id="@+id/btnCapture"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:background="@drawable/mid_click_setting_04"

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "612421295269",
+    "project_id": "gunjansiddhisoftwarecompanytry",
+    "storage_bucket": "gunjansiddhisoftwarecompanytry.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:612421295269:android:475f0e331971d31e85c14c",
+        "android_client_info": {
+          "package_name": "com.example.gunjan_siddhisoftwarecompany"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_4e3GWWQ82npm-GVsHvgIpTLH87P6Zc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -47,10 +47,14 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Vi
         holder.imgTick.setVisibility(model.checked ? View.VISIBLE : View.GONE);
 
         holder.itemView.setOnClickListener(v -> {
-            model.setChecked(true);
+            model.setChecked(!model.isChecked());
             notifyItemChanged(position);
-            if (listener != null) listener.onPermissionChanged();
+
+            if (context instanceof PermissionActivity1) {
+                ((PermissionActivity1) context).checkAllPermissions();
+            }
         });
+
     }
 
     @Override

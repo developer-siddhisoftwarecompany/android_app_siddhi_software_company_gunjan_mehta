@@ -5,7 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B141A">
+    android:background="#0B141A"
+    android:clickable="false"
+    android:focusable="false"
+    >
 
     <!-- ================= TOP BAR ================= -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,12 +56,12 @@
             android:layout_height="24dp"
             android:src="@drawable/tuning_2_blue"
             app:layout_constraintStart_toEndOf="@id/iconCamera"
-            app:layout_constraintEnd_toStartOf="@id/iconSettings"
+            app:layout_constraintEnd_toStartOf="@id/iconSetting"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageView
-            android:id="@+id/iconSettings"
+            android:id="@+id/iconSetting"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/setting_2"
@@ -194,6 +197,8 @@
             android:id="@+id/btnCapture"
             android:layout_width="72dp"
             android:layout_height="72dp"
+            android:clickable="true"
+            android:focusable="true"
             android:background="@drawable/mid_click_setting_04"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

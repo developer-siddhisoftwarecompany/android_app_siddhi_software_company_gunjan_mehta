@@ -18,8 +18,10 @@ public class open_img_11 extends AppCompatActivity {
             finish(); // returns to previous page (Main / Gallery)
         });
         btnInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(open_img_11.this, image12file.class);
-            startActivity(intent);
+            Intent i = new Intent(this, image12file.class);
+            i.putExtra("path", "dummy");
+            startActivity(i);
         });
+
     }
     }

@@ -1,20 +1,22 @@
 package com.example.gunjan_siddhisoftwarecompany;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.gunjan_siddhisoftwarecompany.util.ChangeTracker;
 import com.example.gunjan_siddhisoftwarecompany.util.SettingsStore;
 
 public class grid_05 extends AppCompatActivity {
 
-    ImageView btnGridBack;
+  private   ImageView btnGridBack, iconGrid;
 
-    TextView gridNone, grid3x3, gridPhi, grid4x2;
-    ImageView tickNone, tick3x3, tickPhi, tick4x2;
+    private   TextView gridNone, grid3x3, gridPhi, grid4x2;
+    private  ImageView tickNone, tick3x3, tickPhi, tick4x2;
 
     private static final String KEY_GRID = "camera_grid";
 
@@ -22,6 +24,7 @@ public class grid_05 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grid_05);
+        iconGrid = findViewById(R.id.iconGrid);
 
         btnGridBack = findViewById(R.id.btnGridBack);
 
@@ -38,7 +41,12 @@ public class grid_05 extends AppCompatActivity {
         // Restore saved grid
         restoreGrid();
 
+
+
+
+
         btnGridBack.setOnClickListener(v -> finish());
+
 
         gridNone.setOnClickListener(v -> selectGrid("none"));
         tickNone.setOnClickListener(v -> selectGrid("none"));

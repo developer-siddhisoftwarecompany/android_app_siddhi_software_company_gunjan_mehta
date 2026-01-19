@@ -2,22 +2,23 @@ package com.example.gunjan_siddhisoftwarecompany;
 
 public class PhotoItem {
 
+
     public static final int TYPE_DATE = 0;
     public static final int TYPE_PHOTO = 1;
 
     public int type;
-    public String date;
-    public int imageRes;
+    public String dateText;
+    public String imagePath;
 
-    // Date constructor
-    public PhotoItem(String date) {
+    // Constructor for Date Header
+    public PhotoItem(String dateText) {
+        this.dateText = dateText;
         this.type = TYPE_DATE;
-        this.date = date;
     }
 
-    // Photo constructor
-    public PhotoItem(int imageRes) {
-        this.type = TYPE_PHOTO;
-        this.imageRes = imageRes;
+    // Constructor for Real Photo Path
+    public PhotoItem(String imagePath, int type) {
+        this.imagePath = imagePath;
+        this.type = type;
     }
 }
