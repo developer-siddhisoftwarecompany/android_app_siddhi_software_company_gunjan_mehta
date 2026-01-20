@@ -106,18 +106,26 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/row5" />
-
-            <ImageView
-                android:id="@+id/imgMap"
+            <org.osmdroid.views.MapView
+                android:id="@+id/mapview"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_180sdp"
                 android:layout_marginHorizontal="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/map_location_09"
-                android:background="@drawable/bg_card_12"
-                android:clipToOutline="true"
-                app:layout_constraintTop_toBottomOf="@id/labelLocation" />
+                app:layout_constraintTop_toBottomOf="@id/labelLocation"
+                android:scaleType="centerCrop"/>
+
+<!--            <ImageView-->
+<!--                android:id="@+id/imgMap"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/_180sdp"-->
+<!--                android:layout_marginHorizontal="@dimen/_16sdp"-->
+<!--                android:layout_marginTop="@dimen/_8sdp"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:src="@drawable/map_location_09"-->
+<!--                android:background="@drawable/bg_card_12"-->
+<!--                android:clipToOutline="true"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labelLocation" />-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addressCard"
@@ -126,7 +134,8 @@
                 android:layout_margin="@dimen/_16sdp"
                 android:background="@drawable/bg_card_12"
                 android:padding="@dimen/_12sdp"
-                app:layout_constraintTop_toBottomOf="@id/imgMap">
+                app:layout_constraintTop_toBottomOf="@+id/mapview">
+
 
                 <ImageView
                     android:id="@+id/icLoc"
@@ -137,10 +146,11 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/txtAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8sdp"
-                    android:text="401, Oasis Corner, Dharamnagar Society, Surat, Gujarat - 395005"
+                    android:text="Fetching address..."
                     android:textColor="#000000"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintEnd_toEndOf="parent"

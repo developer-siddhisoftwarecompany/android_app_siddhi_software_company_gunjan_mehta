@@ -67,6 +67,12 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <!--  DATE & TIME -->
+<!--        <TextView-->
+<!--            android:id="@+id/textView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="android:id=&quot;@+id/imgPartyText&quot;" />-->
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dateRow"
             android:layout_width="0dp"
@@ -275,29 +281,67 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/transparencyRow">
+            <TextView
+                android:id="@+id/txtSeekValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="60"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/seek_value_bg"
+                android:padding="4dp"
 
-            <ImageView
-                android:id="@+id/imgTransLine"
+                app:layout_constraintBottom_toTopOf="@id/seekTransparency"
+                app:layout_constraintStart_toStartOf="@id/seekTransparency"
+                />
+
+            <SeekBar
+                android:id="@+id/seekTransparency"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_6sdp"
-                android:src="@drawable/stamp_line_per"
+                android:layout_height="wrap_content"
 
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:min="10"
+                android:max="100"
+                android:progress="60"
 
-            <ImageView
-                android:id="@+id/imgTransValue"
-                android:layout_width="@dimen/_28sdp"
-                android:layout_height="@dimen/_28sdp"
-                android:src="@drawable/stamp_07_box_line"
-                app:layout_constraintBottom_toBottomOf="@id/imgTransLine"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+
+                android:progressDrawable="@drawable/seekbar_progress"
+                android:thumb="@drawable/seekbar_thumb"
+                android:splitTrack="false"
+
+                              app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.6"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/imgTransLine" />
+
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_16sdp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+            <!--            <ImageView-->
+<!--                android:id="@+id/imgTransLine"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="@dimen/_6sdp"-->
+<!--                android:src="@drawable/stamp_line_per"-->
+
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/imgTransValue"-->
+<!--                android:layout_width="@dimen/_28sdp"-->
+<!--                android:layout_height="@dimen/_28sdp"-->
+<!--                android:src="@drawable/stamp_07_box_line"-->
+<!--                app:layout_constraintBottom_toBottomOf="@id/imgTransLine"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="0.6"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="@id/imgTransLine" />-->
+
+
 
         <!--  FONT COLOR ROW  -->
         <androidx.constraintlayout.widget.ConstraintLayout

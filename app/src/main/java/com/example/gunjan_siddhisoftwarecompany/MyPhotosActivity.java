@@ -1,5 +1,6 @@
 package com.example.gunjan_siddhisoftwarecompany;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,77 +17,215 @@ import java.util.Locale;
 
 public class MyPhotosActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private List<PhotoItem> photoList;
-    private PhotosAdapter adapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_photos);
+        private RecyclerView recyclerView;
+        private List<PhotoItem> photoList;
+        private PhotosAdapter adapter;
 
-        ImageView btnBack = findViewById(R.id.btnBack);
-        recyclerView = findViewById(R.id.recyclerPhotos);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_my_photos);
 
-        btnBack.setOnClickListener(v -> finish());
+            ImageView btnBack = findViewById(R.id.btnBack);
+            recyclerView = findViewById(R.id.recyclerPhotos);
 
-        // Setup Layout Manager
-        GridLayoutManager manager = new GridLayoutManager(this, 3);
-        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return photoList.get(position).type == PhotoItem.TYPE_DATE ? 3 : 1;
-            }
-        });
-        recyclerView.setLayoutManager(manager);
+            btnBack.setOnClickListener(v -> finish());
 
-        // Load the real data
-        loadPhotosFromGallery();
-    }
+            photoList = new ArrayList<>();
 
-    private void loadPhotosFromGallery() {
-        photoList = new ArrayList<>();
+            // Layout manager
+            GridLayoutManager manager = new GridLayoutManager(this, 3);
+            manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return photoList.get(position).type == PhotoItem.TYPE_DATE ? 3 : 1;
+                }
+            });
+            recyclerView.setLayoutManager(manager);
 
-        Uri collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        String[] projection = {
-                MediaStore.Images.Media.DATA,
-                MediaStore.Images.Media.DATE_TAKEN
-        };
+            // Adapter (ONLY ONE CONSTRUCTOR)
+            adapter = new PhotosAdapter(photoList, imagePath -> {
+                Intent intent = new Intent(MyPhotosActivity.this, open_img_11.class);
+                intent.putExtra("imagePath", imagePath);
+                startActivity(intent);
+            });
+            recyclerView.setAdapter(adapter);
 
-        // Filter to show only images from your app's folder if desired,
-        // or just sort by newest first
-        String sortOrder = MediaStore.Images.Media.DATE_TAKEN + " DESC";
+            loadPhotosFromGallery();
+        }
 
-        try (Cursor cursor = getContentResolver().query(collection, projection, null, null, sortOrder)) {
-            if (cursor != null && cursor.moveToFirst()) {
-                String lastDate = "";
-                int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        private void loadPhotosFromGallery() {
+
+            Uri collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
+            String[] projection = {
+                    MediaStore.Images.Media._ID,
+                    MediaStore.Images.Media.DATE_TAKEN,
+                    MediaStore.Images.Media.RELATIVE_PATH
+            };
+
+            // ✅ ONLY your app photos
+            String selection = MediaStore.Images.Media.RELATIVE_PATH + " LIKE ?";
+            String[] selectionArgs = new String[]{"%CameraX-Image%"};
+
+            String sortOrder = MediaStore.Images.Media.DATE_TAKEN + " DESC";
+
+            try (Cursor cursor = getContentResolver().query(
+                    collection,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    sortOrder
+            )) {
+
+                if (cursor == null) return;
+
+                int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
                 int dateColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN);
 
-                do {
-                    String path = cursor.getString(dataColumn);
+                String lastDate = "";
+
+                while (cursor.moveToNext()) {
+
+                    long id = cursor.getLong(idColumn);
                     long dateMillis = cursor.getLong(dateColumn);
 
-                    // Format the date to check for headers
-                    String currentDate = new SimpleDateFormat("EEE, dd MMM", Locale.getDefault())
-                            .format(new Date(dateMillis));
+                    Uri imageUri = Uri.withAppendedPath(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                            String.valueOf(id)
+                    );
+
+                    String currentDate = new SimpleDateFormat(
+                            "EEE, dd MMM",
+                            Locale.getDefault()
+                    ).format(new Date(dateMillis));
 
                     if (!currentDate.equals(lastDate)) {
                         photoList.add(new PhotoItem(currentDate));
                         lastDate = currentDate;
                     }
 
-                    photoList.add(new PhotoItem(path, PhotoItem.TYPE_PHOTO));
-                } while (cursor.moveToNext());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    photoList.add(new PhotoItem(imageUri.toString(), PhotoItem.TYPE_PHOTO));
+                }
 
-        adapter = new PhotosAdapter(photoList);
-        recyclerView.setAdapter(adapter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            adapter.notifyDataSetChanged();
+        }
     }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    private RecyclerView recyclerView;
+//    private List<PhotoItem> photoList;
+//    private PhotosAdapter adapter;
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_my_photos);
+//
+//        ImageView btnBack = findViewById(R.id.btnBack);
+//        recyclerView = findViewById(R.id.recyclerPhotos);
+//
+//        btnBack.setOnClickListener(v -> finish());
+//        adapter = new PhotosAdapter(photoList, imagePath -> {
+//            Intent intent = new Intent(MyPhotosActivity.this, open_img_11.class);
+//            intent.putExtra("imagePath", imagePath);
+//            startActivity(intent);
+//        });
+//        recyclerView.setAdapter(adapter);
+//
+//        // Setup Layout Manager
+//        GridLayoutManager manager = new GridLayoutManager(this, 3);
+//        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(int position) {
+//                return photoList.get(position).type == PhotoItem.TYPE_DATE ? 3 : 1;
+//            }
+//        });
+//        recyclerView.setLayoutManager(manager);
+//
+//        // Load the real data
+//        loadPhotosFromGallery();
+//    }
+//
+//    private void loadPhotosFromGallery() {
+//        photoList = new ArrayList<>();
+//
+//        Uri collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+//        String[] projection = {
+//                MediaStore.Images.Media.DATA,
+//                MediaStore.Images.Media.DATE_TAKEN,
+//                MediaStore.Images.Media.RELATIVE_PATH
+//        };
+//
+//        // Filter to show only images from your app's folder if desired,
+//        // or just sort by newest first
+//        String selection = MediaStore.Images.Media.DATA + " LIKE ?";
+//        String[] selectionArgs = new String[]{"%CameraX-Image%"};
+//        String sortOrder = MediaStore.Images.Media.DATE_TAKEN + " DESC";
+//
+//        try (Cursor cursor = getContentResolver().query(collection, projection, selection, selectionArgs, sortOrder)) {
+//            if (cursor != null && cursor.moveToFirst()) {
+//                String lastDate = "";
+//                int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//                int dateColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN);
+//                int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
+//                Uri imageUri = null;
+//                photoList.add(new PhotoItem(imageUri.toString(), PhotoItem.TYPE_PHOTO));
+//
+//                long id = cursor.getLong(idColumn);
+//                imageUri = Uri.withAppendedPath(
+//                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                        String.valueOf(id)
+//                );
+//
+//                do {
+//                    String path = cursor.getString(dataColumn);
+//                    long dateMillis = cursor.getLong(dateColumn);
+//
+//                    // Format the date to check for headers
+//                    String currentDate = new SimpleDateFormat("EEE, dd MMM", Locale.getDefault())
+//                            .format(new Date(dateMillis));
+//
+//                    if (!currentDate.equals(lastDate)) {
+//                        photoList.add(new PhotoItem(currentDate));
+//                        lastDate = currentDate;
+//                    }
+//
+//                    photoList.add(new PhotoItem(path, PhotoItem.TYPE_PHOTO));
+//                } while (cursor.moveToNext());
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        adapter = new PhotosAdapter(photoList);
+//        recyclerView.setAdapter(adapter);
+//    }
+//}
 //package com.example.gunjan_siddhisoftwarecompany;
 //
 //import android.os.Bundle;

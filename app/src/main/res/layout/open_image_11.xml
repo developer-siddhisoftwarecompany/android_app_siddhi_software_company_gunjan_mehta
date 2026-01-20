@@ -60,15 +60,14 @@
 
     <!-- IMAGE POSTER -->
     <ImageView
-        android:id="@+id/imgPoster"
+        android:id="@+id/imgPhoto"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/girl_background"
+        android:layout_margin="2dp"
         android:scaleType="centerCrop"
-        android:background="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="7:10"/>
-
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

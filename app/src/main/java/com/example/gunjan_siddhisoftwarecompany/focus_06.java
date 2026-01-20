@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.gunjan_siddhisoftwarecompany.util.AppNavigator;
 
 import com.example.gunjan_siddhisoftwarecompany.util.PermissionUtils;
 import com.example.gunjan_siddhisoftwarecompany.util.SettingsStore;
@@ -18,7 +19,7 @@ public class focus_06 extends AppCompatActivity {
 
     ImageView iconBack, iconSettings;
     ImageView focusBox;
-    private ImageView iconStamp, iconPhotos,bgImage;
+    private ImageView iconStamp, iconPhotos,bgImage1;
     private TextView txtStamp, txtPhotos;
 
 
@@ -35,7 +36,7 @@ public class focus_06 extends AppCompatActivity {
         iconBack     = findViewById(R.id.iconGallery);   // back
         iconSettings = findViewById(R.id.iconSettings);
         focusBox     = findViewById(R.id.focusBox);
-        bgImage     = findViewById(R.id.imgPartyText1);//christas
+        ImageView imgPartyText1 = findViewById(R.id.imgPartyText1);
 
         iconStamp    = findViewById(R.id.iconStamp);
         txtStamp     = findViewById(R.id.txtStamp);
@@ -49,10 +50,10 @@ public class focus_06 extends AppCompatActivity {
         iconSettings.setOnClickListener(v ->
                 startActivity(new android.content.Intent(this, SettingsActivity_15.class))
         );
-        bgImage.setOnClickListener(v ->
-                startActivity(new Intent(this, stamp_0_up
-                        .class))
-        );
+        imgPartyText1.setOnClickListener(v -> {
+            // Open Stamp Editor
+            startActivity(new Intent(focus_06.this, stamp_0_up.class));
+        });
         // ===== RESTORE SAVED FOCUS =====
         String savedFocus = SettingsStore.get(this, KEY_FOCUS, "tap");
         for (int i = 0; i < focusModes.length; i++) {
@@ -83,10 +84,10 @@ public class focus_06 extends AppCompatActivity {
             startActivity(new Intent(this, stamp_0_up.class));
         };
 
-        iconStamp.setOnClickListener(v ->
-                startActivity(new Intent(this, stamp_0_up.class)));
+//        iconStamp.setOnClickListener(v ->
+//                startActivity(new Intent(this, stamp_0_up.class)));
         txtStamp.setOnClickListener(openStamp);
-
+        iconStamp.setOnClickListener(openStamp);
 
         // ================= MY PHOTOS =================
         iconPhotos.setOnClickListener(v ->
@@ -96,6 +97,8 @@ public class focus_06 extends AppCompatActivity {
         txtPhotos.setOnClickListener(v ->
                 startActivity(new Intent(this, MyPhotosActivity.class))
         );
+
+//        txtPhotos.setOnClickListener(openMyPhotos);
 
     }
 }

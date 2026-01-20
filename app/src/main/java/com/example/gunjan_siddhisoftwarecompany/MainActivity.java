@@ -33,7 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-
+    private com.google.android.gms.location.FusedLocationProviderClient fusedLocationClient;
     // Bottom
     private ImageButton btnCapture;
     private ImageView iconStamp, iconPhotos;
@@ -44,25 +44,27 @@ public class MainActivity extends AppCompatActivity {
 
     private int currentRotation = 0;
     private ImageCapture imageCapture;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // ================= INIT VIEWS =================
-        btnCapture   = findViewById(R.id.btnCapture);
+        fusedLocationClient = com.google.android.gms.location.LocationServices.getFusedLocationProviderClient(this);
+        btnCapture = findViewById(R.id.btnCapture);
 
-        iconStamp    = findViewById(R.id.iconStamp);
-        txtStamp     = findViewById(R.id.txtStamp);
+        iconStamp = findViewById(R.id.iconStamp);
+        txtStamp = findViewById(R.id.txtStamp);
 
-        iconPhotos   = findViewById(R.id.iconPhotos);
-        txtPhotos    = findViewById(R.id.txtPhotos);
+        iconPhotos = findViewById(R.id.iconPhotos);
+        txtPhotos = findViewById(R.id.txtPhotos);
 
-        iconGallery  = findViewById(R.id.iconGallery);
-        iconFlash    = findViewById(R.id.iconFlash);
-        iconRotate   = findViewById(R.id.iconRotate);
-        iconTune     = findViewById(R.id.iconTune);
-        iconSetting  = findViewById(R.id.iconSetting);
+        iconGallery = findViewById(R.id.iconGallery);
+        iconFlash = findViewById(R.id.iconFlash);
+        iconRotate = findViewById(R.id.iconRotate);
+        iconTune = findViewById(R.id.iconTune);
+        iconSetting = findViewById(R.id.iconSetting);
 
         if (PermissionUtils.hasAll(this)) {
             startCamera();
@@ -82,8 +84,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
         Button crashButton = findViewById(R.id.btn_test_crash);
 
         crashButton.setText("Test Crash");
@@ -93,64 +93,54 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-        // ================= STAMP =================
-//        View.OnClickListener openStamp = v -> {
-//            if (!PermissionUtils.hasAll(this)) {
-//                startActivity(new Intent(this, per_req_20.class));
-//                finish();
-//                return;
-//            }
-//            startActivity(new Intent(this, stamp_0_up.class));
-//        };
-//
-//        iconStamp.setOnClickListener(v ->
-//                startActivity(new Intent(this, stamp_0_up.class)));
-//        txtStamp.setOnClickListener(openStamp);
-
-        // ================= STAMP =================
-//        View.OnClickListener stampListener = v -> {
-//            // 1. Check permissions using your PermissionUtils helper
-//            if (PermissionUtils.hasAll(MainActivity.this)) {
-//                // 2. Use your AppNavigator helper to open the page
-//                AppNavigator.openStamp(MainActivity.this);
-//            } else {
-//                // 3. Use your helper to open the permission request page
-//                AppNavigator.openPermissionRequired(MainActivity.this);
-//            }
-//        };
-
-// Set the listener to both the Icon and the Text
-//        iconStamp.setOnClickListener(stampListener);
-//        txtStamp.setOnClickListener(stampListener);
-//        ------------
-//        iconStamp.setOnClickListener(v ->
-//                startActivity(new Intent(this, stamp_0_up.class))
-//        );
-//
-//        txtStamp.setOnClickListener(v ->
-//                startActivity(new Intent(this,stamp_0_up.class))
-//        );
-
-
-        // ================= STAMP =================
+// ================= STAMP NAVIGATION =================
         View.OnClickListener stampListener = v -> {
-            // Use your helper to ensure permissions are granted before opening
-            if (PermissionUtils.hasAll(MainActivity.this)) {
-                AppNavigator.openStamp(MainActivity.this);
+            // Check if permissions are granted before moving forward
+            if (!PermissionUtils.hasAll(MainActivity.this)) {
+                // If no permission, go to permission request screen
+                Intent intent = new Intent(MainActivity.this, per_req_20.class);
+                startActivity(intent);
             } else {
-                AppNavigator.openPermissionRequired(MainActivity.this);
+                // DIRECT NAVIGATION: Go to stamp_0_up activity
+                Intent intent = new Intent(MainActivity.this, stamp_0_up.class);
+                startActivity(intent);
             }
         };
 
-        // Apply to both the icon and the text
-        iconStamp.setOnClickListener(stampListener);
-        txtStamp.setOnClickListener(stampListener);
+// Apply the listener to both the icon and the text label
+        if (iconStamp != null) iconStamp.setOnClickListener(stampListener);
+        if (txtStamp != null) txtStamp.setOnClickListener(stampListener);
 
+//        View.OnClickListener stampListener = v -> {
+//            // Use your helper to ensure permissions are granted before opening
+//            if (PermissionUtils.hasAll(MainActivity.this)) {
+//                AppNavigator.openStamp(MainActivity.this);
+//            } else {
+//                AppNavigator.openPermissionRequired(MainActivity.this);
+//            }
+//        };
+//
+//        // Apply to both the icon and the text
+//        iconStamp.setOnClickListener(stampListener);
+//        txtStamp.setOnClickListener(stampListener);
 
-
-
+//        View.OnClickListener stampListener = v -> {
+//
+//            if (!PermissionUtils.hasAll(MainActivity.this)) {
+//                // Permission screen
+//                Intent intent = new Intent(MainActivity.this, per_req_20.class);
+//                startActivity(intent);
+//                return;
+//            }
+//
+//            // Open Stamp screen directly
+//            Intent intent = new Intent(MainActivity.this, stamp_0_up.class);
+//            startActivity(intent);
+//        };
+//
+//// Apply to both icon and text
+//        iconStamp.setOnClickListener(stampListener);
+//        txtStamp.setOnClickListener(stampListener);
 
 
         // ================= MY PHOTOS =================
@@ -164,12 +154,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         // ================= GALLERY =================
+        // ================= GALLERY =================
         iconGallery.setOnClickListener(v -> {
+            // 1. Safety Check: Ensure permissions are granted
             if (!PermissionUtils.hasAll(this)) {
                 startActivity(new Intent(this, per_req_20.class));
                 return;
             }
-            startActivity(new Intent(this, open_img_11.class));
+
+            // 2. Intent to open the phone's Gallery/Local Storage
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*"); // This ensures only images are shown
+            startActivityForResult(intent, 101);
         });
 
         // ================= FLASH =================
@@ -235,56 +231,241 @@ public class MainActivity extends AppCompatActivity {
     private void takePhoto() {
         if (imageCapture == null) return;
 
+        if (androidx.core.app.ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+
+            // Try getting the last known location
+            fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+                if (location != null) {
+                    // If found, save immediately
+                    processCaptureWithLocation(location);
+                } else {
+                    // If last location is null, request a single fresh update
+                    com.google.android.gms.location.LocationRequest locationRequest =
+                            com.google.android.gms.location.LocationRequest.create()
+                                    .setPriority(com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY)
+                                    .setNumUpdates(1);
+
+                    fusedLocationClient.requestLocationUpdates(locationRequest,
+                            new com.google.android.gms.location.LocationCallback() {
+                                @Override
+                                public void onLocationResult(@NonNull com.google.android.gms.location.LocationResult locationResult) {
+                                    processCaptureWithLocation(locationResult.getLastLocation());
+                                }
+                            }, android.os.Looper.getMainLooper());
+                }
+            });
+        } else {
+            saveImageWithMetadata(new ImageCapture.Metadata());
+        }
+    }
+
+    // Helper to bundle location into metadata
+    private void processCaptureWithLocation(android.location.Location location) {
+        ImageCapture.Metadata metadata = new ImageCapture.Metadata();
+        if (location != null) {
+            metadata.setLocation(location);
+        }
+        saveImageWithMetadata(metadata);
+    }
+    // Helper to perform the actual file saving
+    private void saveImageWithMetadata(ImageCapture.Metadata metadata) {
         String name = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US)
                 .format(System.currentTimeMillis());
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
         contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+
+        // Save to the public Pictures/CameraX-Image folder
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
             contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image");
         }
 
+        // Combine metadata (GPS) with the file options
         ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions
                 .Builder(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                .setMetadata(metadata)
                 .build();
 
         imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this),
                 new ImageCapture.OnImageSavedCallback() {
                     @Override
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                        Toast.makeText(MainActivity.this, "Photo saved successfully!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Saved with Location!", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(@NonNull ImageCaptureException exception) {
-                        Toast.makeText(MainActivity.this, "Capture failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Error: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+    @Override
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    private void openWithPermission(Runnable action, Object... views) {
-        for (Object v : views) {
-            if (v instanceof ImageView) {
-                ((ImageView) v).setOnClickListener(view -> {
-                    if (!PermissionUtils.hasAll(this)) {
-                        startActivity(new Intent(this, per_req_20.class));
-                        return;
-                    }
-                    action.run();
-                });
-            } else if (v instanceof TextView) {
-                ((TextView) v).setOnClickListener(view -> {
-                    if (!PermissionUtils.hasAll(this)) {
-                        startActivity(new Intent(this, per_req_20.class));
-                        return;
-                    }
-                    action.run();
-                });
+        if (requestCode == 101 && resultCode == RESULT_OK && data != null) {
+            android.net.Uri selectedImageUri = data.getData();
+
+            if (selectedImageUri != null) {
+                Intent intent = new Intent(MainActivity.this, open_img_11.class);
+                // WE USE THE KEY "imagePath" TO MATCH YOUR open_img_11 CODE
+                intent.putExtra("imagePath", selectedImageUri.toString());
+                startActivity(intent);
             }
         }
-
     }
-
 }
+
+// ================= STAMP =================
+//        View.OnClickListener openStamp = v -> {
+//            if (!PermissionUtils.hasAll(this)) {
+//                startActivity(new Intent(this, per_req_20.class));
+//                finish();
+//                return;
+//            }
+//            startActivity(new Intent(this, stamp_0_up.class));
+//        };
+//
+//        iconStamp.setOnClickListener(v ->
+//                startActivity(new Intent(this, stamp_0_up.class)));
+//        txtStamp.setOnClickListener(openStamp);
+
+// ================= STAMP =================
+//        View.OnClickListener stampListener = v -> {
+//            // 1. Check permissions using your PermissionUtils helper
+//            if (PermissionUtils.hasAll(MainActivity.this)) {
+//                // 2. Use your AppNavigator helper to open the page
+//                AppNavigator.openStamp(MainActivity.this);
+//            } else {
+//                // 3. Use your helper to open the permission request page
+//                AppNavigator.openPermissionRequired(MainActivity.this);
+//            }
+//        };
+
+// Set the listener to both the Icon and the Text
+//        iconStamp.setOnClickListener(stampListener);
+//        txtStamp.setOnClickListener(stampListener);
+//        ------------
+//        iconStamp.setOnClickListener(v ->
+//                startActivity(new Intent(this, stamp_0_up.class))
+//        );
+//
+//        txtStamp.setOnClickListener(v ->
+//                startActivity(new Intent(this,stamp_0_up.class))
+//        );
+
+
+// ================= STAMP =================
+//    private void takePhoto() {
+//        if (imageCapture == null) return;
+//        ImageCapture.Metadata metadata = new ImageCapture.Metadata();
+//        String name = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US)
+//                .format(System.currentTimeMillis());
+//
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
+//        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+//        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+//            contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image");
+//        }
+//
+//        ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions
+//                .Builder(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+//                .setMetadata(metadata)
+//                .build();
+//
+//        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this),
+//                new ImageCapture.OnImageSavedCallback() {
+//                    @Override
+//                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+//                        Toast.makeText(MainActivity.this, "Photo saved successfully!", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onError(@NonNull ImageCaptureException exception) {
+//                        Toast.makeText(MainActivity.this, "Capture failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
+//private void takePhoto() {
+//    if (imageCapture == null) return;
+//
+//    // Check for location permissions before attempting to fetch
+//    if (androidx.core.app.ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+//            == android.content.pm.PackageManager.PERMISSION_GRANTED){
+//
+//        fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+////            ImageCapture.Metadata metadata = new ImageCapture.Metadata();
+//
+//            // If location is found, attach it to the metadata
+//            if (location != null) {
+//                processCaptureWithLocation(location);
+////                metadata.setLocation(location);
+//            }
+//
+////            saveImageWithMetadata(metadata);
+////        }
+//    } else {
+//        // Fallback if no location permissions, just save without location
+//        saveImageWithMetadata(new ImageCapture.Metadata());
+//    }
+//}
+//
+//    // Helper to keep takePhoto clean
+//    private void saveImageWithMetadata(ImageCapture.Metadata metadata) {
+//        String name = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US)
+//                .format(System.currentTimeMillis());
+//
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
+//        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+//        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+//            contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image");
+//        }
+//
+//        ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions
+//                .Builder(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+//                .setMetadata(metadata) // Attaches the location data
+//                .build();
+//
+//        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this),
+//                new ImageCapture.OnImageSavedCallback() {
+//                    @Override
+//                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+//                        Toast.makeText(MainActivity.this, "Photo saved with location!", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onError(@NonNull ImageCaptureException exception) {
+//                        Toast.makeText(MainActivity.this, "Capture failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
+//
+//    private void openWithPermission(Runnable action, Object... views) {
+//        for (Object v : views) {
+//            if (v instanceof ImageView) {
+//                ((ImageView) v).setOnClickListener(view -> {
+//                    if (!PermissionUtils.hasAll(this)) {
+//                        startActivity(new Intent(this, per_req_20.class));
+//                        return;
+//                    }
+//                    action.run();
+//                });
+//            } else if (v instanceof TextView) {
+//                ((TextView) v).setOnClickListener(view -> {
+//                    if (!PermissionUtils.hasAll(this)) {
+//                        startActivity(new Intent(this, per_req_20.class));
+//                        return;
+//                    }
+//                    action.run();
+//                });
+//            }
+//        }
+//
+//    }
+//
+//}

@@ -14,7 +14,8 @@
         android:scaleType="centerCrop"
         android:background="@drawable/bg_pic_2_secreen"
         android:src="@drawable/image_in_the_2_photo_pg"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        app:layout_constraintDimensionRatio="1:1"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
