@@ -28,13 +28,23 @@ public class loc10 extends AppCompatActivity {
         btnCancel.setOnClickListener(v -> finish());
         btnClose.setOnClickListener(v -> finish());
 
-        // SAVE MANUAL ADDRESS
+
+
         btnSave.setOnClickListener(v -> {
+            String typedAddress = edtManualAddress.getText().toString();
             Intent data = new Intent();
-            data.putExtra("manual_address", edtManualAddress.getText().toString());
+            data.putExtra("manual_address", typedAddress);
+            data.putExtra("location_mode", "manual");
             setResult(RESULT_OK, data);
             finish();
         });
 
     }
+    // SAVE MANUAL ADDRESS
+//        btnSave.setOnClickListener(v -> {
+//            Intent data = new Intent();
+//            data.putExtra("manual_address", edtManualAddress.getText().toString());
+//            setResult(RESULT_OK, data);
+//            finish();
+//        });
 }

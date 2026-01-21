@@ -1,11 +1,16 @@
 package com.example.gunjan_siddhisoftwarecompany;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.gunjan_siddhisoftwarecompany.util.PermissionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,15 +66,48 @@ public class PermissionActivity1 extends AppCompatActivity {
 
         recyclerFeatures.setAdapter(adapter);
     }
-
-
     public void checkAllPermissions() {
         for (PermissionModel m : list) {
-            if (!m.isChecked()) return;
+            if (!m.isChecked()) {
+                Toast.makeText(this, "Please check all features", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
-        // All checked
+
+        // Actually request Android System Permissions for Location
+        if (!PermissionUtils.hasLocation(this)) {
+            PermissionUtils.requestLocation(this, 200);
+
+        } else {
+            goToStampScreen();
+
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 200) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                goToStampScreen();
+            } else {
+                Toast.makeText(this, "Location permission is needed for Automatic address.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+    private void goToStampScreen() {
         startActivity(new Intent(this, stamp_0_up.class));
         finish();
     }
-
+//    public void checkAllPermissions() {
+//        for (PermissionModel m : list) {
+//            if (!m.isChecked()) return;
+//        }
+//        // All checked
+//        startActivity(new Intent(this, stamp_0_up.class));
+//        finish();
+//    }
+////            startActivity(new Intent(this, stamp_0_up.class));
+////            finish();
+// This should open your per_req_20 or the system dialog
+//            startActivity(new Intent(this, per_req_20.class));
 }

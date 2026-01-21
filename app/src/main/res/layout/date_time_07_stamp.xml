@@ -438,22 +438,22 @@
         android:id="@+id/dateTimePopup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_margin="@dimen/_24sdp"
         android:layout_gravity="center"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="12dp"
+        app:cardCornerRadius="@dimen/_16sdp"
+        app:cardElevation="@dimen/_12sdp"
         app:cardBackgroundColor="#FFFFFF">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="@dimen/_16sdp">
 
             <!-- CLOSE ICON -->
             <ImageView
                 android:id="@+id/btnClose"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:src="@drawable/close_circle_07"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -461,10 +461,10 @@
             <!-- CALENDAR SVG (EXPORTED FULL BOX) -->
             <ImageView
                 android:id="@+id/imgCalendar"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_120sdp"
                 android:src="@drawable/frame_07_dt"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/_16sdp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -475,10 +475,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date &amp; Time"
-                android:textSize="16sp"
+                android:textSize="@dimen/_16ssp"
                 android:textStyle="bold"
                 android:textColor="#000000"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintTop_toBottomOf="@id/imgCalendar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -489,9 +489,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="31/07/23 10:33 AM"
-                android:textSize="14sp"
+                android:textSize="@dimen/_14ssp"
                 android:textColor="#000000"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/_16sdp"
                 app:layout_constraintTop_toBottomOf="@id/txtTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/radio1"/>
@@ -510,9 +510,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Monday, 31st July 2023 10:33 AM"
-                android:textSize="14sp"
+                android:textSize="@dimen/_14ssp"
                 android:textColor="#000000"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintTop_toBottomOf="@id/opt1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/radio2"/>
@@ -531,9 +531,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Monday, 31st July 2023"
-                android:textSize="14sp"
+                android:textSize="@dimen/_14ssp"
                 android:textColor="#000000"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintTop_toBottomOf="@id/opt2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/radio3"/>

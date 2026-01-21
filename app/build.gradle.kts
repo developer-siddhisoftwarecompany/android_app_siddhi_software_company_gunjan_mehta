@@ -6,23 +6,27 @@ plugins {
 
 android {
     namespace = "com.example.gunjan_siddhisoftwarecompany"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.gunjan_siddhisoftwarecompany"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
 //        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     testOptions {
+        unitTests.isIncludeAndroidResources = false
         unitTests.all {
-            var enabled = false
+            it.enabled = false
         }
-        animationsDisabled = true
+        sourceSets {
+            getByName("androidTest").java.srcDirs("src/androidTestDisabled/java")
+        }
     }
+
 
 
     buildTypes {
@@ -62,7 +66,9 @@ dependencies {
     implementation("com.intuit.sdp:sdp-android:1.1.0")
     implementation("com.intuit.ssp:ssp-android:1.1.0")
     implementation(libs.ads.mobile.sdk)
-//    testImplementation(libs.junit)
-//    androidTestImplementation(libs.ext.junit)
-//    androidTestImplementation(libs.espresso.core)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+
+
 }

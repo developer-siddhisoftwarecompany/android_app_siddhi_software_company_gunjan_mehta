@@ -10,16 +10,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
         android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:paddingHorizontal="16dp"
+        android:layout_height="@dimen/_56sdp"
+        android:paddingHorizontal="@dimen/_16sdp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
             android:src="@drawable/arrow___left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Settings"
-            android:textSize="18sp"
+            android:textSize="@dimen/_18ssp"
             android:textStyle="bold"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +52,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="@dimen/_16sdp">
 
             <!-- GENERAL -->
             <TextView
@@ -60,10 +60,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="General"
-                android:textSize="13sp"
+                android:textSize="@dimen/_13ssp"
                 android:textColor="#9E9E9E"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -73,7 +73,7 @@
                 layout="@layout/item_setting_row_15"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintTop_toBottomOf="@id/txtGeneral"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -84,7 +84,7 @@
                 layout="@layout/item_setting_row_15"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintTop_toBottomOf="@id/rowLanguage"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -95,7 +95,7 @@
                 layout="@layout/item_setting_row_15"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintTop_toBottomOf="@id/rowSubscription"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -106,7 +106,7 @@
                 layout="@layout/item_setting_row_15"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintTop_toBottomOf="@id/rowShortcut"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -117,10 +117,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Other"
-                android:textSize="13sp"
+                android:textSize="@dimen/_13ssp"
                 android:textColor="#9E9E9E"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 app:layout_constraintTop_toBottomOf="@id/rowHowTo"
                 app:layout_constraintStart_toStartOf="parent"/>
             <!-- Share App -->
@@ -129,7 +129,7 @@
                 layout="@layout/item_setting_row_15"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintTop_toBottomOf="@id/txtOther"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -139,7 +139,7 @@
                 android:id="@+id/rowRate"
                 layout="@layout/item_setting_row_15"
                 android:layout_width="0dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/rowShare"
                 app:layout_constraintStart_toStartOf="parent"

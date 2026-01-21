@@ -77,7 +77,7 @@
             android:id="@+id/dateRow"
             android:layout_width="0dp"
             android:layout_height="@dimen/_48sdp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:paddingHorizontal="@dimen/_16sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -190,6 +190,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_4sdp"
             app:layout_constraintTop_toBottomOf="@id/addressRow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -215,7 +216,8 @@
                 android:src="@drawable/stampp_1_up_edit_loc"
                 android:layout_marginStart="@dimen/_8sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/addressText"/>
+                app:layout_constraintTop_toTopOf="@id/addressText"
+                app:layout_constraintBottom_toBottomOf="@id/addressText"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -273,53 +275,130 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--  TRANSPARENCY GRAPH -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
             android:id="@+id/transparencyGraph"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_70sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/transparencyRow">
-            <TextView
-                android:id="@+id/txtSeekValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="60"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/seek_value_bg"
-                android:padding="4dp"
-
-                app:layout_constraintBottom_toTopOf="@id/seekTransparency"
-                app:layout_constraintStart_toStartOf="@id/seekTransparency"
-                />
 
             <SeekBar
                 android:id="@+id/seekTransparency"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_gravity="center_vertical"
                 android:min="10"
                 android:max="100"
                 android:progress="60"
-
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-
+                android:paddingStart="21dp"
+                android:paddingEnd="21dp"
                 android:progressDrawable="@drawable/seekbar_progress"
                 android:thumb="@drawable/seekbar_thumb"
                 android:splitTrack="false"
-
-                              app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-
-                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:layout_marginEnd="@dimen/_16sdp"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/txtSeekValue"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:text="60%"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:visibility="visible" />
+        </FrameLayout>
+<!--        <FrameLayout-->
+<!--            android:id="@+id/transparencyGraph"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/_70sdp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/transparencyRow">-->
+
+<!--            <SeekBar-->
+<!--                android:id="@+id/seekTransparency"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:min="10"-->
+<!--                android:max="100"-->
+<!--                android:progress="60"-->
+<!--                android:paddingStart="8dp"-->
+<!--                android:paddingEnd="8dp"-->
+<!--                android:progressDrawable="@drawable/seekbar_progress"-->
+<!--                android:thumb="@drawable/seekbar_thumb"-->
+<!--                android:splitTrack="false"-->
+<!--                android:layout_marginStart="@dimen/_16sdp"-->
+<!--                android:layout_marginEnd="@dimen/_16sdp"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/txtSeekValue"-->
+<!--                android:layout_width="42dp"-->
+<!--                android:layout_height="42dp"-->
+<!--                android:text="60"-->
+<!--                android:textSize="10sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="#000000"-->
+<!--                android:gravity="center"-->
+<!--                android:includeFontPadding="false"-->
+<!--                android:visibility="visible" />-->
+<!--        </FrameLayout>-->
+        <!--  TRANSPARENCY GRAPH -->
+
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="@dimen/_40sdp"-->
+<!--        <FrameLayout-->
+<!--            android:id="@+id/transparencyGraph"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/_70sdp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/transparencyRow">-->
+<!--            <SeekBar-->
+<!--                android:id="@+id/seekTransparency"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+
+<!--                android:min="10"-->
+<!--                android:max="100"-->
+<!--                android:progress="60"-->
+
+<!--                android:paddingStart="8dp"-->
+<!--                android:paddingEnd="8dp"-->
+
+<!--                android:progressDrawable="@drawable/seekbar_progress"-->
+<!--                android:thumb="@drawable/seekbar_thumb"-->
+<!--                android:splitTrack="false"-->
+<!--                android:layout_gravity="bottom"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+
+<!--                android:layout_marginTop="@dimen/_8sdp"-->
+<!--                android:layout_marginStart="@dimen/_16sdp"-->
+<!--                android:layout_marginEnd="@dimen/_16sdp"/>-->
+<!--            <TextView-->
+<!--                android:id="@+id/txtSeekValue"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="60"-->
+<!--                android:textSize="12sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:paddingHorizontal="8dp"-->
+<!--                android:padding="4dp"-->
+<!--                android:gravity="top"-->
+<!--                android:visibility="visible"-->
+
+<!--                />-->
+<!--&lt;!&ndash;                android:background="@drawable/seek_value_bg"&ndash;&gt;-->
+
+
+
+<!--        </FrameLayout>-->
             <!--            <ImageView-->
 <!--                android:id="@+id/imgTransLine"-->
 <!--                android:layout_width="0dp"-->

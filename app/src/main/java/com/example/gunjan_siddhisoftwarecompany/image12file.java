@@ -37,22 +37,16 @@ public class image12file extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // IMPORTANT: OSMDroid needs this before setContentView
-//        Configuration.getInstance().setUserAgentValue(getPackageName());
 
-//        Configuration.getInstance().load(
-//                getApplicationContext(),
-//                PreferenceManager.getDefaultSharedPreferences(this)
-//        );
-//        Configuration.getInstance().setUserAgentValue(getPackageName());
 
         setContentView(R.layout.image_info_12);
 
         map = findViewById(R.id.mapview);
         setupHttpsTiles();
-//        map.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK);
+
+
         map.setMultiTouchControls(true);
-// -------- FIX 3: OSMDroid cache path (Android 10+) --------
+
         File osmdroidBasePath = new File(getFilesDir(), "osmdroid");
         File osmdroidTileCache = new File(osmdroidBasePath, "tiles");
 
@@ -151,51 +145,49 @@ public class image12file extends AppCompatActivity {
             txtAddress.setText(text);
         }
     }
-
     private void getPhotoLocation(String uriString) {
         new Thread(() -> {
-            InputStream inputStream = null;
             try {
                 Uri uri = Uri.parse(uriString);
+
+                // 1. Request the original file (with GPS) from the System
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    uri = MediaStore.setRequireOriginal(uri); // Required for GPS access
-                }
-                inputStream = getContentResolver().openInputStream(uri);
+//
 
-                if (inputStream == null) {
-                    runOnUiThread(() -> updateAddress("No GPS metadata found"));
-                    return;
+                    uri = MediaStore.setRequireOriginal(uri);
                 }
 
-                androidx.exifinterface.media.ExifInterface exif = new androidx.exifinterface.media.ExifInterface(inputStream);
+                // 2. Open the stream
+                InputStream is = getContentResolver().openInputStream(uri);
+                if (is == null) return;
+
+                androidx.exifinterface.media.ExifInterface exif = new androidx.exifinterface.media.ExifInterface(is);
                 float[] latLong = new float[2];
 
-                if (!exif.getLatLong(latLong)) {
-                    // Check if the file actually has coordinates in the header strings
-                    String lat = exif.getAttribute(androidx.exifinterface.media.ExifInterface.TAG_GPS_LATITUDE);
-                    android.util.Log.d("GPS_DEBUG", "Raw Latitude: " + lat);
+                if (exif.getLatLong(latLong)) {
+                    double lat = latLong[0];
+                    double lon = latLong[1];
 
-                    runOnUiThread(() -> updateAddress("No GPS metadata found"));
-                    return;
+                    runOnUiThread(() -> {
+                        setupMap(lat, lon);
+                        updateAddress("Fetching address...");
+                    });
+
+                    String address = fetchAddressFromOSM(lat, lon);
+                    runOnUiThread(() -> updateAddress(address));
+                } else {
+                    runOnUiThread(() -> updateAddress("No GPS found in this photo's metadata"));
                 }
+                is.close();
 
-                double lat = latLong[0];
-                double lon = latLong[1];
-
-                // Update Map UI
-                runOnUiThread(() -> setupMap(lat, lon));
-
-                // Manual Network Fetch (Works worldwide without Google Key)
-                String address = fetchAddressFromOSM(lat, lon);
-                runOnUiThread(() -> updateAddress(address));
-
-            } catch (Exception e) {
-                runOnUiThread(() -> updateAddress("Network error: Check Internet"));
-            } finally {
-                try { if (inputStream != null) inputStream.close(); } catch (Exception ignored) {}
-            }
+            } catch (SecurityException e) {
+            runOnUiThread(() -> updateAddress("Error: Permission denied for GPS metadata"));
+        } catch (Exception e) {
+            runOnUiThread(() -> updateAddress("Error: " + e.getMessage()));
+        }
         }).start();
     }
+
 
     private void setupMap(double lat, double lon) {
         if (map == null) return;
@@ -214,26 +206,7 @@ public class image12file extends AppCompatActivity {
         map.invalidate(); // Refresh map
     }
 
-//    private String fetchAddressFromOSM(double lat, double lon) {
-//        try {
-//            // Nominatim API - Worldwide & Free
-//            String urlStr = String.format(Locale.US, "https://nominatim.openstreetmap.org/reverse?format=json&lat=%f&lon=%f", lat, lon);
-//            URL url = new URL(urlStr);
-//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//            conn.setRequestProperty("User-Agent", getPackageName());
-//
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//            StringBuilder response = new StringBuilder();
-//            String line;
-//            while ((line = reader.readLine()) != null) response.append(line);
-//            reader.close();
-//
-//            JSONObject json = new JSONObject(response.toString());
-//            return json.optString("display_name", "Address not available");
-//        } catch (Exception e) {
-//            return "Network Error: Could not fetch address";
-//        }
-//    }
+
 private String fetchAddressFromOSM(double lat, double lon) {
     HttpURLConnection conn = null;
     try {
@@ -291,7 +264,87 @@ private String fetchAddressFromOSM(double lat, double lon) {
         if (map != null) map.onPause();
     }
 
-//package com.example.gunjan_siddhisoftwarecompany;
+  //  try {
+//                        uri = MediaStore.setRequireOriginal(uri);
+//                    } catch (SecurityException e) {
+//                        // This happens if the user hasn't granted ACCESS_MEDIA_LOCATION
+//                        runOnUiThread(() -> updateAddress("Permission Denied: Cannot access GPS info"));
+//                        return;
+//                    }
+//    //    private void getPhotoLocation(String uriString) {
+////        new Thread(() -> {
+////            InputStream inputStream = null;
+////            try {
+////                Uri uri = Uri.parse(uriString);
+////                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+////                    uri = MediaStore.setRequireOriginal(uri); // Required for GPS access
+////                }
+////                inputStream = getContentResolver().openInputStream(uri);
+////
+////                if (inputStream == null) {
+////                    runOnUiThread(() -> updateAddress("No GPS metadata found"));
+////                    return;
+////                }
+////
+////                androidx.exifinterface.media.ExifInterface exif = new androidx.exifinterface.media.ExifInterface(inputStream);
+////                float[] latLong = new float[2];
+////
+////                if (!exif.getLatLong(latLong)) {
+////                    // Check if the file actually has coordinates in the header strings
+////                    String lat = exif.getAttribute(androidx.exifinterface.media.ExifInterface.TAG_GPS_LATITUDE);
+////                    android.util.Log.d("GPS_DEBUG", "Raw Latitude: " + lat);
+////
+////                    runOnUiThread(() -> updateAddress("No GPS metadata found"));
+////                    return;
+////                }
+////
+////                double lat = latLong[0];
+////                double lon = latLong[1];
+////
+////                // Update Map UI
+////                runOnUiThread(() -> setupMap(lat, lon));
+////
+////                // Manual Network Fetch (Works worldwide without Google Key)
+////                String address = fetchAddressFromOSM(lat, lon);
+////                runOnUiThread(() -> updateAddress(address));
+////
+////            } catch (Exception e) {
+////                runOnUiThread(() -> updateAddress("Network error: Check Internet"));
+////            } finally {
+////                try { if (inputStream != null) inputStream.close(); } catch (Exception ignored) {}
+////            }
+////        }).start();
+////    }       // -------- FIX 3: OSMDroid cache path (Android 10+) --------
+//        // IMPORTANT: OSMDroid needs this before setContentView
+////        Configuration.getInstance().setUserAgentValue(getPackageName());
+//
+////        Configuration.getInstance().load(
+////                getApplicationContext(),
+////                PreferenceManager.getDefaultSharedPreferences(this)
+////        );
+////        Configuration.getInstance().setUserAgentValue(getPackageName());
+//        //        map.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK);
+//    private String fetchAddressFromOSM(double lat, double lon) {
+//        try {
+//            // Nominatim API - Worldwide & Free
+//            String urlStr = String.format(Locale.US, "https://nominatim.openstreetmap.org/reverse?format=json&lat=%f&lon=%f", lat, lon);
+//            URL url = new URL(urlStr);
+//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//            conn.setRequestProperty("User-Agent", getPackageName());
+//
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//            StringBuilder response = new StringBuilder();
+//            String line;
+//            while ((line = reader.readLine()) != null) response.append(line);
+//            reader.close();
+//
+//            JSONObject json = new JSONObject(response.toString());
+//            return json.optString("display_name", "Address not available");
+//        } catch (Exception e) {
+//            return "Network Error: Could not fetch address";
+//        }
+//    }
+    //package com.example.gunjan_siddhisoftwarecompany;
 //
 //import android.database.Cursor;
 //import android.graphics.BitmapFactory;

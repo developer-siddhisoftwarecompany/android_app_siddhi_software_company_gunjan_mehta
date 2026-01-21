@@ -438,9 +438,9 @@
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="24dp"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="10dp"
+    android:layout_margin="@dimen/_24sdp"
+    app:cardCornerRadius="@dimen/_20sdp"
+    app:cardElevation="@dimen/_10sdp"
     android:layout_gravity="center"
     app:cardBackgroundColor="#FFFFFF"
     app:cardUseCompatPadding="true">
@@ -448,13 +448,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp">
+        android:padding="@dimen/_20sdp">
 
         <!-- CLOSE BUTTON -->
         <ImageView
             android:id="@+id/btnClose"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:src="@drawable/close_circle_07"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -462,10 +462,10 @@
         <!-- QUESTION IMAGE -->
         <ImageView
             android:id="@+id/imgQuestion"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_120sdp"
             android:src="@drawable/image_14_figma"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/_12sdp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -476,10 +476,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Are you sure ?"
-            android:textSize="18sp"
+            android:textSize="@dimen/_18ssp"
             android:textStyle="bold"
             android:textColor="#1C1C1C"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/_12sdp"
             app:layout_constraintTop_toBottomOf="@id/imgQuestion"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -490,10 +490,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Are you sure you want to edit or go back to the camera?"
-            android:textSize="14sp"
+            android:textSize="@dimen/_14sdp"
             android:textColor="#6E6E6E"
             android:gravity="center"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/_8sdp"
             app:layout_constraintTop_toBottomOf="@id/txtTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -502,13 +502,13 @@
         <TextView
             android:id="@+id/btnNo"
             android:layout_width="0dp"
-            android:layout_height="44dp"
+            android:layout_height="@dimen/_44sdp"
             android:text="No"
             android:textColor="#0A84FF"
-            android:textSize="14sp"
+            android:textSize="@dimen/_14sdp"
             android:textStyle="bold"
             android:gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/_20sdp"
             app:layout_constraintTop_toBottomOf="@id/txtMessage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnSave"
@@ -520,14 +520,14 @@
         <TextView
             android:id="@+id/btnSave"
             android:layout_width="0dp"
-            android:layout_height="44dp"
+            android:layout_height="@dimen/_44sdp"
             android:text="Save"
             android:textColor="#FFFFFF"
-            android:textSize="14sp"
+            android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
             android:gravity="center"
             android:background="@drawable/save_button_09"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/_20sdp"
             app:layout_constraintTop_toBottomOf="@id/txtMessage"
             app:layout_constraintStart_toEndOf="@id/btnNo"
             app:layout_constraintEnd_toEndOf="parent"

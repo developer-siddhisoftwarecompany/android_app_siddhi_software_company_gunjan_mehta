@@ -2,6 +2,7 @@ package com.example.gunjan_siddhisoftwarecompany;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Top
     private ImageView iconGallery, iconFlash, iconRotate, iconTune, iconSetting;
+    private androidx.camera.core.Camera camera;
+    private boolean isFlashOn = false;
 
     private int currentRotation = 0;
     private ImageCapture imageCapture;
@@ -169,9 +172,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // ================= FLASH =================
-        iconFlash.setOnClickListener(v ->
-                CameraController.toggleFlash(this)
-        );
+//        iconFlash.setOnClickListener(v ->
+//                CameraController.toggleFlash(this)
+//        );
+        iconFlash.setOnClickListener(v -> {
+
+            if (camera == null) {
+                Toast.makeText(this, "Camera not ready", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // toggle flashlight
+            isFlashOn = !isFlashOn;
+            camera.getCameraControl().enableTorch(isFlashOn);
+        });
 
         // ================= ROTATE =================
         iconRotate.setOnClickListener(v -> {
@@ -220,7 +234,9 @@ public class MainActivity extends AppCompatActivity {
                 CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
 
                 cameraProvider.unbindAll();
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
+               camera= cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
+                camera.getCameraControl().enableTorch(false);
+                isFlashOn = false;
 
             } catch (Exception e) {
                 Toast.makeText(this, "Failed to start camera: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -268,6 +284,7 @@ public class MainActivity extends AppCompatActivity {
         }
         saveImageWithMetadata(metadata);
     }
+
     // Helper to perform the actual file saving
     private void saveImageWithMetadata(ImageCapture.Metadata metadata) {
         String name = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US)
@@ -301,24 +318,45 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-    @Override
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == 101 && resultCode == RESULT_OK && data != null) {
-            android.net.Uri selectedImageUri = data.getData();
-
-            if (selectedImageUri != null) {
-                Intent intent = new Intent(MainActivity.this, open_img_11.class);
-                // WE USE THE KEY "imagePath" TO MATCH YOUR open_img_11 CODE
-                intent.putExtra("imagePath", selectedImageUri.toString());
-                startActivity(intent);
+            Uri selectedImage = data.getData();
+            try {
+                getContentResolver().takePersistableUriPermission(selectedImage,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            // Take persistent permission so other activities can read this URI
+//            final int takeFlags = data.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
+//
+
+
+            Intent intent = new Intent(this, open_img_11.class);
+            intent.putExtra("imagePath", selectedImage.toString());
+            startActivity(intent);
         }
+
+//   @Override
+//   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == 101 && resultCode == RESULT_OK && data != null) {
+//            android.net.Uri selectedImageUri = data.getData();
+//
+//            if (selectedImageUri != null) {
+//                Intent intent = new Intent(MainActivity.this, open_img_11.class);
+//                // WE USE THE KEY "imagePath" TO MATCH YOUR open_img_11 CODE
+//                intent.putExtra("imagePath", selectedImageUri.toString());
+//                startActivity(intent);
+//            }
+//        }
+//    }
     }
 }
-
 // ================= STAMP =================
 //        View.OnClickListener openStamp = v -> {
 //            if (!PermissionUtils.hasAll(this)) {
