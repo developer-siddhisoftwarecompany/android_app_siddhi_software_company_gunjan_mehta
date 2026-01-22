@@ -529,12 +529,17 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <!-- MAP -->
-                <ImageView
-                    android:id="@+id/imgMap"
+<!--                <ImageView-->
+<!--                    android:id="@+id/imgMap"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:scaleType="centerCrop"-->
+<!--                    android:src="@drawable/map_location_09"/>-->
+                <org.osmdroid.views.MapView
+                    android:id="@+id/mapview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/map_location_09"/>
+                    android:visibility="visible" />
 
                 <!-- ADDRESS OVER MAP -->
                 <androidx.cardview.widget.CardView
@@ -546,7 +551,6 @@
                     app:cardCornerRadius="@dimen/_10sdp"
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="#A6000000">
-
                     <TextView
                         android:id="@+id/txtMapAddress"
                         android:layout_width="match_parent"
@@ -554,8 +558,18 @@
                         android:padding="@dimen/_12sdp"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/_13ssp"
-                        android:text="401, Oasis Corner, Dharmnagar Society,
-Ruchikesh Society, Surat – 395005"/>
+                        android:maxLines="3"
+                        android:ellipsize="end"
+                        android:text="Detecting location..." />
+<!--                    <TextView-->
+<!--                        android:id="@+id/txtMapAddress"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:padding="@dimen/_12sdp"-->
+<!--                        android:textColor="@android:color/white"-->
+<!--                        android:textSize="@dimen/_13ssp"-->
+<!--                        android:text="401, Oasis Corner, Dharmnagar Society,-->
+<!--Ruchikesh Society, Surat – 395005"/>-->
                 </androidx.cardview.widget.CardView>
 
             </FrameLayout>

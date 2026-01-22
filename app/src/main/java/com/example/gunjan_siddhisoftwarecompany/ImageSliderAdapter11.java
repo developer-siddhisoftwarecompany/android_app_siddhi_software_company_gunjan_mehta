@@ -28,12 +28,13 @@ public class ImageSliderAdapter11 extends RecyclerView.Adapter<ImageSliderAdapte
         imageView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         return new ViewHolder(imageView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        String imagePath = imageList.get(position);
         Glide.with(context).load(imageList.get(position)).into((ImageView) holder.itemView);
     }
 

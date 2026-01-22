@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 import java.util.ArrayList;
@@ -33,11 +35,15 @@ public class open_img_11 extends AppCompatActivity {
 
         // Safety check to prevent crashes if list is empty
         if (imageList == null || imageList.isEmpty()) {
-            imageList = new ArrayList<>();
-            // You could add a dummy path or finish() if empty
+//            imageList = new ArrayList<>();
+            Toast.makeText(this, "No image found", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+
         }
 
         // 3. Setup the Slider Adapter
+        viewPager = findViewById(R.id.viewPager);
         ImageSliderAdapter11 adapter = new ImageSliderAdapter11(this, imageList);
         viewPager.setAdapter(adapter);
 
@@ -61,7 +67,7 @@ public class open_img_11 extends AppCompatActivity {
         // This will take the CURRENT swiped image path to the details screen
         btnInfo.setOnClickListener(v -> {
             if (!imageList.isEmpty()) {
-                String currentPath = imageList.get(currentPosition);
+                String currentPath = imageList.get(viewPager.getCurrentItem());
                 Intent intent = new Intent(this, image12file.class);
                 intent.putExtra("imageUri", currentPath);
                 startActivity(intent);

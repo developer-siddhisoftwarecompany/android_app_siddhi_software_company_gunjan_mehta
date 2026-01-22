@@ -1,3 +1,380 @@
+//package com.example.gunjan_siddhisoftwarecompany;
+//
+//import android.database.Cursor;
+//import android.graphics.BitmapFactory;
+//import android.net.Uri;
+//import android.os.Build;
+//import android.os.Bundle;
+//import android.preference.PreferenceManager;
+//import android.provider.MediaStore;
+//import android.view.View;
+//import android.widget.ImageView;
+//import android.widget.TextView;
+//
+//import androidx.appcompat.app.AppCompatActivity;
+//
+//import com.google.android.gms.location.FusedLocationProviderClient;
+//import com.google.android.gms.location.LocationServices;
+//
+//import org.json.JSONObject;
+//import org.osmdroid.config.Configuration;
+//import org.osmdroid.util.GeoPoint;
+//import org.osmdroid.views.MapView;
+//import org.osmdroid.views.overlay.Marker;
+//
+//import java.io.BufferedReader;
+//import java.io.File;
+//import java.io.InputStream;
+//import java.io.InputStreamReader;
+//import java.net.HttpURLConnection;
+//import java.net.URL;
+//import java.text.SimpleDateFormat;
+//import java.util.Date;
+//import java.util.Locale;
+//
+//public class image12file extends AppCompatActivity {
+//
+//    private MapView map;
+//    private FusedLocationProviderClient fusedLocationClient;
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//
+//
+//
+//        setContentView(R.layout.image_info_12);
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+//
+//        map = findViewById(R.id.mapview);
+//        setupHttpsTiles();
+//
+//
+//        map.setMultiTouchControls(true);
+//
+//        File osmdroidBasePath = new File(getFilesDir(), "osmdroid");
+//        File osmdroidTileCache = new File(osmdroidBasePath, "tiles");
+//
+//        Configuration.getInstance().setOsmdroidBasePath(osmdroidBasePath);
+//        Configuration.getInstance().setOsmdroidTileCache(osmdroidTileCache);
+//
+//        Configuration.getInstance().load(
+//                getApplicationContext(),
+//                PreferenceManager.getDefaultSharedPreferences(this)
+//        );
+//        Configuration.getInstance().setUserAgentValue(getPackageName());
+//// ---------------------------------------------------------
+//
+//        ImageView btnBack = findViewById(R.id.btnBack);
+//        btnBack.setOnClickListener(v -> finish());
+//
+//        String imageUriString = getIntent().getStringExtra("imageUri");
+//        if (imageUriString == null) return;
+//
+//        Uri imageUri = Uri.parse(imageUriString);
+//
+//        // Fill the labels (File Name, Size, etc.)
+//        fetchImageMetadata(imageUri);
+//
+//        // Load Location and Address
+//        getPhotoLocation(imageUriString);
+//    }
+//    private void setupHttpsTiles() {
+//        org.osmdroid.tileprovider.tilesource.ITileSource httpsSource =
+//                new org.osmdroid.tileprovider.tilesource.XYTileSource(
+//                        "OSM HTTPS",
+//                        1, 20, 256, ".png",
+//                        new String[]{
+//                                "https://tile.openstreetmap.org/"
+//                        }
+//                );
+//
+//        map.setTileSource(httpsSource);
+//        map.setUseDataConnection(true);
+//    }
+//
+//
+//
+//    private void fetchImageMetadata(Uri imageUri) {
+//        String fileName = "Unknown";
+//        long fileSizeBytes = 0;
+//        long dateTaken = 0;
+//
+//        try (Cursor cursor = getContentResolver().query(
+//                imageUri,
+//                new String[]{
+//                        MediaStore.Images.Media.DISPLAY_NAME,
+//                        MediaStore.Images.Media.SIZE,
+//                        MediaStore.Images.Media.DATE_TAKEN
+//                }, null, null, null)) {
+//
+//            if (cursor != null && cursor.moveToFirst()) {
+//                fileName = cursor.getString(0);
+//                fileSizeBytes = cursor.getLong(1);
+//                dateTaken = cursor.getLong(2);
+//            }
+//        }
+//
+//        String fileSize = (fileSizeBytes / 1024) + " KB";
+//        String dateText = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss", Locale.getDefault()).format(new Date(dateTaken));
+//
+//        // Get Resolution
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inJustDecodeBounds = true;
+//        try (InputStream is = getContentResolver().openInputStream(imageUri)) {
+//            BitmapFactory.decodeStream(is, null, options);
+//        } catch (Exception ignored) {}
+//
+//        String resolution = options.outWidth + " x " + options.outHeight;
+//
+//        // Set the rows in your UI
+//        setRow(findViewById(R.id.row1), R.drawable._12_2_image_folder, "File Name", fileName);
+//        setRow(findViewById(R.id.row2), R.drawable._12_1_image_folder, "Image Uri", imageUri.toString());
+//        setRow(findViewById(R.id.row3), R.drawable._12_3_image_folder, "File Size", fileSize);
+//        setRow(findViewById(R.id.row4), R.drawable._12_4_image, "Resolution", resolution);
+//        setRow(findViewById(R.id.row5), R.drawable._12_5_image_cal, "Date & Time", dateText);
+//    }
+//
+//    private void setRow(View row, int icon, String label, String value) {
+//        if (row == null) return;
+//        ImageView img = row.findViewById(R.id.imgIcon);
+//        TextView txtLabel = row.findViewById(R.id.txtLabel);
+//        TextView txtValue = row.findViewById(R.id.txtValue);
+//
+//        img.setImageResource(icon);
+//        txtLabel.setText(label + " : ");
+//        txtValue.setText(value);
+//    }
+//
+//    private void updateAddress(String text) {
+//        TextView txtAddress = findViewById(R.id.addressCard).findViewById(R.id.txtAddress);
+//        if (txtAddress != null) {
+//            txtAddress.setText(text);
+//        }
+//    }
+////    private void getPhotoLocation(String uriString) {
+////        new Thread(() -> {
+////            try {
+////                Uri uri = Uri.parse(uriString);
+////
+////                // 1. Request the original file (with GPS) from the System
+//////                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+////////
+//////
+//////                    uri = MediaStore.setRequireOriginal(uri);
+//////                }
+//////                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && uriString.contains("com.android.providers")) {
+//////                    // This is a system gallery photo
+//////                    // Read it directly without setRequireOriginal
+//////                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//////                    uri = MediaStore.setRequireOriginal(uri);
+//////                }
+////                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+////                    try {
+////                        // This is the line that triggers the SecurityException
+////                        uri = MediaStore.setRequireOriginal(uri);
+////                    } catch (SecurityException e) {
+////                        // Fallback: If we can't get the 'Original', we try to read what's available
+////                        android.util.Log.e("GPS_ERROR", "Original access denied, trying fallback.");
+////                    }
+////                }
+////
+////
+//////                // 2. Open the stream
+////                InputStream is = getContentResolver().openInputStream(uri);
+////                if (is == null) return;
+////
+////                androidx.exifinterface.media.ExifInterface exif = new androidx.exifinterface.media.ExifInterface(is);
+////                float[] latLong = new float[2];
+////
+////                if (exif.getLatLong(latLong)) {
+////                    double lat = latLong[0];
+////                    double lon = latLong[1];
+////
+////                    runOnUiThread(() -> {
+////                        setupMap(lat, lon);
+////                        updateAddress("Fetching address...");
+////                    });
+////
+////                    String address = fetchAddressFromOSM(lat, lon);
+////                    runOnUiThread(() -> updateAddress(address));
+////                } else {
+////                    runOnUiThread(() -> updateAddress("No GPS found in this photo's metadata"));
+////                }
+////                is.close();
+////
+////            } catch (SecurityException e) {
+////            runOnUiThread(() -> updateAddress("Error: Permission denied for GPS metadata"));
+////        } catch (Exception e) {
+////            runOnUiThread(() -> updateAddress("Error: " + e.getMessage()));
+////        }
+////        }).start();
+////    }
+////private void getPhotoLocation(String uriString) {
+////    new Thread(() -> {
+////        try {
+////            Uri uri = Uri.parse(uriString);
+////
+////            // Try to get the original file for GPS access (Android 10+)
+////            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+////                try {
+////                    uri = MediaStore.setRequireOriginal(uri);
+////                } catch (SecurityException e) {
+////                    // This is expected for some gallery apps; we log it and continue
+////                    android.util.Log.e("GPS_DEBUG", "Original access denied, trying standard stream.");
+////                }
+////            }
+////
+////            // Use try-with-resources to ensure the stream closes properly
+////            try (InputStream is = getContentResolver().openInputStream(uri)) {
+////                if (is == null) {
+////                    runOnUiThread(() -> updateAddress("Cannot open image file."));
+////                    return;
+////                }
+////
+////                androidx.exifinterface.media.ExifInterface exif = new androidx.exifinterface.media.ExifInterface(is);
+////                float[] latLong = new float[2];
+////
+////                if (exif.getLatLong(latLong)) {
+////                    double lat = latLong[0];
+////                    double lon = latLong[1];
+////
+////                    runOnUiThread(() -> {
+////                        setupMap(lat, lon);
+////                        updateAddress("Fetching address...");
+////                    });
+////
+////                    String address = fetchAddressFromOSM(lat, lon);
+////                    runOnUiThread(() -> updateAddress(address));
+////                } else {
+////                    runOnUiThread(() -> updateAddress("No GPS found in this photo's metadata"));
+////                }
+////            }
+////        } catch (Exception e) {
+////            runOnUiThread(() -> updateAddress("Error accessing metadata: " + e.getMessage()));
+////        }
+////    }).start();
+////}
+//private void getPhotoLocation(String uriString) {
+//    new Thread(() -> {
+//        try {
+//            Uri uri = Uri.parse(uriString);
+//
+//            InputStream is = getContentResolver().openInputStream(uri);
+//            if (is == null) {
+//                runOnUiThread(() -> updateAddress("Unable to access image data"));
+//                return;
+//            }
+//
+//            androidx.exifinterface.media.ExifInterface exif =
+//                    new androidx.exifinterface.media.ExifInterface(is);
+//
+//            float[] latLong = new float[2];
+//
+//            if (exif.getLatLong(latLong)) {
+//                double lat = latLong[0];
+//                double lon = latLong[1];
+//
+//                runOnUiThread(() -> {
+//                    setupMap(lat, lon);
+//                    updateAddress("Fetching address...");
+//                });
+//
+//                String address = fetchAddressFromOSM(lat, lon);
+//                runOnUiThread(() -> updateAddress(address));
+//
+//            } else {
+//                runOnUiThread(() ->
+//                        updateAddress("No GPS found in this photo"));
+//            }
+//
+//            is.close();
+//
+//        } catch (SecurityException e) {
+//            runOnUiThread(() ->
+//                    updateAddress("Permission denied by Gallery app"));
+//        } catch (Exception e) {
+//            runOnUiThread(() ->
+//                    updateAddress("Error reading image metadata"));
+//        }
+//    }).start();
+//}
+//
+//    private void setupMap(double lat, double lon) {
+//        if (map == null) return;
+//        GeoPoint startPoint = new GeoPoint(lat, lon);
+//        map.getController().setZoom(17.0);
+//        map.getController().setCenter(startPoint);
+//        map.setMultiTouchControls(true);
+//
+//        // Add a red pin at the location
+//        Marker startMarker = new Marker(map);
+//        startMarker.setPosition(startPoint);
+//        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+//        startMarker.setTitle("Photo Location");
+//        map.getOverlays().clear();
+//        map.getOverlays().add(startMarker);
+//        map.invalidate(); // Refresh map
+//    }
+//
+//
+//private String fetchAddressFromOSM(double lat, double lon) {
+//    HttpURLConnection conn = null;
+//    try {
+//        // Nominatim API - Worldwide & Free (OpenStreetMap)
+//        String urlStr = String.format(Locale.US, "https://nominatim.openstreetmap.org/reverse?format=json&lat=%f&lon=%f", lat, lon);
+//        URL url = new URL(urlStr);
+//
+//        conn = (HttpURLConnection) url.openConnection();
+//        conn.setRequestMethod("GET");
+//
+//        // IMPORTANT: Nominatim requires a User-Agent and prefers a Referer
+//        conn.setRequestProperty("User-Agent", getPackageName());
+//        conn.setRequestProperty("Referer", "https://openstreetmap.org");
+//
+//        // Timeouts prevent the app from getting stuck on a bad connection
+//        conn.setConnectTimeout(10000); // 10 seconds
+//        conn.setReadTimeout(10000);    // 10 seconds
+//
+//        int responseCode = conn.getResponseCode();
+//        if (responseCode == HttpURLConnection.HTTP_OK) {
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//            StringBuilder response = new StringBuilder();
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                response.append(line);
+//            }
+//            reader.close();
+//
+//            JSONObject json = new JSONObject(response.toString());
+//            // "display_name" is the full formatted address string
+//            return json.optString("display_name", "Address not available");
+//        } else {
+//            return "Server Error: " + responseCode;
+//        }
+//    } catch (java.net.SocketTimeoutException e) {
+//        return "Network Error: Request timed out";
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//        return "Network Error: Check Internet connection";
+//    } finally {
+//        if (conn != null) {
+//            conn.disconnect();
+//        }
+//    }
+//}
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (map != null) map.onResume();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if (map != null) map.onPause();
+//    }
+
+
 package com.example.gunjan_siddhisoftwarecompany;
 
 import android.database.Cursor;
@@ -12,6 +389,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONObject;
 import org.osmdroid.config.Configuration;
@@ -32,34 +412,28 @@ import java.util.Locale;
 public class image12file extends AppCompatActivity {
 
     private MapView map;
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
         setContentView(R.layout.image_info_12);
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // --- OSM (Map) Setup ---
         map = findViewById(R.id.mapview);
         setupHttpsTiles();
-
-
         map.setMultiTouchControls(true);
 
         File osmdroidBasePath = new File(getFilesDir(), "osmdroid");
         File osmdroidTileCache = new File(osmdroidBasePath, "tiles");
-
         Configuration.getInstance().setOsmdroidBasePath(osmdroidBasePath);
         Configuration.getInstance().setOsmdroidTileCache(osmdroidTileCache);
-
-        Configuration.getInstance().load(
-                getApplicationContext(),
-                PreferenceManager.getDefaultSharedPreferences(this)
-        );
+        Configuration.getInstance().load(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(this));
         Configuration.getInstance().setUserAgentValue(getPackageName());
-// ---------------------------------------------------------
 
+        // --- UI Logic ---
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
@@ -68,48 +442,79 @@ public class image12file extends AppCompatActivity {
 
         Uri imageUri = Uri.parse(imageUriString);
 
-        // Fill the labels (File Name, Size, etc.)
-        fetchImageMetadata(imageUri);
+        // UPDATED: Query the folder name and other details
+        fetchProjectImageDetails(imageUri);
 
         // Load Location and Address
         getPhotoLocation(imageUriString);
     }
+
     private void setupHttpsTiles() {
         org.osmdroid.tileprovider.tilesource.ITileSource httpsSource =
                 new org.osmdroid.tileprovider.tilesource.XYTileSource(
-                        "OSM HTTPS",
-                        1, 20, 256, ".png",
-                        new String[]{
-                                "https://tile.openstreetmap.org/"
-                        }
+                        "OSM HTTPS", 1, 20, 256, ".png",
+                        new String[]{"https://tile.openstreetmap.org/"}
                 );
-
         map.setTileSource(httpsSource);
         map.setUseDataConnection(true);
     }
 
-    private void fetchImageMetadata(Uri imageUri) {
+    /**
+     * Extracts and displays image metadata, specifically focusing on the
+     * custom project folder name for worldwide support.
+     */
+    private void fetchProjectImageDetails(Uri imageUri) {
         String fileName = "Unknown";
+        String folderDisplayName = "Unknown"; // For the custom company folder
         long fileSizeBytes = 0;
         long dateTaken = 0;
+        String[] projection = {
+                MediaStore.Images.Media.DISPLAY_NAME,
+                MediaStore.Images.Media.SIZE,
+                MediaStore.Images.Media.DATE_TAKEN,
+                MediaStore.Images.Media.RELATIVE_PATH,
+                "_data" // Fallback for real file path
+        };
 
-        try (Cursor cursor = getContentResolver().query(
-                imageUri,
-                new String[]{
-                        MediaStore.Images.Media.DISPLAY_NAME,
-                        MediaStore.Images.Media.SIZE,
-                        MediaStore.Images.Media.DATE_TAKEN
-                }, null, null, null)) {
+        // Query including RELATIVE_PATH to identify the user's custom folder
+//
+//        try (Cursor cursor = getContentResolver().query(
+//                imageUri,
+//                new String[]{
+//                        MediaStore.Images.Media.DISPLAY_NAME,
+//                        MediaStore.Images.Media.SIZE,
+//                        MediaStore.Images.Media.DATE_TAKEN,
+//                        MediaStore.Images.Media.RELATIVE_PATH // Contains "Pictures/FolderName"
+//                }, null, null, null)) {
 
+        try (Cursor cursor = getContentResolver().query(imageUri, projection, null, null, null)) {
             if (cursor != null && cursor.moveToFirst()) {
                 fileName = cursor.getString(0);
                 fileSizeBytes = cursor.getLong(1);
                 dateTaken = cursor.getLong(2);
-            }
-        }
 
+                // Extract folder name from the full system path
+                String fullPath = cursor.getString(3);
+                if (fullPath != null && !fullPath.isEmpty()) {
+                    // Clean path to show only the folder name (e.g., SiddhiSoftware)
+                    folderDisplayName = fullPath.replace("Pictures/", "").replace("/", "");
+                }
+                else {
+                    String dataPath = cursor.getString(4);
+                    if (dataPath != null) {
+                        File file = new File(dataPath);
+                        folderDisplayName = (file.getParentFile() != null) ? file.getParentFile().getName() : "Gallery";
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (folderDisplayName.equals("Unknown")) folderDisplayName = "System Gallery";
+        // Format for readability
         String fileSize = (fileSizeBytes / 1024) + " KB";
-        String dateText = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss", Locale.getDefault()).format(new Date(dateTaken));
+        String dateText = (dateTaken > 0)? new SimpleDateFormat("MMM dd, yyyy HH:mm:ss", Locale.getDefault()).format(new Date(dateTaken))
+                : "Date Not Available";
 
         // Get Resolution
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -117,12 +522,12 @@ public class image12file extends AppCompatActivity {
         try (InputStream is = getContentResolver().openInputStream(imageUri)) {
             BitmapFactory.decodeStream(is, null, options);
         } catch (Exception ignored) {}
-
         String resolution = options.outWidth + " x " + options.outHeight;
 
-        // Set the rows in your UI
+        // Update UI Rows
         setRow(findViewById(R.id.row1), R.drawable._12_2_image_folder, "File Name", fileName);
-        setRow(findViewById(R.id.row2), R.drawable._12_1_image_folder, "Image Uri", imageUri.toString());
+        // Show folder name instead of URI
+        setRow(findViewById(R.id.row2), R.drawable._12_1_image_folder, "Folder", folderDisplayName);
         setRow(findViewById(R.id.row3), R.drawable._12_3_image_folder, "File Size", fileSize);
         setRow(findViewById(R.id.row4), R.drawable._12_4_image, "Resolution", resolution);
         setRow(findViewById(R.id.row5), R.drawable._12_5_image_cal, "Date & Time", dateText);
@@ -141,128 +546,101 @@ public class image12file extends AppCompatActivity {
 
     private void updateAddress(String text) {
         TextView txtAddress = findViewById(R.id.addressCard).findViewById(R.id.txtAddress);
-        if (txtAddress != null) {
-            txtAddress.setText(text);
-        }
+        if (txtAddress != null) txtAddress.setText(text);
     }
+
     private void getPhotoLocation(String uriString) {
         new Thread(() -> {
             try {
                 Uri uri = Uri.parse(uriString);
+                try (InputStream is = getContentResolver().openInputStream(uri)) {
+                    if (is == null) {
+                        runOnUiThread(() -> updateAddress("Unable to access image data"));
+                        return;
+                    }
 
-                // 1. Request the original file (with GPS) from the System
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//
+                    androidx.exifinterface.media.ExifInterface exif = new androidx.exifinterface.media.ExifInterface(is);
+                    float[] latLong = new float[2];
 
-                    uri = MediaStore.setRequireOriginal(uri);
+                    if (exif.getLatLong(latLong)) {
+                        double lat = latLong[0];
+                        double lon = latLong[1];
+
+                        runOnUiThread(() -> {
+                            setupMap(lat, lon);
+                            updateAddress("Fetching address...");
+                        });
+
+                        String address = fetchAddressFromOSM(lat, lon);
+                        runOnUiThread(() -> updateAddress(address));
+                    } else {
+                        runOnUiThread(() -> updateAddress("No GPS found in this photo"));
+                    }
                 }
-
-                // 2. Open the stream
-                InputStream is = getContentResolver().openInputStream(uri);
-                if (is == null) return;
-
-                androidx.exifinterface.media.ExifInterface exif = new androidx.exifinterface.media.ExifInterface(is);
-                float[] latLong = new float[2];
-
-                if (exif.getLatLong(latLong)) {
-                    double lat = latLong[0];
-                    double lon = latLong[1];
-
-                    runOnUiThread(() -> {
-                        setupMap(lat, lon);
-                        updateAddress("Fetching address...");
-                    });
-
-                    String address = fetchAddressFromOSM(lat, lon);
-                    runOnUiThread(() -> updateAddress(address));
-                } else {
-                    runOnUiThread(() -> updateAddress("No GPS found in this photo's metadata"));
-                }
-                is.close();
-
-            } catch (SecurityException e) {
-            runOnUiThread(() -> updateAddress("Error: Permission denied for GPS metadata"));
-        } catch (Exception e) {
-            runOnUiThread(() -> updateAddress("Error: " + e.getMessage()));
-        }
+            } catch (Exception e) {
+                runOnUiThread(() -> updateAddress("Error reading image metadata"));
+            }
         }).start();
     }
-
 
     private void setupMap(double lat, double lon) {
         if (map == null) return;
         GeoPoint startPoint = new GeoPoint(lat, lon);
         map.getController().setZoom(17.0);
         map.getController().setCenter(startPoint);
-        map.setMultiTouchControls(true);
-
-        // Add a red pin at the location
         Marker startMarker = new Marker(map);
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         startMarker.setTitle("Photo Location");
         map.getOverlays().clear();
         map.getOverlays().add(startMarker);
-        map.invalidate(); // Refresh map
+        map.invalidate();
     }
 
+    private String fetchAddressFromOSM(double lat, double lon) {
+        HttpURLConnection conn = null;
+        try {
+            String urlStr = String.format(Locale.US, "https://nominatim.openstreetmap.org/reverse?format=json&lat=%f&lon=%f", lat, lon);
+            URL url = new URL(urlStr);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("User-Agent", getPackageName());
+            conn.setRequestProperty("Referer", "https://openstreetmap.org");
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
 
-private String fetchAddressFromOSM(double lat, double lon) {
-    HttpURLConnection conn = null;
-    try {
-        // Nominatim API - Worldwide & Free (OpenStreetMap)
-        String urlStr = String.format(Locale.US, "https://nominatim.openstreetmap.org/reverse?format=json&lat=%f&lon=%f", lat, lon);
-        URL url = new URL(urlStr);
-
-        conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-
-        // IMPORTANT: Nominatim requires a User-Agent and prefers a Referer
-        conn.setRequestProperty("User-Agent", getPackageName());
-        conn.setRequestProperty("Referer", "https://openstreetmap.org");
-
-        // Timeouts prevent the app from getting stuck on a bad connection
-        conn.setConnectTimeout(10000); // 10 seconds
-        conn.setReadTimeout(10000);    // 10 seconds
-
-        int responseCode = conn.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) response.append(line);
+                reader.close();
+                JSONObject json = new JSONObject(response.toString());
+                return json.optString("display_name", "Address not available");
             }
-            reader.close();
-
-            JSONObject json = new JSONObject(response.toString());
-            // "display_name" is the full formatted address string
-            return json.optString("display_name", "Address not available");
-        } else {
-            return "Server Error: " + responseCode;
+            return "Server Error: " + conn.getResponseCode();
+        } catch (Exception e) {
+            return "Network Error: Check connection";
+        } finally {
+            if (conn != null) conn.disconnect();
         }
-    } catch (java.net.SocketTimeoutException e) {
-        return "Network Error: Request timed out";
-    } catch (Exception e) {
-        e.printStackTrace();
-        return "Network Error: Check Internet connection";
-    } finally {
-        if (conn != null) {
-            conn.disconnect();
-        }
-    }
-}
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (map != null) map.onResume();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        if (map != null) map.onPause();
-    }
+    protected void onResume() { super.onResume(); if (map != null) map.onResume(); }
+    @Override
+    protected void onPause() { super.onPause(); if (map != null) map.onPause(); }
+
+
+
+
+
+
+
+
+
+
+
 
   //  try {
 //                        uri = MediaStore.setRequireOriginal(uri);

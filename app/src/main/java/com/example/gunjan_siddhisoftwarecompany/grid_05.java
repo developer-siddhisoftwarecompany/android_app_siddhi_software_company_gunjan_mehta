@@ -37,6 +37,7 @@ public class grid_05 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grid_05);
         iconGrid = findViewById(R.id.iconGrid);
+
         gridOverlay = findViewById(R.id.gridOverlay);
         btnGridBack = findViewById(R.id.btnGridBack);
 
@@ -69,8 +70,13 @@ public class grid_05 extends AppCompatActivity {
         });
 
 
-        btnGridBack.setOnClickListener(v -> finish());
-
+        btnGridBack.setOnClickListener(v -> {
+            gridOverlay.setVisibility(View.GONE);
+        });
+        iconGrid.setOnClickListener(v -> {
+            gridOverlay.setVisibility(View.VISIBLE);
+            gridOverlay.bringToFront();
+        });
 
         gridNone.setOnClickListener(v -> selectGrid("none"));
         tickNone.setOnClickListener(v -> selectGrid("none"));
@@ -112,6 +118,7 @@ public class grid_05 extends AppCompatActivity {
         if (save) {
             SettingsStore.save(this, KEY_GRID, grid);
             ChangeTracker.mark();
+            findViewById(R.id.gridOverlayd).setVisibility(View.GONE);
         }
         if (gridOverlay != null) {
             gridOverlay.setGridType(grid);
@@ -171,5 +178,14 @@ public class grid_05 extends AppCompatActivity {
                         exception.printStackTrace();
                     }
                 });
+    }
+    @Override
+    public void onBackPressed() {
+        ConstraintLayout gridMenuOverlay = findViewById(R.id.gridOverlayd);
+        if (gridMenuOverlay.getVisibility() == View.VISIBLE) {
+            gridMenuOverlay.setVisibility(View.GONE); // Close menu if open
+        } else {
+            super.onBackPressed(); // Otherwise exit activity
+        }
     }
 }
