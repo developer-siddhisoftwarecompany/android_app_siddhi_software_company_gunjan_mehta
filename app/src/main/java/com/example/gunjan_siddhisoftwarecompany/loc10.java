@@ -23,12 +23,15 @@ public class loc10 extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         btnCancel = findViewById(R.id.btnCancel);
         btnClose = findViewById(R.id.btnClose);
-
+        TextView txtCurrent = findViewById(R.id.txtCurrent);
         // CLOSE / CANCEL
         btnCancel.setOnClickListener(v -> finish());
         btnClose.setOnClickListener(v -> finish());
 
-
+        txtCurrent.setOnClickListener(v -> {
+            // Simply finish this activity to return to loc_09 which is already open underneath
+            finish();
+        });
 
         btnSave.setOnClickListener(v -> {
             String typedAddress = edtManualAddress.getText().toString();

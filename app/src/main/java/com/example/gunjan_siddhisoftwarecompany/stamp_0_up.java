@@ -35,7 +35,7 @@ public class stamp_0_up extends AppCompatActivity {
     private static final String KEY_LOCATION_MODE = "stamp_location_mode";
     private static final String KEY_STAMP_DRAWABLE = "stamp_drawable";
 
-    private ImageView btnBack, btnDone, stampPreview;
+    private ImageView btnBack, btnDone, stampPreview,imgEditLocation;
     private TextView txtDateValue, addressText, txtTransparencyValue;
     private ImageView c1, c2, c3, c4, c5, c6;
 
@@ -59,7 +59,7 @@ public class stamp_0_up extends AppCompatActivity {
         txtTransparencyValue = findViewById(R.id.txtTransparencyValue);
         txtSeekValue = findViewById(R.id.txtSeekValue);
         seekTransparency = findViewById(R.id.seekTransparency);
-
+        ImageView imgEditLocation = findViewById(R.id.iconEditOfLoc);
         c1 = findViewById(R.id.colorCircle1);
         c2 = findViewById(R.id.colorCircle2);
         c3 = findViewById(R.id.colorCircle3);
@@ -69,8 +69,22 @@ public class stamp_0_up extends AppCompatActivity {
 
         restoreSavedData();
 
+        View.OnClickListener locationPickerListener = v -> {
+            if (!PermissionUtils.hasLocation(this)) {
+                startActivity(new Intent(this, per_req_20.class));
+                return;
+            }
+            // This opens loc_09 (the map/current location screen)
+            startActivityForResult(new Intent(this, loc_09.class), REQ_LOCATION);
+        };
+
+// 3. Assign the SAME listener to both views
+        findViewById(R.id.addressRow).setOnClickListener(locationPickerListener);
+        if (imgEditLocation != null) {
+            imgEditLocation.setOnClickListener(locationPickerListener);
+        }
         // ===== CLICK LISTENERS =====
-//        btnBack.setOnClickListener(v -> onBackPressed());
+     btnBack.setOnClickListener(v -> onBackPressed());
 
         btnDone.setOnClickListener(v -> {
             ChangeTracker.mark();
@@ -264,7 +278,7 @@ public class stamp_0_up extends AppCompatActivity {
             addressText.setText(address);
             ((TextView)findViewById(R.id.txtAddressValue)).setText("Manual");
         } else {
-            ((TextView)findViewById(R.id.txtAddressValue)).setText("reset");
+            ((TextView)findViewById(R.id.txtAddressValue)).setText("Reset");
         }
 
         currentAlpha = SettingsStore.get(this, KEY_ALPHA, 60);

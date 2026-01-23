@@ -375,14 +375,18 @@
 
 package com.example.gunjan_siddhisoftwarecompany;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog; // Added for the dialog
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.EditText; // Added for the dialog input
 import android.widget.ImageButton;
@@ -390,6 +394,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
@@ -409,9 +415,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date; // Added for timestamping
 import java.util.Locale;
+import android.Manifest;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 public class MainActivity extends AppCompatActivity {
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    Toast.makeText(this, "Notifications enabled!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Notifications denied. Check settings.", Toast.LENGTH_LONG).show();
+                }
+            });
     private ImageButton btnCapture;
+    private OrientationEventListener orientationEventListener;
     private ImageView iconStamp, iconPhotos, iconGallery, iconFlash, iconRotate, iconTune, iconSetting;
     private TextView txtStamp, txtPhotos;
     private androidx.camera.core.Camera camera;
@@ -423,7 +441,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        askNotificationPermission();
         // ================= INIT VIEWS =================
         btnCapture = findViewById(R.id.btnCapture);
         iconStamp = findViewById(R.id.iconStamp);
@@ -444,6 +462,18 @@ public class MainActivity extends AppCompatActivity {
 
         currentRotation = SettingsStore.get(this, "camera_rotation", 0);
 
+        iconRotate.setOnClickListener(v -> {
+           currentRotation = (currentRotation + 90) % 360;
+            SettingsStore.save(this, "camera_rotation", currentRotation);
+            float targetRotation = -currentRotation;
+
+            applyRotation(targetRotation);
+           Toast.makeText(
+                    this,
+                    "Rotation: " + currentRotation + "°",
+                    Toast.LENGTH_SHORT
+            ).show();
+        });
         // ================= UPDATED CAPTURE LOGIC =================
         btnCapture.setOnClickListener(v -> {
             v.animate().scaleX(0.8f).scaleY(0.8f).setDuration(50).withEndAction(() -> {
@@ -453,7 +483,8 @@ public class MainActivity extends AppCompatActivity {
             });
         });
 
-        // ================= NAVIGATION =================
+        // =
+        // ================ NAVIGATION =================
         iconPhotos.setOnClickListener(v -> startActivity(new Intent(this, MyPhotosActivity.class)));
         txtPhotos.setOnClickListener(v -> startActivity(new Intent(this, MyPhotosActivity.class)));
 
@@ -475,6 +506,23 @@ public class MainActivity extends AppCompatActivity {
             isFlashOn = !isFlashOn;
             camera.getCameraControl().enableTorch(isFlashOn);
         });
+        // Define the logic once
+        View.OnClickListener openStamp = v -> {
+            if (!PermissionUtils.hasAll(MainActivity.this)) {
+                // If permissions are missing, go to permission request activity
+                Intent intent = new Intent(MainActivity.this, per_req_20.class);
+                startActivity(intent);
+                finish(); // Removes Main Activity from the backstack
+            } else {
+                // If permissions are OK, go to the Stamp activity
+                Intent intent = new Intent(MainActivity.this, stamp_0_up.class);
+                startActivity(intent);
+            }
+        };
+
+// Assign the logic to both views
+        iconStamp.setOnClickListener(openStamp);
+        txtStamp.setOnClickListener(openStamp);
     }
 
     // ================= FOLDER DIALOG LOGIC =================
@@ -491,7 +539,12 @@ public class MainActivity extends AppCompatActivity {
             takePhoto(folderName);
         }
     }
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Resetting UI to 0 before leaving makes the transition back smoother
+        applyRotation(0);
+    }
     private void showFolderDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Create Company Folder");
@@ -542,13 +595,47 @@ public class MainActivity extends AppCompatActivity {
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults results) {
                         Toast.makeText(MainActivity.this, "Photo saved in: " + folderName, Toast.LENGTH_SHORT).show();
                     }
+
                     @Override
                     public void onError(@NonNull ImageCaptureException err) {
                         Toast.makeText(MainActivity.this, "Capture failed: " + err.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
 
+    }
+    private void applyRotation(float degree) {
+        // List all views that need to turn when the phone/camera rotates
+        View[] viewsToRotate = {
+                iconStamp, txtStamp,
+                iconPhotos, txtPhotos,
+                iconGallery, iconFlash,
+                iconRotate, iconTune, iconSetting
+        };
+
+        for (View view : viewsToRotate) {
+            if (view != null) {
+                view.animate()
+                        .rotation(degree)
+                        .setDuration(300) // Professional transition speed
+                        .start();
+            }
+        }
+    }
+    private void askNotificationPermission() {
+        // Only Android 13 (API 33) and above require runtime permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                // Already granted, no action needed
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                // Optional: Show an educational UI here explaining WHY you need notifications
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+    }
     private void startCamera() {
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {
