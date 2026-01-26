@@ -372,13 +372,356 @@
 //
 //
 
+//mello
+//
+//
+//
+//
+//
+//
+//
+//
+//package com.example.gunjan_siddhisoftwarecompany;
+//
+//import static androidx.core.content.ContextCompat.startActivity;
+//
+//import android.annotation.SuppressLint;
+//import android.app.AlertDialog; // Added for the dialog
+//import android.content.ContentValues;
+//import android.content.Intent;
+//import android.content.pm.PackageManager;
+//import android.net.Uri;
+//import android.os.Build;
+//import android.os.Bundle;
+//import android.provider.MediaStore;
+//import android.view.OrientationEventListener;
+//import android.view.View;
+//import android.widget.EditText; // Added for the dialog input
+//import android.widget.ImageButton;
+//import android.widget.ImageView;
+//import android.widget.TextView;
+//import android.widget.Toast;
+//
+//import androidx.activity.result.ActivityResultLauncher;
+//import androidx.activity.result.contract.ActivityResultContracts;
+//import androidx.annotation.NonNull;
+//import androidx.appcompat.app.AppCompatActivity;
+//import androidx.camera.core.CameraSelector;
+//import androidx.camera.core.ImageCapture;
+//import androidx.camera.core.ImageCaptureException;
+//import androidx.camera.core.Preview;
+//import androidx.camera.lifecycle.ProcessCameraProvider;
+//import androidx.camera.view.PreviewView;
+//import androidx.core.content.ContextCompat;
+//
+//import com.example.gunjan_siddhisoftwarecompany.util.AppNavigator;
+//import com.example.gunjan_siddhisoftwarecompany.util.PermissionUtils;
+//import com.example.gunjan_siddhisoftwarecompany.util.SettingsStore;
+//import com.google.common.util.concurrent.ListenableFuture;
+//
+//import java.text.SimpleDateFormat;
+//import java.util.ArrayList;
+//import java.util.Date; // Added for timestamping
+//import java.util.Locale;
+//import android.Manifest;
+//import androidx.activity.result.ActivityResultLauncher;
+//import androidx.activity.result.contract.ActivityResultContracts;
+//
+//public class MainActivity extends AppCompatActivity {
+//    private final ActivityResultLauncher<String> requestPermissionLauncher =
+//            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+//                if (isGranted) {
+//                    Toast.makeText(this, "Notifications enabled!", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(this, "Notifications denied. Check settings.", Toast.LENGTH_LONG).show();
+//                }
+//            });
+//    private ImageButton btnCapture;
+//    private OrientationEventListener orientationEventListener;
+//    private ImageView iconStamp, iconPhotos, iconGallery, iconFlash, iconRotate, iconTune, iconSetting,iconFlip;
+//    private TextView txtStamp, txtPhotos;
+//    private androidx.camera.core.Camera camera;
+//    private boolean isFlashOn = false;
+//    private int currentRotation = 0;
+//    private ImageCapture imageCapture;
+//    private int lensFacing = CameraSelector.LENS_FACING_BACK;
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//        askNotificationPermission();
+//        // ================= INIT VIEWS =================
+//        btnCapture = findViewById(R.id.btnCapture);
+//        iconStamp = findViewById(R.id.iconStamp);
+//        txtStamp = findViewById(R.id.txtStamp);
+//        iconPhotos = findViewById(R.id.iconPhotos);
+//        txtPhotos = findViewById(R.id.txtPhotos);
+//        iconGallery = findViewById(R.id.iconGallery);
+//        iconFlash = findViewById(R.id.iconFlash);
+//        iconRotate = findViewById(R.id.iconRotate);
+//        iconTune = findViewById(R.id.iconTune);
+//        iconSetting = findViewById(R.id.iconSetting);
+//        iconFlip = findViewById(R.id.iconFlip);
+//        if (PermissionUtils.hasAll(this)) {
+//            startCamera();
+//        } else {
+//            AppNavigator.openPermissionRequired(this);
+//        }
+//
+//        currentRotation = SettingsStore.get(this, "camera_rotation", 0);
+//
+//        iconRotate.setOnClickListener(v -> {
+//           currentRotation = (currentRotation + 90) % 360;
+//            SettingsStore.save(this, "camera_rotation", currentRotation);
+//            float targetRotation = -currentRotation;
+//
+//            applyRotation(targetRotation);
+//           Toast.makeText(
+//                    this,
+//                    "Rotation: " + currentRotation + "°",
+//                    Toast.LENGTH_SHORT
+//            ).show();
+//        });
+//        iconFlip.setOnClickListener(v -> {
+//            // Toggle between front and back
+//            if (lensFacing == CameraSelector.LENS_FACING_BACK) {
+//                lensFacing = CameraSelector.LENS_FACING_FRONT;
+//            } else {
+//                lensFacing = CameraSelector.LENS_FACING_BACK;
+//            }
+//
+//            // A nice little animation to show it's flipping
+//            v.animate().rotationBy(180).setDuration(300).start();
+//
+//            // Restart the camera with the new lens
+//            startCamera();
+//        });
+//        // ================= UPDATED CAPTURE LOGIC =================
+//        btnCapture.setOnClickListener(v -> {
+//            v.animate().scaleX(0.8f).scaleY(0.8f).setDuration(50).withEndAction(() -> {
+//                v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(50);
+//                // Call the folder check before taking a photo
+//                checkFolderAndCapture();
+//            });
+//        });
+//
+//        // =
+//        // ================ NAVIGATION =================
+//        iconPhotos.setOnClickListener(v -> startActivity(new Intent(this, MyPhotosActivity.class)));
+//        txtPhotos.setOnClickListener(v -> startActivity(new Intent(this, MyPhotosActivity.class)));
+//
+//        iconTune.setOnClickListener(v -> startActivity(new Intent(this, Settings_04.class)));
+//        iconSetting.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity_15.class)));
+//
+//        iconGallery.setOnClickListener(v -> {
+//            if (!PermissionUtils.hasAll(this)) {
+//                startActivity(new Intent(this, per_req_20.class));
+//                return;
+//            }
+//            Intent intent = new Intent(Intent.ACTION_PICK);
+//            intent.setType("image/*");
+//            startActivityForResult(intent, 101);
+//        });
+//
+//        iconFlash.setOnClickListener(v -> {
+//            if (camera == null) return;
+//            isFlashOn = !isFlashOn;
+//            camera.getCameraControl().enableTorch(isFlashOn);
+//        });
+//        // Define the logic once
+//        View.OnClickListener openStamp = v -> {
+//            if (!PermissionUtils.hasAll(MainActivity.this)) {
+//                // If permissions are missing, go to permission request activity
+//                Intent intent = new Intent(MainActivity.this, per_req_20.class);
+//                startActivity(intent);
+//                finish(); // Removes Main Activity from the backstack
+//            } else {
+//                // If permissions are OK, go to the Stamp activity
+//                Intent intent = new Intent(MainActivity.this, stamp_0_up.class);
+//                startActivity(intent);
+//            }
+//        };
+//
+//// Assign the logic to both views
+//        iconStamp.setOnClickListener(openStamp);
+//        txtStamp.setOnClickListener(openStamp);
+//    }
+//
+//    // ================= FOLDER DIALOG LOGIC =================
+//
+//    private void checkFolderAndCapture() {
+//        // Retrieve saved folder name from SettingsStore
+//        String folderName = SettingsStore.get(this, "custom_folder_name", "");
+//
+//        if (folderName.isEmpty()) {
+//            // First-time user: Show dialog to write the name
+//            showFolderDialog();
+//        } else {
+//            // Returning user: Capture photo into existing folder
+//            takePhoto(folderName);
+//        }
+//    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        // Resetting UI to 0 before leaving makes the transition back smoother
+//        applyRotation(0);
+//    }
+//    private void showFolderDialog() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Create Company Folder");
+//        builder.setMessage("Enter a name. All your photos will be saved in this folder.");
+//
+//        final EditText input = new EditText(this);
+//        input.setHint("e.g., Project");
+//        builder.setView(input);
+//
+//        builder.setPositiveButton("Save & Capture", (dialog, which) -> {
+//            String name = input.getText().toString().trim();
+//            if (!name.isEmpty()) {
+//                // Save name permanently
+//                SettingsStore.save(this, "custom_folder_name", name);
+//                takePhoto(name);
+//            } else {
+//                Toast.makeText(this, "Folder name is required!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+//        builder.show();
+//    }
+//
+//    private void takePhoto(String folderName) {
+//        if (imageCapture == null) return;
+//
+//        // Create local timestamp for filename
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+//        String fileName = "IMG_" + timeStamp;
+//
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+//        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+//
+//        // Set dynamic folder path: Pictures/[UserWrittenName]
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//            contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + folderName);
+//        }
+//
+//        ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions
+//                .Builder(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+//                .build();
+//
+//        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this),
+//                new ImageCapture.OnImageSavedCallback() {
+//                    @Override
+//                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults results) {
+//                        Toast.makeText(MainActivity.this, "Photo saved in: " + folderName, Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onError(@NonNull ImageCaptureException err) {
+//                        Toast.makeText(MainActivity.this, "Capture failed: " + err.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//    }
+//    private void applyRotation(float degree) {
+//        // List all views that need to turn when the phone/camera rotates
+//        View[] viewsToRotate = {
+//                iconStamp, txtStamp,
+//                iconPhotos, txtPhotos,
+//                iconGallery, iconFlash,
+//                iconRotate, iconTune, iconSetting,iconFlip
+//        };
+//
+//        for (View view : viewsToRotate) {
+//            if (view != null) {
+//                view.animate()
+//                        .rotation(degree)
+//                        .setDuration(300) // Professional transition speed
+//                        .start();
+//            }
+//        }
+//    }
+//    private void askNotificationPermission() {
+//        // Only Android 13 (API 33) and above require runtime permission
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+//                    PackageManager.PERMISSION_GRANTED) {
+//                // Already granted, no action needed
+//            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+//                // Optional: Show an educational UI here explaining WHY you need notifications
+//                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+//            } else {
+//                // Directly ask for the permission
+//                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+//            }
+//        }
+//    }
+//    private void startCamera() {
+//        ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
+//        cameraProviderFuture.addListener(() -> {
+//            try {
+//                ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+//                Preview preview = new Preview.Builder().build();
+//                PreviewView viewFinder = findViewById(R.id.viewFinder);
+//                preview.setSurfaceProvider(viewFinder.getSurfaceProvider());
+//                imageCapture = new ImageCapture.Builder().build();
+//                CameraSelector CameraSelector = new CameraSelector.Builder()
+//                        .requireLensFacing(lensFacing)
+//                        .build();
+//                cameraProvider.unbindAll();
+//                camera = cameraProvider.bindToLifecycle(this, CameraSelector, preview, imageCapture);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }, ContextCompat.getMainExecutor(this));
+//    }
+//    @SuppressLint("WrongConstant")
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        // Check if it's the gallery request (101) and the user actually picked an image
+//        if (requestCode == 101 && resultCode == RESULT_OK && data != null) {
+//            Uri selectedImage = data.getData();
+//
+//            if (selectedImage != null) {
+//                // 1. Grant permission to read this URI across different activities
+//                try {
+//                    final int takeFlags = data.getFlags()
+//                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//                    getContentResolver().takePersistableUriPermission(selectedImage, takeFlags);
+////                    getContentResolver().takePersistableUriPermission(selectedImage,
+////                            Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//                // 2. Prepare the data for open_img_11
+//                ArrayList<String> galleryList = new ArrayList<>();
+//                galleryList.add(selectedImage.toString());
+//
+//                // 3. Start the viewer with the required extras
+//                Intent intent = new Intent(this, open_img_11.class);
+//                intent.putStringArrayListExtra("imageList", galleryList); // Critical key
+//                intent.putExtra("position", 0);
+//                startActivity(intent);
+//            }
+//        }
+//    }
+//}
+
+
+// mello donwwwwwwwwwwwwwwwwwweeeeeeeeeeeeeeeeeeee
+
+
 
 package com.example.gunjan_siddhisoftwarecompany;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog; // Added for the dialog
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -388,7 +731,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.OrientationEventListener;
 import android.view.View;
-import android.widget.EditText; // Added for the dialog input
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -409,15 +752,15 @@ import androidx.core.content.ContextCompat;
 import com.example.gunjan_siddhisoftwarecompany.util.AppNavigator;
 import com.example.gunjan_siddhisoftwarecompany.util.PermissionUtils;
 import com.example.gunjan_siddhisoftwarecompany.util.SettingsStore;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date; // Added for timestamping
+import java.util.Date;
 import java.util.Locale;
-import android.Manifest;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 
 public class MainActivity extends AppCompatActivity {
     private final ActivityResultLauncher<String> requestPermissionLauncher =
@@ -425,23 +768,39 @@ public class MainActivity extends AppCompatActivity {
                 if (isGranted) {
                     Toast.makeText(this, "Notifications enabled!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Notifications denied. Check settings.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Notifications denied.", Toast.LENGTH_LONG).show();
                 }
             });
+
     private ImageButton btnCapture;
-    private OrientationEventListener orientationEventListener;
-    private ImageView iconStamp, iconPhotos, iconGallery, iconFlash, iconRotate, iconTune, iconSetting;
+    private ImageView iconStamp, iconPhotos, iconGallery, iconFlash, iconRotate, iconTune, iconSetting, iconFlip;
     private TextView txtStamp, txtPhotos;
     private androidx.camera.core.Camera camera;
     private boolean isFlashOn = false;
     private int currentRotation = 0;
     private ImageCapture imageCapture;
+    private int lensFacing = CameraSelector.LENS_FACING_BACK;
+    private FusedLocationProviderClient fusedLocationClient;
+    private boolean isGpsReady = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         askNotificationPermission();
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            fusedLocationClient.getCurrentLocation(
+                    Priority.PRIORITY_HIGH_ACCURACY, null
+            ).addOnSuccessListener(location -> {
+                if (location != null) {
+                    isGpsReady = true;
+                }
+            });
+        }
+
         // ================= INIT VIEWS =================
         btnCapture = findViewById(R.id.btnCapture);
         iconStamp = findViewById(R.id.iconStamp);
@@ -453,6 +812,7 @@ public class MainActivity extends AppCompatActivity {
         iconRotate = findViewById(R.id.iconRotate);
         iconTune = findViewById(R.id.iconTune);
         iconSetting = findViewById(R.id.iconSetting);
+        iconFlip = findViewById(R.id.iconFlip);
 
         if (PermissionUtils.hasAll(this)) {
             startCamera();
@@ -463,31 +823,28 @@ public class MainActivity extends AppCompatActivity {
         currentRotation = SettingsStore.get(this, "camera_rotation", 0);
 
         iconRotate.setOnClickListener(v -> {
-           currentRotation = (currentRotation + 90) % 360;
+            currentRotation = (currentRotation + 90) % 360;
             SettingsStore.save(this, "camera_rotation", currentRotation);
-            float targetRotation = -currentRotation;
-
-            applyRotation(targetRotation);
-           Toast.makeText(
-                    this,
-                    "Rotation: " + currentRotation + "°",
-                    Toast.LENGTH_SHORT
-            ).show();
+            applyRotation(-currentRotation);
+            Toast.makeText(this, "Rotation: " + currentRotation + "°", Toast.LENGTH_SHORT).show();
         });
-        // ================= UPDATED CAPTURE LOGIC =================
+
+        iconFlip.setOnClickListener(v -> {
+            lensFacing = (lensFacing == CameraSelector.LENS_FACING_BACK) ?
+                    CameraSelector.LENS_FACING_FRONT : CameraSelector.LENS_FACING_BACK;
+            v.animate().rotationBy(180).setDuration(300).start();
+            startCamera();
+        });
+
         btnCapture.setOnClickListener(v -> {
             v.animate().scaleX(0.8f).scaleY(0.8f).setDuration(50).withEndAction(() -> {
                 v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(50);
-                // Call the folder check before taking a photo
                 checkFolderAndCapture();
             });
         });
 
-        // =
-        // ================ NAVIGATION =================
         iconPhotos.setOnClickListener(v -> startActivity(new Intent(this, MyPhotosActivity.class)));
         txtPhotos.setOnClickListener(v -> startActivity(new Intent(this, MyPhotosActivity.class)));
-
         iconTune.setOnClickListener(v -> startActivity(new Intent(this, Settings_04.class)));
         iconSetting.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity_15.class)));
 
@@ -506,65 +863,41 @@ public class MainActivity extends AppCompatActivity {
             isFlashOn = !isFlashOn;
             camera.getCameraControl().enableTorch(isFlashOn);
         });
-        // Define the logic once
+
         View.OnClickListener openStamp = v -> {
             if (!PermissionUtils.hasAll(MainActivity.this)) {
-                // If permissions are missing, go to permission request activity
-                Intent intent = new Intent(MainActivity.this, per_req_20.class);
-                startActivity(intent);
-                finish(); // Removes Main Activity from the backstack
+                startActivity(new Intent(MainActivity.this, per_req_20.class));
+                finish();
             } else {
-                // If permissions are OK, go to the Stamp activity
-                Intent intent = new Intent(MainActivity.this, stamp_0_up.class);
-                startActivity(intent);
+                startActivity(new Intent(MainActivity.this, stamp_0_up.class));
             }
         };
-
-// Assign the logic to both views
         iconStamp.setOnClickListener(openStamp);
         txtStamp.setOnClickListener(openStamp);
     }
 
-    // ================= FOLDER DIALOG LOGIC =================
-
     private void checkFolderAndCapture() {
-        // Retrieve saved folder name from SettingsStore
         String folderName = SettingsStore.get(this, "custom_folder_name", "");
-
         if (folderName.isEmpty()) {
-            // First-time user: Show dialog to write the name
             showFolderDialog();
         } else {
-            // Returning user: Capture photo into existing folder
             takePhoto(folderName);
         }
     }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // Resetting UI to 0 before leaving makes the transition back smoother
-        applyRotation(0);
-    }
+
     private void showFolderDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Create Company Folder");
-        builder.setMessage("Enter a name. All your photos will be saved in this folder.");
-
+        builder.setTitle("Create Folder");
         final EditText input = new EditText(this);
         input.setHint("e.g., Project");
         builder.setView(input);
-
         builder.setPositiveButton("Save & Capture", (dialog, which) -> {
             String name = input.getText().toString().trim();
             if (!name.isEmpty()) {
-                // Save name permanently
                 SettingsStore.save(this, "custom_folder_name", name);
                 takePhoto(name);
-            } else {
-                Toast.makeText(this, "Folder name is required!", Toast.LENGTH_SHORT).show();
             }
         });
-
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         builder.show();
     }
@@ -572,7 +905,6 @@ public class MainActivity extends AppCompatActivity {
     private void takePhoto(String folderName) {
         if (imageCapture == null) return;
 
-        // Create local timestamp for filename
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String fileName = "IMG_" + timeStamp;
 
@@ -580,15 +912,68 @@ public class MainActivity extends AppCompatActivity {
         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
         contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
 
-        // Set dynamic folder path: Pictures/[UserWrittenName]
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + folderName);
         }
 
-        ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions
-                .Builder(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-                .build();
+        // GPS Logic
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
 
+//            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+//                ImageCapture.Metadata metadata = new ImageCapture.Metadata();
+//                if (location != null) {
+//                    metadata.setLocation(location);
+//                }
+//
+//                ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions
+//                        .Builder(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+//                        .setMetadata(metadata)
+//                        .build();
+//
+//                performCapture(outputOptions, folderName);
+//            });
+            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                ImageCapture.Metadata metadata = new ImageCapture.Metadata();
+                if (location != null) {
+                    metadata.setLocation(location);
+                    ImageCapture.OutputFileOptions outputOptions =
+                            new ImageCapture.OutputFileOptions.Builder(
+                                    getContentResolver(),
+                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                    contentValues
+                            ).setMetadata(metadata).build();
+
+                    performCapture(outputOptions, folderName);
+
+                } else {
+                    fusedLocationClient.getCurrentLocation(
+                            Priority.PRIORITY_HIGH_ACCURACY, null
+                    ).addOnSuccessListener(loc -> {
+                        if (loc != null) metadata.setLocation(loc);
+                        ImageCapture.OutputFileOptions outputOptions =
+                                new ImageCapture.OutputFileOptions.Builder(
+                                        getContentResolver(),
+                                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                        contentValues
+                                ).setMetadata(metadata).build();
+
+                        performCapture(outputOptions, folderName);
+
+                    });
+                }
+            });
+
+        } else {
+            // No GPS Permission - Standard capture
+            ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions
+                    .Builder(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                    .build();
+            performCapture(outputOptions, folderName);
+        }
+    }
+
+    private void performCapture(ImageCapture.OutputFileOptions outputOptions, String folderName) {
         imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this),
                 new ImageCapture.OnImageSavedCallback() {
                     @Override
@@ -601,41 +986,23 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Capture failed: " + err.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
+
     private void applyRotation(float degree) {
-        // List all views that need to turn when the phone/camera rotates
-        View[] viewsToRotate = {
-                iconStamp, txtStamp,
-                iconPhotos, txtPhotos,
-                iconGallery, iconFlash,
-                iconRotate, iconTune, iconSetting
-        };
-
+        View[] viewsToRotate = {iconStamp, txtStamp, iconPhotos, txtPhotos, iconGallery, iconFlash, iconRotate, iconTune, iconSetting, iconFlip};
         for (View view : viewsToRotate) {
-            if (view != null) {
-                view.animate()
-                        .rotation(degree)
-                        .setDuration(300) // Professional transition speed
-                        .start();
-            }
+            if (view != null) view.animate().rotation(degree).setDuration(300).start();
         }
     }
+
     private void askNotificationPermission() {
-        // Only Android 13 (API 33) and above require runtime permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
-                    PackageManager.PERMISSION_GRANTED) {
-                // Already granted, no action needed
-            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                // Optional: Show an educational UI here explaining WHY you need notifications
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
-            } else {
-                // Directly ask for the permission
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
             }
         }
     }
+
     private void startCamera() {
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {
@@ -645,48 +1012,48 @@ public class MainActivity extends AppCompatActivity {
                 PreviewView viewFinder = findViewById(R.id.viewFinder);
                 preview.setSurfaceProvider(viewFinder.getSurfaceProvider());
                 imageCapture = new ImageCapture.Builder().build();
+
+                CameraSelector cameraSelector = new CameraSelector.Builder()
+                        .requireLensFacing(lensFacing)
+                        .build();
+
                 cameraProvider.unbindAll();
-                camera = cameraProvider.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, preview, imageCapture);
+                camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }, ContextCompat.getMainExecutor(this));
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        applyRotation(0);
+    }
+
     @SuppressLint("WrongConstant")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Check if it's the gallery request (101) and the user actually picked an image
         if (requestCode == 101 && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
-
             if (selectedImage != null) {
-                // 1. Grant permission to read this URI across different activities
                 try {
-                    final int takeFlags = data.getFlags()
-                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    final int takeFlags = data.getFlags() & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                     getContentResolver().takePersistableUriPermission(selectedImage, takeFlags);
-//                    getContentResolver().takePersistableUriPermission(selectedImage,
-//                            Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                } catch (Exception e) { e.printStackTrace(); }
 
-                // 2. Prepare the data for open_img_11
                 ArrayList<String> galleryList = new ArrayList<>();
                 galleryList.add(selectedImage.toString());
-
-                // 3. Start the viewer with the required extras
                 Intent intent = new Intent(this, open_img_11.class);
-                intent.putStringArrayListExtra("imageList", galleryList); // Critical key
+                intent.putStringArrayListExtra("imageList", galleryList);
                 intent.putExtra("position", 0);
+                intent.putExtra("source", "gallery");
                 startActivity(intent);
             }
         }
     }
 }
-
 
 
 

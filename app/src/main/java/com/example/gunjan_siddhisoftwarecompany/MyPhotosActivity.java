@@ -215,6 +215,7 @@ public class MyPhotosActivity extends AppCompatActivity {
             Intent intent = new Intent(MyPhotosActivity.this, open_img_11.class);
             intent.putStringArrayListExtra("imageList", onlyImages);
             intent.putExtra("position", clickedPosition);
+            intent.putExtra("source", "my_app");
             startActivity(intent);
         });
 

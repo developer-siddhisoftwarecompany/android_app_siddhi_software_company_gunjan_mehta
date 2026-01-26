@@ -175,7 +175,16 @@
             android:layout_marginBottom="@dimen/_8sdp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <ImageView
+        android:id="@+id/iconFlip"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_24sdp"
+        android:src="@drawable/rotate_reverse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        android:layout_marginEnd="@dimen/_24sdp"
+        android:tint="@color/white"
+        android:layout_marginBottom="@dimen/_8sdp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
     <!-- image of girl in bg -->
     <!--    <ImageView-->

@@ -68,8 +68,10 @@ public class open_img_11 extends AppCompatActivity {
         btnInfo.setOnClickListener(v -> {
             if (!imageList.isEmpty()) {
                 String currentPath = imageList.get(viewPager.getCurrentItem());
+                String source = getIntent().getStringExtra("source");
                 Intent intent = new Intent(this, image12file.class);
                 intent.putExtra("imageUri", currentPath);
+                intent.putExtra("source", source);
                 startActivity(intent);
             }
         });
