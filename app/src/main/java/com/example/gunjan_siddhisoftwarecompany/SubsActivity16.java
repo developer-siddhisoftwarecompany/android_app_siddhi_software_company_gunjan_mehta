@@ -47,7 +47,7 @@ public class SubsActivity16 extends AppCompatActivity {
                 true,
                 false
         );
-        findViewById(R.id.btnStartTrial).setOnClickListener(v ->
+        findViewById(R.id.btnStartTrial1).setOnClickListener(v ->
                 startActivity(new Intent(this, SubsActivity17.class))
         );
 

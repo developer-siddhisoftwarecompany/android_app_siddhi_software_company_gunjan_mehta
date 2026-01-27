@@ -33,7 +33,7 @@ public class cat_1 extends AppCompatActivity {
         trendingRightTop   = findViewById(R.id.trendingRightTop);
         trendingRightBottom= findViewById(R.id.trendingRightBottom);
 
-        fest1 = findViewById(R.id.festivalGrid).findViewById(0);
+        fest1 = findViewById(R.id.fest1);
         fest2 = findViewById(R.id.fest2);
 
         // ===== BACK =====

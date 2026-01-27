@@ -428,6 +428,9 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_48sdp"
             android:paddingHorizontal="@dimen/_16sdp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
             app:layout_constraintTop_toBottomOf="@id/transparencyGraph"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -461,16 +464,16 @@
                 android:layout_width="@dimen/_22sdp"
                 android:layout_height="@dimen/_22sdp"
                 android:src="@drawable/ellipse_07"
-                android:layout_marginStart="@dimen/_128sdp"
-                app:layout_constraintStart_toEndOf="@id/txtFontColor"
-                app:layout_constraintEnd_toStartOf="@id/iconFontArrow"
-                app:layout_constraintTop_toTopOf="@id/iconFontArrow"
-                app:layout_constraintBottom_toBottomOf="@id/iconFontArrow"/>
+                android:layout_marginStart="@dimen/_8sdp"
+
+                app:layout_constraintEnd_toStartOf="@id/iconFontArrow1"
+                app:layout_constraintTop_toTopOf="@id/iconFontArrow1"
+                app:layout_constraintBottom_toBottomOf="@id/iconFontArrow1"/>
 
 
 
             <ImageView
-                android:id="@+id/iconFontArrow"
+                android:id="@+id/iconFontArrow1"
                 android:layout_width="@dimen/_14sdp"
                 android:layout_height="@dimen/_14sdp"
                 android:src="@drawable/arrow___down_07"

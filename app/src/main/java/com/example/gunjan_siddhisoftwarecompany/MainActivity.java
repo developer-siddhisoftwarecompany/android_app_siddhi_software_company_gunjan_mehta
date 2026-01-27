@@ -864,12 +864,26 @@ public class MainActivity extends AppCompatActivity {
             camera.getCameraControl().enableTorch(isFlashOn);
         });
 
+//        View.OnClickListener openStamp = v -> {
+//            if (!PermissionUtils.hasAll(MainActivity.this)) {
+//                startActivity(new Intent(MainActivity.this, per_req_20.class));
+////                finish();
+//          } else {
+//                startActivity(new Intent(MainActivity.this, SubsActivity17.class));
+//            }
+//        };
         View.OnClickListener openStamp = v -> {
             if (!PermissionUtils.hasAll(MainActivity.this)) {
                 startActivity(new Intent(MainActivity.this, per_req_20.class));
-                finish();
             } else {
-                startActivity(new Intent(MainActivity.this, stamp_0_up.class));
+                // Check Admin status from your SubscriptionUtils
+                if (com.example.gunjan_siddhisoftwarecompany.util.SubscriptionUtils.isAdmin(MainActivity.this)) {
+                    // ADMIN PATH: Go directly to the stamp editor
+                    startActivity(new Intent(MainActivity.this, stamp_0_up.class));
+                } else {
+                    // USER PATH: Go to subscription plan page
+                    startActivity(new Intent(MainActivity.this, stamp_0_up.class));
+                }
             }
         };
         iconStamp.setOnClickListener(openStamp);

@@ -9,29 +9,50 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <!-- ================= TOP IMAGE ================= -->
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="GPS Map Camera – Add Timestamp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <!-- CLOSE ICON -->
+        <ImageView
+            android:id="@+id/btnClose"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:src="@drawable/subs_plan_17_cross"
+android:paddingRight="@dimen/_8ssp"
+            app:layout_constraintTop_toTopOf="@id/txtTitle"
+            app:layout_constraintEnd_toEndOf="@id/txtTitle"/>
+
+
         <ImageView
             android:id="@+id/imgTop"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_marginTop="68dp"
             android:scaleType="centerCrop"
             android:src="@drawable/subs_plan_top_image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintDimensionRatio="22:9"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintDimensionRatio="22:9"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- CLOSE ICON -->
-        <ImageView
-            android:id="@+id/btnClose"
-            android:layout_width="@dimen/_24sdp"
-            android:layout_height="@dimen/_24sdp"
-            android:src="@drawable/subs_plan_17_cross"
-            android:layout_margin="@dimen/_16sdp"
-            app:layout_constraintTop_toTopOf="@id/imgTop"
-            app:layout_constraintEnd_toEndOf="@id/imgTop"/>
+
 
         <!-- ================= CONTENT ================= -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,28 +63,72 @@
             app:layout_constraintTop_toBottomOf="@id/imgTop">
 
             <!-- TITLE -->
-            <TextView
-                android:id="@+id/txtTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="GPS Map Camera – Add Timestamp"
-                android:textStyle="bold"
-                android:textSize="@dimen/_16ssp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+
 
             <!-- INCLUDED FEATURES -->
             <TextView
                 android:id="@+id/txtIncluded"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Included Features"
+                android:gravity="center"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="@dimen/_14ssp"
-                android:layout_marginTop="@dimen/_12sdp"
-                app:layout_constraintTop_toBottomOf="@id/txtTitle"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintTop_toBottomOf="@id/imgTop"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/headerRow"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_32sdp"
+                android:background="#F2F2F2"
+                android:layout_marginTop="@dimen/_8sdp"
+                app:layout_constraintTop_toBottomOf="@id/txtIncluded"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Premium Benifits"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/_8ssp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/_36sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/headerPremium"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="wrap_content"
+                    android:text="Premium"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/_8ssp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/headerBasic"/>
+
+                <TextView
+                    android:id="@+id/headerBasic"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="wrap_content"
+                    android:text="Basic"
+                    android:gravity="center"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/_8ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- FEATURE ROWS -->
             <include
@@ -71,8 +136,9 @@
                 layout="@layout/item_feature_row_17"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:layout_marginTop="@dimen/_12sdp"
-                app:layout_constraintTop_toBottomOf="@id/txtIncluded"
+                app:layout_constraintTop_toBottomOf="@id/headerRow"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -80,6 +146,7 @@
                 android:id="@+id/rowCollection"
                 layout="@layout/item_feature_row_17"
                 android:layout_width="0dp"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
                 app:layout_constraintTop_toBottomOf="@id/rowStamp"
@@ -89,6 +156,7 @@
             <include
                 android:id="@+id/rowSupport"
                 layout="@layout/item_feature_row_17"
+                android:textColor="@color/black"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
@@ -109,14 +177,18 @@
             <!-- CHOOSE PLAN -->
             <TextView
                 android:id="@+id/txtChoosePlan"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Choose Your Subscription"
+                android:gravity="center"
                 android:textStyle="bold"
+
+                android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 android:layout_marginTop="@dimen/_24sdp"
                 app:layout_constraintTop_toBottomOf="@id/rowAds"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
             <!-- MONTHLY CARD -->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -144,6 +216,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Monthly Plan"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintTop_toBottomOf="@id/imgUser"
                     app:layout_constraintStart_toStartOf="parent"/>
@@ -153,6 +226,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="₹299 / month"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintTop_toBottomOf="@id/txtMonthly"
                     app:layout_constraintStart_toStartOf="parent"/>
@@ -183,6 +257,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Special Offer"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintTop_toBottomOf="@id/imgThumb"
                     app:layout_constraintStart_toStartOf="parent"/>
@@ -192,6 +267,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="₹999 / year"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintTop_toBottomOf="@id/txtYearly"
                     app:layout_constraintStart_toStartOf="parent"/>
@@ -209,6 +285,17 @@
                 android:background="@drawable/save_button_09"
                 android:layout_marginTop="@dimen/_24sdp"
                 app:layout_constraintTop_toBottomOf="@id/cardMonthly"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Subscription will auto-renew. Cancel anytime.\nTerms of Services."
+                android:gravity="center"
+                android:textColor="#6B6B6B"
+                android:textSize="@dimen/_10ssp"
+                android:layout_marginTop="@dimen/_16sdp"
+                app:layout_constraintTop_toBottomOf="@id/btnStartTrial"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 

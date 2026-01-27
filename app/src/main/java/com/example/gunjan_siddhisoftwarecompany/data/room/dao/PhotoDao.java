@@ -2,10 +2,12 @@ package com.example.gunjan_siddhisoftwarecompany.data.room.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.gunjan_siddhisoftwarecompany.data.room.entity.PhotoEntity;
+import com.example.gunjan_siddhisoftwarecompany.data.room.entity.SubscriptionEntity;
 
 import java.util.List;
 

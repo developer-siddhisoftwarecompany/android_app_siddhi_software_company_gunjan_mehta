@@ -87,7 +87,6 @@
 
 
 
-
         <activity android:name=".per_req_20"/>
         <activity android:name=".PermissionActivity1"/>
         <activity android:name=".withoutsav_14"/>

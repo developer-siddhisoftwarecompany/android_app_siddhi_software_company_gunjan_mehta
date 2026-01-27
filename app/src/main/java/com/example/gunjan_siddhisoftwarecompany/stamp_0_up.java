@@ -13,18 +13,22 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gunjan_siddhisoftwarecompany.data.room.AppDatabase;
+import com.example.gunjan_siddhisoftwarecompany.data.room.entity.SubscriptionEntity;
 import com.example.gunjan_siddhisoftwarecompany.util.ChangeTracker;
 import com.example.gunjan_siddhisoftwarecompany.util.PermissionUtils;
 import com.example.gunjan_siddhisoftwarecompany.util.SettingsStore;
 import com.example.gunjan_siddhisoftwarecompany.util.SubscriptionUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.skydoves.colorpickerview.ColorPickerDialog;
 
 import java.util.List;
 import java.util.Locale;
 
 public class stamp_0_up extends AppCompatActivity {
-
+    //now
+    private ImageView colorCircleOrange;
     private static final int REQ_LOCATION = 101;
     private static final int REQ_SAVE_DIALOG = 105;
 
@@ -35,10 +39,10 @@ public class stamp_0_up extends AppCompatActivity {
     private static final String KEY_LOCATION_MODE = "stamp_location_mode";
     private static final String KEY_STAMP_DRAWABLE = "stamp_drawable";
 
-    private ImageView btnBack, btnDone, stampPreview,imgEditLocation;
+    private ImageView btnBack, btnDone, stampPreview,imgEditLocation,iconFontArrow1;
     private TextView txtDateValue, addressText, txtTransparencyValue;
     private ImageView c1, c2, c3, c4, c5, c6;
-
+    private int[] historyColors = {0xFFFF9800, 0xFF000000, 0xFFFFEB3B, 0xFF4CAF50, 0xFF009688, 0xFF2196F3};
     private SeekBar seekTransparency;
     private TextView txtSeekValue;
 
@@ -53,6 +57,7 @@ public class stamp_0_up extends AppCompatActivity {
         // ===== INIT VIEWS =====
         btnBack = findViewById(R.id.btnBack);
         btnDone = findViewById(R.id.btnDone);
+        iconFontArrow1=findViewById(R.id.iconFontArrow1);
         stampPreview = findViewById(R.id.stamp);
         txtDateValue = findViewById(R.id.txtDateValue);
         addressText = findViewById(R.id.addressText);
@@ -60,12 +65,34 @@ public class stamp_0_up extends AppCompatActivity {
         txtSeekValue = findViewById(R.id.txtSeekValue);
         seekTransparency = findViewById(R.id.seekTransparency);
         ImageView imgEditLocation = findViewById(R.id.iconEditOfLoc);
+        colorCircleOrange = findViewById(R.id.colorCircleOrange);
         c1 = findViewById(R.id.colorCircle1);
         c2 = findViewById(R.id.colorCircle2);
         c3 = findViewById(R.id.colorCircle3);
         c4 = findViewById(R.id.colorCircle4);
         c5 = findViewById(R.id.colorCircle5);
         c6 = findViewById(R.id.colorCircle6);
+        c1.setOnClickListener(v -> applyColor(historyColors[0]));
+        c2.setOnClickListener(v -> applyColor(historyColors[1]));
+        c3.setOnClickListener(v -> applyColor(historyColors[2]));
+        c4.setOnClickListener(v -> applyColor(historyColors[3]));
+        c5.setOnClickListener(v -> applyColor(historyColors[4]));
+        c6.setOnClickListener(v -> applyColor(historyColors[5]));
+        findViewById(R.id.tint).setOnClickListener(v -> {
+            new ColorPickerDialog.Builder(this)
+                    .setTitle("Choose Color")
+                    .setPreferenceName("MyColorPicker")
+                    .setPositiveButton("Confirm", (com.skydoves.colorpickerview.listeners.ColorEnvelopeListener) (envelope, fromUser) -> {
+                        // By adding the type above, 'envelope.getColor()' will now work.
+                        int selectedColor = envelope.getColor();
+                        applyColor(selectedColor);
+                        addNewColorToHistory(selectedColor);
+                    })
+                    .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss())
+                    .attachAlphaSlideBar(true) // For transparency
+                    .attachBrightnessSlideBar(true) // For brightness
+                    .show();
+        });
 
         restoreSavedData();
 
@@ -77,7 +104,14 @@ public class stamp_0_up extends AppCompatActivity {
             // This opens loc_09 (the map/current location screen)
             startActivityForResult(new Intent(this, loc_09.class), REQ_LOCATION);
         };
+// This handles showing past colors when clicking the Arrow or Preview dot
+        View.OnClickListener colorHistoryListener = v -> {
+            showHistoryDialog();
+        };
 
+// Assign the listener to the Arrow and the Small Preview Circle
+        findViewById(R.id.iconFontArrow1).setOnClickListener(colorHistoryListener);
+        colorCircleOrange.setOnClickListener(colorHistoryListener);
 // 3. Assign the SAME listener to both views
         findViewById(R.id.addressRow).setOnClickListener(locationPickerListener);
         if (imgEditLocation != null) {
@@ -103,16 +137,56 @@ public class stamp_0_up extends AppCompatActivity {
             startActivityForResult(new Intent(this, loc_09.class), REQ_LOCATION);
         });
 
+//        stampPreview.setOnClickListener(v -> {
+//            if (!SubscriptionUtils.isPremium(this)) {
+//                Toast.makeText(this, "Premium feature", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+        //this
+//        stampPreview.setOnClickListener(v -> {
+//            // FIX: Check for BOTH Admin and Premium status
+//            if (SubscriptionUtils.isAdmin(this) || SubscriptionUtils.isPremium(this)) {
+//                int drawable = R.drawable.christma_text_setting_pg;
+//                stampPreview.setImageResource(drawable);
+//                SettingsStore.save(this, KEY_STAMP_DRAWABLE, drawable);
+//                ChangeTracker.mark();
+//            } else {
+//                Toast.makeText(this, "Premium feature", Toast.LENGTH_SHORT).show();
+//            }
+//            int drawable = R.drawable.christma_text_setting_pg;
+//            stampPreview.setImageResource(drawable);
+//            SettingsStore.save(this, KEY_STAMP_DRAWABLE, drawable);
+//            ChangeTracker.mark();
+//        });
+
+
         stampPreview.setOnClickListener(v -> {
-            if (!SubscriptionUtils.isPremium(this)) {
-                Toast.makeText(this, "Premium feature", Toast.LENGTH_SHORT).show();
+            // 1. Admin/Premium bypass: Full access immediately
+            if (SubscriptionUtils.isAdmin(this) || SubscriptionUtils.isPremium(this)) {
+                applyStampChanges();
                 return;
             }
-            int drawable = R.drawable.christma_text_setting_pg;
-            stampPreview.setImageResource(drawable);
-            SettingsStore.save(this, KEY_STAMP_DRAWABLE, drawable);
-            ChangeTracker.mark();
+
+            // 2. Trial Logic for regular users
+            new Thread(() -> {
+                SubscriptionEntity sub = AppDatabase.getInstance(this).subscriptionDao().getSubscription();
+                long currentTime = System.currentTimeMillis();
+                long sevenDaysMs = 7L * 24 * 60 * 60 * 1000;
+
+                if (sub != null && (currentTime - sub.trialStartDate <= sevenDaysMs)) {
+                    // Within 7 days: Allow editing
+                    runOnUiThread(this::applyStampChanges);
+                } else {
+                    // Trial Expired: Force Subscription flow
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Trial ended. Please subscribe to continue.", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(this, SubsActivity16.class); // Start of your 16 -> 17 -> 18 flow
+                        startActivity(intent);
+                    });
+                }
+            }).start();
         });
+
 
         // ===== SEEK BAR LOGIC =====
         seekTransparency.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -143,17 +217,17 @@ public class stamp_0_up extends AppCompatActivity {
                     }).show();
         });
 
-        setFreeColor(c1, 0xFFFF9800);
-        setFreeColor(c2, 0xFF000000);
-        setFreeColor(c3, 0xFFFFEB3B);
-        setFreeColor(c4, 0xFF4CAF50);
-        setFreeColor(c5, 0xFF009688);
-        setFreeColor(c6, 0xFF2196F3);
+//        setFreeColor(c1, 0xFFFF9800);
+//        setFreeColor(c2, 0xFF000000);
+//        setFreeColor(c3, 0xFFFFEB3B);
+//        setFreeColor(c4, 0xFF4CAF50);
+//        setFreeColor(c5, 0xFF009688);
+//        setFreeColor(c6, 0xFF2196F3);
     }
 
     // ===== HELPER METHODS (OUTSIDE onCreate) =====
 
-    @SuppressLint("MissingSuperCall")
+
 //    @Override
 //    public void onBackPressed() {
 //        Intent intent = new Intent(this, withoutsav_14.class);
@@ -168,6 +242,7 @@ public class stamp_0_up extends AppCompatActivity {
 //            finish();
 //        }
 //    }
+@SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
 
@@ -185,8 +260,46 @@ public class stamp_0_up extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+    private void applyColor(int color) {
+        currentColor = color;
+        // Update the big stamp
+        stampPreview.setColorFilter(color, android.graphics.PorterDuff.Mode.MULTIPLY);
+        // Update the small preview circle next to the arrow
+        if (colorCircleOrange != null) {
+            colorCircleOrange.setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
 
+        SettingsStore.save(this, KEY_COLOR, color);
+        ChangeTracker.mark();
+    }
+    private void applyStampChanges() {
+        int drawable = R.drawable.christma_text_setting_pg;
+        stampPreview.setImageResource(drawable);
+        SettingsStore.save(this, "stamp_drawable", drawable);
+        ChangeTracker.mark();
+        Intent intent = new Intent(this, SubsActivity16.class);
+        startActivity(intent);
+    }
+    private void addNewColorToHistory(int newColor) {
+        // Shift history colors to the right
+        for (int i = historyColors.length - 1; i > 0; i--) {
+            historyColors[i] = historyColors[i - 1];
+        }
+        historyColors[0] = newColor;
+        for (int i = 0; i < historyColors.length; i++) {
+            SettingsStore.save(this, "history_color_" + i, historyColors[i]);
+        }
 
+        refreshHistoryUI();
+
+        // Refresh the UI of the 6 circles
+//        c1.setColorFilter(historyColors[0], android.graphics.PorterDuff.Mode.SRC_IN);
+//        c2.setColorFilter(historyColors[1], android.graphics.PorterDuff.Mode.SRC_IN);
+//        c3.setColorFilter(historyColors[2], android.graphics.PorterDuff.Mode.SRC_IN);
+//        c4.setColorFilter(historyColors[3], android.graphics.PorterDuff.Mode.SRC_IN);
+//        c5.setColorFilter(historyColors[4], android.graphics.PorterDuff.Mode.SRC_IN);
+//        c6.setColorFilter(historyColors[5], android.graphics.PorterDuff.Mode.SRC_IN);
+    }
     private void fetchAutomaticLocation() {
         FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         try {
@@ -264,6 +377,7 @@ public class stamp_0_up extends AppCompatActivity {
         view.setOnClickListener(v -> {
             currentColor = color;
             stampPreview.setColorFilter(color, android.graphics.PorterDuff.Mode.MULTIPLY);
+            colorCircleOrange.setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN);
             SettingsStore.save(this, KEY_COLOR, color);
             ChangeTracker.mark();
         });
@@ -293,13 +407,120 @@ public class stamp_0_up extends AppCompatActivity {
 
         int savedStamp = SettingsStore.get(this, KEY_STAMP_DRAWABLE, R.drawable.cal_grp_7_th_screen);
         stampPreview.setImageResource(savedStamp);
+
+        for (int i = 0; i < historyColors.length; i++) {
+            // Load saved history or use default values if none exist
+            historyColors[i] = SettingsStore.get(this, "history_color_" + i, historyColors[i]);
+        }
+        refreshHistoryUI();
     }
+    private void refreshHistoryUI() {
+        c1.setColorFilter(historyColors[0], android.graphics.PorterDuff.Mode.SRC_IN);
+        c2.setColorFilter(historyColors[1], android.graphics.PorterDuff.Mode.SRC_IN);
+        c3.setColorFilter(historyColors[2], android.graphics.PorterDuff.Mode.SRC_IN);
+        c4.setColorFilter(historyColors[3], android.graphics.PorterDuff.Mode.SRC_IN);
+        c5.setColorFilter(historyColors[4], android.graphics.PorterDuff.Mode.SRC_IN);
+        c6.setColorFilter(historyColors[5], android.graphics.PorterDuff.Mode.SRC_IN);
+    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        restoreSavedData();
+//        ChangeTracker.reset();
+//    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        restoreSavedData();
-        ChangeTracker.reset();
+
+        // Bypass for Admin or active Premium status
+        if (SubscriptionUtils.isAdmin(this) || SubscriptionUtils.isPremium(this)) {
+            restoreSavedData();
+            com.example.gunjan_siddhisoftwarecompany.util.ChangeTracker.reset();
+        } else {
+            // Check 7-day trial for regular users
+            checkUserTrialStatus();
+        }
+    }
+
+    private void checkUserTrialStatus() {
+        new Thread(() -> {
+            com.example.gunjan_siddhisoftwarecompany.data.room.AppDatabase db =
+                    com.example.gunjan_siddhisoftwarecompany.data.room.AppDatabase.getInstance(this);
+            com.example.gunjan_siddhisoftwarecompany.data.room.entity.SubscriptionEntity sub =
+                    db.subscriptionDao().getSubscription();
+
+            if (sub != null) {
+                long sevenDaysMs = 7L * 24 * 60 * 60 * 1000;
+                if (System.currentTimeMillis() - sub.trialStartDate > sevenDaysMs) {
+                    // Trial expired - redirect to sub page
+                    runOnUiThread(() -> {
+                        android.widget.Toast.makeText(this, "Trial Expired. Please Subscribe.", android.widget.Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(this, SubsActivity17.class));
+                        finish();
+                    });
+                }
+            }
+        }).start();
+    }
+//
+private void showHistoryDialog() {
+    // Create a GridView programmatically
+    android.widget.GridView gridView = new android.widget.GridView(this);
+    gridView.setNumColumns(3); // Show 3 colors per row
+    gridView.setPadding(40, 40, 40, 40);
+    gridView.setVerticalSpacing(30);
+    gridView.setHorizontalSpacing(30);
+    gridView.setGravity(android.view.Gravity.CENTER);
+
+    // Custom adapter to show ONLY the color circles
+    android.widget.BaseAdapter adapter = new android.widget.BaseAdapter() {
+        @Override
+        public int getCount() { return historyColors.length; }
+        @Override
+        public Object getItem(int position) { return historyColors[position]; }
+        @Override
+        public long getItemId(int position) { return position; }
+
+        @Override
+        public View getView(int position, View convertView, android.view.ViewGroup parent) {
+            ImageView colorItem = new ImageView(stamp_0_up.this);
+            int size = (int) getResources().getDimension(com.intuit.sdp.R.dimen._40sdp);
+            colorItem.setLayoutParams(new android.widget.GridView.LayoutParams(size, size));
+
+            // Create circular shape
+            android.graphics.drawable.GradientDrawable shape = new android.graphics.drawable.GradientDrawable();
+            shape.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+            shape.setColor(historyColors[position]);
+
+            colorItem.setImageDrawable(shape);
+            return colorItem;
+        }
+    };
+
+    gridView.setAdapter(adapter);
+
+    // Build the dialog
+    androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Recent Colors")
+            .setView(gridView) // Set the GridView as the dialog content
+            .create();
+
+    // Handle clicks on the grid items
+    gridView.setOnItemClickListener((parent, view, position, id) -> {
+        applyColor(historyColors[position]);
+        dialog.dismiss();
+    });
+
+    dialog.show();
+}
+
+    private String[] getHexStrings() {
+        String[] hexes = new String[historyColors.length];
+        for (int i = 0; i < historyColors.length; i++) {
+            hexes[i] = String.format("#%06X", (0xFFFFFF & historyColors[i]));
+        }
+        return hexes;
     }
 }
 //package com.example.gunjan_siddhisoftwarecompany;
