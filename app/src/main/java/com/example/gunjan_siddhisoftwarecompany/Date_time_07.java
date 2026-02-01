@@ -65,6 +65,9 @@ public class Date_time_07 extends AppCompatActivity {
 
     private void saveAndClose(String value) {
         SettingsStore.save(this, KEY_DATE, value);
+        android.content.Intent resultIntent = new android.content.Intent();
+        resultIntent.putExtra("selected_date", value);
+        setResult(RESULT_OK, resultIntent);
         finish();
     }
 }

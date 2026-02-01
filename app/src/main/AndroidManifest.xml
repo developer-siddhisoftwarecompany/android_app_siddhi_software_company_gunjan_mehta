@@ -3,11 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.gunjan_siddhisoftwarecompany">
 
-<!--    <uses-feature-->
-<!--        android:name="android.hardware.camera"-->
-<!--        android:required="false" />-->
-<!--    <uses-permission android:name="android.permission.CAMERA" />-->
-
     <uses-feature android:name="android.hardware.camera.any" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -15,84 +10,171 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- Location (global use) -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
-    <!-- Media access (API 31+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
-        android:networkSecurityConfig="@xml/network_security_config"
-        android:usesCleartextTraffic="true"
-        android:hardwareAccelerated="true"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gunjan_siddhisoftwarecompany"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="true"
+        android:hardwareAccelerated="true"
         tools:targetApi="31">
-
 
         <activity
             android:name=".PermissionActivity"
             android:exported="true">
-
-        <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:exported="false" />
 
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".grid_05" android:exported="false" />
+        <activity android:name=".Settings_04" android:exported="false" />
+        <activity android:name=".focus_06" android:exported="false" />
+        <activity android:name=".stamp_0_up" android:exported="false" />
+        <activity android:name=".Date_time_07" android:exported="false" />
+        <activity android:name=".cat_1" android:exported="false" />
+        <activity android:name=".activity_preview" android:exported="false" />
+        <activity android:name=".loc_09" android:exported="false" />
+        <activity android:name=".loc10" android:exported="false" />
 
+        <activity android:name=".MyPhotosActivity" android:exported="false" />
+        <activity android:name=".open_img_11" android:exported="false" />
+        <activity android:name=".open_img_19" android:exported="false" />
+        <activity android:name=".image12file" android:exported="false" />
 
-        <activity android:name=".grid_05"/>
-        <activity android:name=".Settings_04"/>
-        <activity android:name=".focus_06"/>
+        <activity android:name=".LanguagesActivity16" android:exported="false" />
+        <activity android:name=".SettingsActivity_15" android:exported="false" />
+        <activity android:name=".howtouse_16_u" android:exported="false" />
+        <activity android:name=".shortcut_13" android:exported="false" />
 
+        <activity android:name=".SubsActivity17" android:exported="false" />
+        <activity android:name=".SubsActivity16" android:exported="false" />
+        <activity android:name=".thanku_18" android:exported="false" />
 
-        <activity android:name=".stamp_0_up"/>
-        <activity android:name=".Date_time_07"/>
-        <activity android:name=".cat_1"/>
-        <activity android:name=".activity_preview"/>
-
-        <activity android:name=".loc_09"/>
-        <activity android:name=".loc10"/>
-
-        <activity android:name=".MyPhotosActivity"/>
-        <activity android:name=".open_img_11"/>
-        <activity android:name=".open_img_19"/>
-        <activity android:name=".image12file"/>
-
-
-        <activity android:name=".LanguagesActivity16"/>
-        <activity android:name=".SettingsActivity_15"/>
-        <activity android:name=".howtouse_16_u"/>
-        <activity android:name=".shortcut_13"/>
-
-
-
-
-
-        <activity android:name=".SubsActivity17"/>
-        <activity android:name=".SubsActivity16"/>
-        <activity android:name=".thanku_18"/>
-
-
-
-        <activity android:name=".per_req_20"/>
-        <activity android:name=".PermissionActivity1"/>
-        <activity android:name=".withoutsav_14"/>
-
-
+        <activity android:name=".per_req_20" android:exported="false" />
+        <activity android:name=".PermissionActivity1" android:exported="false" />
+        <activity android:name=".withoutsav_14" android:exported="false" />
 
     </application>
 
 </manifest>
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<manifest xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    package="com.example.gunjan_siddhisoftwarecompany">-->
+
+<!--&lt;!&ndash;    <uses-feature&ndash;&gt;-->
+<!--&lt;!&ndash;        android:name="android.hardware.camera"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:required="false" />&ndash;&gt;-->
+<!--&lt;!&ndash;    <uses-permission android:name="android.permission.CAMERA" />&ndash;&gt;-->
+
+<!--    <uses-feature android:name="android.hardware.camera.any" />-->
+<!--    <uses-permission android:name="android.permission.CAMERA" />-->
+<!--    <uses-permission android:name="android.permission.RECORD_AUDIO" />-->
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />-->
+<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+<!--    <uses-permission android:name="android.permission.INTERNET" />-->
+<!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+<!--    &lt;!&ndash; Location (global use) &ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+<!--    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />-->
+<!--    &lt;!&ndash; Media access (API 31+) &ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />-->
+<!--    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />-->
+<!--    <activity-->
+<!--        android:allowBackup="true"-->
+<!--        android:dataExtractionRules="@xml/data_extraction_rules"-->
+<!--        android:fullBackupContent="@xml/backup_rules"-->
+<!--        android:label="@string/app_name"-->
+<!--        android:icon="@mipmap/ic_launcher"-->
+<!--        android:networkSecurityConfig="@xml/network_security_config"-->
+<!--        android:usesCleartextTraffic="true"-->
+<!--        android:hardwareAccelerated="true"-->
+<!--        android:roundIcon="@mipmap/ic_launcher_round"-->
+<!--        android:supportsRtl="true"-->
+<!--        android:theme="@style/Theme.Gunjan_siddhisoftwarecompany"-->
+<!--        tools:targetApi="31">-->
+
+
+<!--        <activity-->
+<!--            android:name=".PermissionActivity"-->
+<!--            android:exported="true">-->
+
+<!--        <intent-filter>-->
+<!--            <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+
+<!--        </activity>-->
+
+
+<!--        <activity android:name=".MainActivity"-->
+<!--            android:configChanges="orientation|screenSize|keyboardHidden"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:exported="false"/>-->
+
+
+<!--        <activity android:name=".grid_05"/>-->
+<!--        <activity android:name=".Settings_04"/>-->
+<!--        <activity android:name=".focus_06"/>-->
+
+
+<!--        <activity android:name=".stamp_0_up"/>-->
+<!--        <activity android:name=".Date_time_07"/>-->
+<!--        <activity android:name=".cat_1"/>-->
+<!--        <activity android:name=".activity_preview"/>-->
+
+<!--        <activity android:name=".loc_09"/>-->
+<!--        <activity android:name=".loc10"/>-->
+
+<!--        <activity android:name=".MyPhotosActivity"/>-->
+<!--        <activity android:name=".open_img_11"/>-->
+<!--        <activity android:name=".open_img_19"/>-->
+<!--        <activity android:name=".image12file"/>-->
+
+
+<!--        <activity android:name=".LanguagesActivity16"/>-->
+<!--        <activity android:name=".SettingsActivity_15"/>-->
+<!--        <activity android:name=".howtouse_16_u"/>-->
+<!--        <activity android:name=".shortcut_13"/>-->
+
+
+
+
+
+<!--        <activity android:name=".SubsActivity17"/>-->
+<!--        <activity android:name=".SubsActivity16"/>-->
+<!--        <activity android:name=".thanku_18"/>-->
+
+
+
+<!--        <activity android:name=".per_req_20"/>-->
+<!--        <activity android:name=".PermissionActivity1"/>-->
+<!--        <activity android:name=".withoutsav_14"/>-->
+
+
+
+<!--    </application>-->
+
+<!--</manifest>-->
+

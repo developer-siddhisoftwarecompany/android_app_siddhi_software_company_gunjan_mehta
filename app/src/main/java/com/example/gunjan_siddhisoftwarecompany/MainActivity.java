@@ -782,7 +782,8 @@ public class MainActivity extends AppCompatActivity {
     private int lensFacing = CameraSelector.LENS_FACING_BACK;
     private FusedLocationProviderClient fusedLocationClient;
     private boolean isGpsReady = false;
-
+    private OrientationEventListener orientationEventListener;
+    private int displayRotation = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -826,6 +827,9 @@ public class MainActivity extends AppCompatActivity {
             currentRotation = (currentRotation + 90) % 360;
             SettingsStore.save(this, "camera_rotation", currentRotation);
             applyRotation(-currentRotation);
+            if (imageCapture != null) {
+                imageCapture.setTargetRotation(getSurfaceRotation(currentRotation));
+            }
             Toast.makeText(this, "Rotation: " + currentRotation + "°", Toast.LENGTH_SHORT).show();
         });
 
@@ -888,6 +892,7 @@ public class MainActivity extends AppCompatActivity {
         };
         iconStamp.setOnClickListener(openStamp);
         txtStamp.setOnClickListener(openStamp);
+        startOrientationListener();
     }
 
     private void checkFolderAndCapture() {
@@ -1003,7 +1008,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void applyRotation(float degree) {
-        View[] viewsToRotate = {iconStamp, txtStamp, iconPhotos, txtPhotos, iconGallery, iconFlash, iconRotate, iconTune, iconSetting, iconFlip};
+        View[] viewsToRotate = {iconStamp, txtStamp, iconPhotos, txtPhotos, iconGallery, iconFlash, iconRotate, iconTune, iconSetting, iconFlip,btnCapture};
         for (View view : viewsToRotate) {
             if (view != null) view.animate().rotation(degree).setDuration(300).start();
         }
@@ -1022,6 +1027,7 @@ public class MainActivity extends AppCompatActivity {
         cameraProviderFuture.addListener(() -> {
             try {
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+                cameraProvider.unbindAll();
                 Preview preview = new Preview.Builder().build();
                 PreviewView viewFinder = findViewById(R.id.viewFinder);
                 preview.setSurfaceProvider(viewFinder.getSurfaceProvider());
@@ -1065,6 +1071,83 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("source", "gallery");
                 startActivity(intent);
             }
+        }
+    }
+    @Override
+    public void onConfigurationChanged(@NonNull android.content.res.Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // This handles the transition between Portrait and Landscape automatically
+        if (newConfig.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) {
+            updateUIForLandscape();
+        } else {
+            updateUIForPortrait();
+        }
+
+        // Ensure CameraX knows the new display rotation for the final photo
+        if (imageCapture != null) {
+            int rotation = getWindowManager().getDefaultDisplay().getRotation();
+            imageCapture.setTargetRotation(rotation);
+        }
+    }
+
+    private void updateUIForLandscape() {
+        // Professional touch: Smoothly rotate all your UI icons 90 degrees
+        applyRotation(-90);
+        Toast.makeText(this, "Landscape View", Toast.LENGTH_SHORT).show();
+    }
+
+    private void updateUIForPortrait() {
+        // Reset icons to their vertical position
+        applyRotation(0);
+        Toast.makeText(this, "Portrait View", Toast.LENGTH_SHORT).show();
+    }
+    // 1. Add these variables to the top of your class
+
+
+    // 2. Add this method to your MainActivity
+    private void startOrientationListener() {
+        orientationEventListener = new OrientationEventListener(this) {
+            @Override
+            public void onOrientationChanged(int orientation) {
+                if (orientation == ORIENTATION_UNKNOWN) return;
+
+                int newRotation;
+                if (orientation > 315 || orientation <= 45) newRotation = 0;
+                else if (orientation > 45 && orientation <= 135) newRotation = 90;
+                else if (orientation > 135 && orientation <= 225) newRotation = 180;
+                else newRotation = 270;
+
+                if (newRotation != currentRotation) {
+                    currentRotation = newRotation;
+                    // Rotate icons smoothly to match how the user holds the phone
+                    applyRotation(-currentRotation);
+
+                    // Update CameraX so photos aren't sideways
+                    if (imageCapture != null) {
+                        imageCapture.setTargetRotation(getSurfaceRotation(newRotation));
+                    }
+                }
+            }
+        };
+        orientationEventListener.enable();
+    }
+
+    // 3. Helper to match CameraX constants
+    private int getSurfaceRotation(int degrees) {
+        switch (degrees) {
+            case 90: return android.view.Surface.ROTATION_270;
+            case 180: return android.view.Surface.ROTATION_180;
+            case 270: return android.view.Surface.ROTATION_90;
+            default: return android.view.Surface.ROTATION_0;
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Professional fix: Restart the camera whenever user returns to this screen
+        if (PermissionUtils.hasAll(this)) {
+            startCamera();
         }
     }
 }

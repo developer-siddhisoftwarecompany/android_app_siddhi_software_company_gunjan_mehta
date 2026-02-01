@@ -162,9 +162,82 @@ public class Settings_04 extends AppCompatActivity {
                     }
                 });
     }
-    @SuppressLint("MissingSuperCall")
-    @Override
-    public void onBackPressed() {
-        finish(); // clean close overlay
-    }
+//    @Override
+//    public void onBackPressed() {
+//        // 1. Explicitly stop and unbind the camera
+//        ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
+//        cameraProviderFuture.addListener(() -> {
+//            try {
+//                ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+//                cameraProvider.unbindAll(); // This lets MainActivity take control
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }, ContextCompat.getMainExecutor(this));
+//
+//        // 2. Now it is safe to go back
+//        super.onBackPressed();
+//        finish();
+//    }
+
+//    public void onBackPressed() {
+//        // Release camera before finishing
+//        try {
+//            ProcessCameraProvider.getInstance(this).get().unbindAll();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        super.onBackPressed();
+//        finish();
+//    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        // Professional fix: Release the camera immediately so MainActivity can take it
+//        try {
+//            ProcessCameraProvider cameraProvider = ProcessCameraProvider.getInstance(this).get();
+//            cameraProvider.unbindAll();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//@Override
+//protected void onPause() {
+//    super.onPause();
+//    // Use the ListenableFuture to ensure it doesn't freeze the UI
+//    ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
+//    cameraProviderFuture.addListener(() -> {
+//        try {
+////            ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+////            cameraProvider.unbindAll();
+//            androidx.camera.lifecycle.ProcessCameraProvider.getInstance(this).get().unbindAll();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }, ContextCompat.getMainExecutor(this));
+//}
+//@Override
+//protected void onPause() {
+//    super.onPause();
+//    // PROFESSIONAL FIX: Release camera hardware IMMEDIATELY
+//    try {
+//        ProcessCameraProvider cameraProvider = ProcessCameraProvider.getInstance(this).get();
+//        cameraProvider.unbindAll();
+//    } catch (Exception e) {
+//        // If it's not ready, use the async listener as a backup
+//        ProcessCameraProvider.getInstance(this).addListener(() -> {
+//            try {
+//                ProcessCameraProvider.getInstance(this).get().unbindAll();
+//            } catch (Exception ex) { ex.printStackTrace(); }
+//        }, ContextCompat.getMainExecutor(this));
+//    }
+//}
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        // Safety check: Unbind everything when activity is destroyed
+//        try {
+//            ProcessCameraProvider.getInstance(this).get().unbindAll();
+//        } catch (Exception e) { e.printStackTrace(); }
+//    }
 }

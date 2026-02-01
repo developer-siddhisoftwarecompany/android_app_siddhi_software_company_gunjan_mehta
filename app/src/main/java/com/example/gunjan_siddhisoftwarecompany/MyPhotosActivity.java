@@ -158,6 +158,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -197,7 +200,9 @@ public class MyPhotosActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
 
         // Adapter with click listener to open open_img_11
-        adapter = new PhotosAdapter(photoList, clickedPath -> {
+        adapter = new PhotosAdapter(photoList, new PhotosAdapter.OnPhotoClickListener() {
+            @Override
+            public void onPhotoClick(String clickedPath) {
             ArrayList<String> onlyImages = new ArrayList<>();
             int clickedPosition = 0;
             int imageCounter = 0;
@@ -217,12 +222,67 @@ public class MyPhotosActivity extends AppCompatActivity {
             intent.putExtra("position", clickedPosition);
             intent.putExtra("source", "my_app");
             startActivity(intent);
-        });
+        }
+            @Override
+            public void onPhotoLongClick(int position, String imagePath) {
 
+                showDeleteDialog(position, imagePath);
+            }
+        });
         recyclerView.setAdapter(adapter);
         loadPhotosFromCustomFolder();
     }
-
+//    private void loadPhotosFromCustomFolder() {
+//
+//        Uri collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+//
+//        // We only want images where the path starts with your specific app folder
+//
+//
+//        String selection = MediaStore.Images.Media.RELATIVE_PATH + " LIKE ?";
+//        String[] selectionArgs = new String[]{"%Pictures/"};
+//
+//        String[] projection = {
+//                MediaStore.Images.Media._ID,
+//                MediaStore.Images.Media.DATE_TAKEN,
+//                MediaStore.Images.Media.RELATIVE_PATH
+//        };
+//
+//        // Grouping by folder (Path) first, then Date
+//        String sortOrder = MediaStore.Images.Media.RELATIVE_PATH + " ASC, " + MediaStore.Images.Media.DATE_TAKEN + " DESC";
+//
+//        try (Cursor cursor = getContentResolver().query(collection, projection, selection, selectionArgs, sortOrder)) {
+//            if (cursor == null) return;
+//
+//            int pathColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.RELATIVE_PATH);
+//            int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
+//
+//            String lastFolder = "";
+//
+//            while (cursor.moveToNext()) {
+//                String fullPath = cursor.getString(pathColumn);
+//
+//                // Extract the sub-folder (e.g., "Main", "Trip_Grid", "Focus_Project")
+//                String folderDisplayName = "Main Activity";
+//                if (fullPath != null && fullPath.contains("/")) {
+//                    String[] parts = fullPath.split("/");
+//                    folderDisplayName = parts[parts.length - 1];
+//                }
+//
+//                // Add Header for new folder groups
+//                if (!folderDisplayName.equals(lastFolder)) {
+//                    photoList.add(new PhotoItem("📁 " + folderDisplayName, PhotoItem.TYPE_DATE));
+//                    lastFolder = folderDisplayName;
+//                }
+//
+//                long id = cursor.getLong(idColumn);
+//                Uri imageUri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
+//                photoList.add(new PhotoItem(imageUri.toString(), PhotoItem.TYPE_PHOTO));
+//            }
+//        } catch (Exception e) { e.printStackTrace(); }
+//
+//        adapter.notifyDataSetChanged();
+//    }
     private void loadPhotosFromCustomFolder() {
         // Retrieve the saved company/folder name
         String folderName = SettingsStore.get(this, "custom_folder_name", "SiddhiSoftware");
@@ -284,6 +344,31 @@ public class MyPhotosActivity extends AppCompatActivity {
         }
 
         adapter.notifyDataSetChanged();
+    }
+    private void showDeleteDialog(int position, String imageUriString) {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Photo?")
+                .setMessage("This will remove the photo from this app's gallery.")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    try {
+                        // 1. Remove from the database/file system
+                        Uri uri = Uri.parse(imageUriString);
+                        getContentResolver().delete(uri, null, null);
+
+                        // 2. Remove from your list and update UI
+                        photoList.remove(position);
+                        adapter.notifyItemRemoved(position);
+                        adapter.notifyItemRangeChanged(position, photoList.size());
+
+                        Toast.makeText(this, "Photo deleted", Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        // If system delete fails, just remove it from the list for the UI
+                        photoList.remove(position);
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 }
 

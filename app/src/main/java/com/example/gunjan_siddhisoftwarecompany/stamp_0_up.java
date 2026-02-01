@@ -96,13 +96,31 @@ public class stamp_0_up extends AppCompatActivity {
 
         restoreSavedData();
 
+//        View.OnClickListener locationPickerListener = v -> {
+//            if (!PermissionUtils.hasLocation(this)) {
+//                startActivity(new Intent(this, per_req_20.class));
+//                return;
+//            }
+//            // This opens loc_09 (the map/current location screen)
+//            startActivityForResult(new Intent(this, loc_09.class), REQ_LOCATION);
+//        };
         View.OnClickListener locationPickerListener = v -> {
             if (!PermissionUtils.hasLocation(this)) {
                 startActivity(new Intent(this, per_req_20.class));
                 return;
             }
-            // This opens loc_09 (the map/current location screen)
-            startActivityForResult(new Intent(this, loc_09.class), REQ_LOCATION);
+
+            // Get current location from FusedLocationProvider
+            FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
+            client.getLastLocation().addOnSuccessListener(location -> {
+                Intent intent = new Intent(this, loc_09.class);
+                if (location != null) {
+                    // Send coordinates so loc_09 map loads immediately
+                    intent.putExtra("lat", location.getLatitude());
+                    intent.putExtra("lon", location.getLongitude());
+                }
+                startActivityForResult(intent, REQ_LOCATION);
+            });
         };
 // This handles showing past colors when clicking the Arrow or Preview dot
         View.OnClickListener colorHistoryListener = v -> {
@@ -124,11 +142,16 @@ public class stamp_0_up extends AppCompatActivity {
             ChangeTracker.mark();
             finish();
         });
+//
+//        findViewById(R.id.dateRow).setOnClickListener(v ->
+//                startActivity(new Intent(this, Date_time_07.class))
+//        );
 
-        findViewById(R.id.dateRow).setOnClickListener(v ->
-                startActivity(new Intent(this, Date_time_07.class))
-        );
-
+        // Inside onCreate or wherever you set the listener
+        findViewById(R.id.dateRow).setOnClickListener(v -> {
+            Intent intent = new Intent(this, Date_time_07.class);
+            startActivityForResult(intent, 107); // 107 is your unique code
+        });
         findViewById(R.id.addressRow).setOnClickListener(v -> {
             if (!PermissionUtils.hasLocation(this)) {
                 startActivity(new Intent(this, per_req_20.class));
@@ -159,29 +182,46 @@ public class stamp_0_up extends AppCompatActivity {
 //            ChangeTracker.mark();
 //        });
 
-
+//this
+//        stampPreview.setOnClickListener(v -> {
+//            // 1. Admin/Premium bypass: Full access immediately
+//            if (SubscriptionUtils.isAdmin(this) || SubscriptionUtils.isPremium(this)) {
+//                applyStampChanges();
+//                return;
+//            }
+//
+//            // 2. Trial Logic for regular users
+//            new Thread(() -> {
+//                SubscriptionEntity sub = AppDatabase.getInstance(this).subscriptionDao().getSubscription();
+//                long currentTime = System.currentTimeMillis();
+//                long sevenDaysMs = 7L * 24 * 60 * 60 * 1000;
+//
+//                if (sub != null && (currentTime - sub.trialStartDate <= sevenDaysMs)) {
+//                    // Within 7 days: Allow editing
+//                    runOnUiThread(this::applyStampChanges);
+//                } else {
+//                    // Trial Expired: Force Subscription flow
+//                    runOnUiThread(() -> {
+//                        Toast.makeText(this, "Trial ended. Please subscribe to continue.", Toast.LENGTH_LONG).show();
+//                        Intent intent = new Intent(this, SubsActivity16.class); // Start of your 16 -> 17 -> 18 flow
+//                        startActivity(intent);
+//                    });
+//                }
+//            }).start();
+//        });
         stampPreview.setOnClickListener(v -> {
-            // 1. Admin/Premium bypass: Full access immediately
-            if (SubscriptionUtils.isAdmin(this) || SubscriptionUtils.isPremium(this)) {
-                applyStampChanges();
-                return;
-            }
-
-            // 2. Trial Logic for regular users
             new Thread(() -> {
                 SubscriptionEntity sub = AppDatabase.getInstance(this).subscriptionDao().getSubscription();
-                long currentTime = System.currentTimeMillis();
-                long sevenDaysMs = 7L * 24 * 60 * 60 * 1000;
 
-                if (sub != null && (currentTime - sub.trialStartDate <= sevenDaysMs)) {
-                    // Within 7 days: Allow editing
-                    runOnUiThread(this::applyStampChanges);
+                // Use the utility to check if they have a valid trial or paid sub
+                if (SubscriptionUtils.hasAccess(this, sub)) {
+                    // SUCCESS: Open Categories
+                    runOnUiThread(() -> startActivity(new Intent(this, cat_1.class)));
                 } else {
-                    // Trial Expired: Force Subscription flow
+                    // BLOCKED: Start the Professional Flow (16 -> 17 -> 18)
                     runOnUiThread(() -> {
-                        Toast.makeText(this, "Trial ended. Please subscribe to continue.", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(this, SubsActivity16.class); // Start of your 16 -> 17 -> 18 flow
-                        startActivity(intent);
+                        Toast.makeText(this, "Trial expired or not started", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(this, SubsActivity16.class));
                     });
                 }
             }).start();
@@ -343,26 +383,47 @@ public class stamp_0_up extends AppCompatActivity {
     }
 
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 107 && resultCode == RESULT_OK && data != null) {
+            String dateValue = data.getStringExtra("selected_date");
+            if (dateValue != null) {
+                // Update the UI text immediately
+                txtDateValue.setText(dateValue);
 
+                // Mark that a change happened for your save dialog
+                ChangeTracker.mark();
+            }
+        }
         if (resultCode == RESULT_OK && data != null) {
-            String mode = data.getStringExtra("location_mode");
-
-            if ("manual".equals(mode)) {
+            if (requestCode == REQ_LOCATION) {
+                // Get the data from loc_09 result
+                String mode = data.getStringExtra("location_mode");
                 String address = data.getStringExtra("manual_address");
-                addressText.setText(address);
-                SettingsStore.save(this, KEY_LOCATION, address);
-                SettingsStore.save(this, KEY_LOCATION_MODE, "manual");
-            } else if ("current".equals(mode)) {
-                fetchAutomaticLocation();
-                SettingsStore.save(this, KEY_LOCATION_MODE, "current");
+
+                if (address != null && !address.isEmpty()) {
+                    // Update the UI
+                    addressText.setText(address);
+
+                    // Save to permanent storage
+                    SettingsStore.save(this, KEY_LOCATION, address);
+                    if (mode != null) {
+                        SettingsStore.save(this, KEY_LOCATION_MODE, mode);
+                    }
+
+                    // Update the little status text if needed
+                    TextView txtAddressValue = findViewById(R.id.txtAddressValue);
+                    if (txtAddressValue != null) {
+                        txtAddressValue.setText("manual".equals(mode) ? "Manual" : "Reset");
+                    }
+
+                    ChangeTracker.mark();
+                }
             }
 
-            ChangeTracker.mark();
-            ChangeTracker.reset();
-
+            // Handle the Save/Discard dialog result
             if (requestCode == REQ_SAVE_DIALOG) {
                 if (resultCode == RESULT_OK) {
                     ChangeTracker.mark();
@@ -371,7 +432,36 @@ public class stamp_0_up extends AppCompatActivity {
                     finish();
                 }
             }
-        }}
+        }
+    }
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (resultCode == RESULT_OK && data != null) {
+//            String mode = data.getStringExtra("location_mode");
+//
+//            if ("manual".equals(mode)) {
+//                String address = data.getStringExtra("manual_address");
+//                addressText.setText(address);
+//                SettingsStore.save(this, KEY_LOCATION, address);
+//                SettingsStore.save(this, KEY_LOCATION_MODE, "manual");
+//            } else if ("current".equals(mode)) {
+//                fetchAutomaticLocation();
+//                SettingsStore.save(this, KEY_LOCATION_MODE, "current");
+//            }
+//
+//            ChangeTracker.mark();
+//            ChangeTracker.reset();
+//
+//            if (requestCode == REQ_SAVE_DIALOG) {
+//                if (resultCode == RESULT_OK) {
+//                    ChangeTracker.mark();
+//                    finish();
+//                } else if (resultCode == RESULT_CANCELED) {
+//                    finish();
+//                }
+//            }
+//        }}
 
     private void setFreeColor(ImageView view, int color) {
         view.setOnClickListener(v -> {
@@ -387,7 +477,10 @@ public class stamp_0_up extends AppCompatActivity {
         txtDateValue.setText(SettingsStore.get(this, KEY_DATE, "Select Date"));
         String mode = SettingsStore.get(this, KEY_LOCATION_MODE, "current");
         String address = SettingsStore.get(this, KEY_LOCATION, "Tap to set location");
-
+        String savedLocation = SettingsStore.get(this, KEY_LOCATION, "");
+        if (!savedLocation.isEmpty()) {
+            addressText.setText(savedLocation);
+        }
         if (mode.equals("manual")) {
             addressText.setText(address);
             ((TextView)findViewById(R.id.txtAddressValue)).setText("Manual");

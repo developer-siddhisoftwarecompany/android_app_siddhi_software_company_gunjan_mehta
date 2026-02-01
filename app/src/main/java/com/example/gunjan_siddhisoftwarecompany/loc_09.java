@@ -1,42 +1,46 @@
+//
+
 package com.example.gunjan_siddhisoftwarecompany;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.example.gunjan_siddhisoftwarecompany.util.SettingsStore;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
-// CORRECT OSMDROID IMPORTS
+import org.json.JSONObject;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Locale;import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import android.location.Location;
-
+import java.util.Locale;
 
 public class loc_09 extends AppCompatActivity {
 
     private static final String KEY_LOCATION_MODE = "stamp_location_mode";
     private static final int REQ_MANUAL_ENTRY = 102;
 
-    private MapView map; // Now using org.osmdroid.views.MapView
+    private MapView map;
     private View blackOverlay;
     private double lat, lon;
     private TextView txtCurrent, txtManual, btnCancel, btnSave, txtMapAddress;
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +48,10 @@ public class loc_09 extends AppCompatActivity {
 
         // Load configuration before setContentView
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-
         setContentView(R.layout.location_09_in_figma);
 
-        // Get values from intent into the class variables
-        lat = getIntent().getDoubleExtra("lat", 0.0);
-        lon = getIntent().getDoubleExtra("lon", 0.0);
-        android.util.Log.d("LOCATION_DEBUG", "Lat: " + lat + " Lon: " + lon);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         // ===== INIT VIEWS =====
         blackOverlay = findViewById(R.id.blackOverlay);
         txtCurrent = findViewById(R.id.txtCurrent);
@@ -62,23 +63,24 @@ public class loc_09 extends AppCompatActivity {
 
         setupMapSettings();
 
-        if (lat != 0.0 && lon != 0.0) {
-            showLocationOnMap(lat, lon);
+        // Get coordinates from intent
+        lat = getIntent().getDoubleExtra("lat", 0.0);
+        lon = getIntent().getDoubleExtra("lon", 0.0);
 
-            // Fetch address in background
-            new Thread(() -> {
-                String liveAddress = fetchAddressFromOSM(lat, lon);
-                runOnUiThread(() -> txtMapAddress.setText(liveAddress));
-            }).start();
+        if (lat != 0.0 && lon != 0.0) {
+            updateLocationAndAddress(lat, lon);
+        } else {
+            // If coordinates are 0.0, fetch current location automatically
+            fetchCurrentGPSLocation();
         }
-        else {
-            // This runs if lat or lon are 0.0
-            txtMapAddress.setText("GPS signal not found. Please check your location settings.");
-            android.util.Log.e("LOCATION_DEBUG", "Coordinates were 0.0, address fetch skipped.");
-        }
+
         setCurrentSelectedUI();
 
-        txtCurrent.setOnClickListener(v -> setCurrentSelectedUI());
+        // ===== CLICK LISTENERS =====
+        txtCurrent.setOnClickListener(v -> {
+            setCurrentSelectedUI();
+            fetchCurrentGPSLocation();
+        });
 
         txtManual.setOnClickListener(v -> {
             Intent intent = new Intent(this, loc10.class);
@@ -86,9 +88,20 @@ public class loc_09 extends AppCompatActivity {
         });
 
         btnSave.setOnClickListener(v -> {
+            String finalAddress = txtMapAddress.getText().toString();
+
+            // Validation: Don't allow saving if address failed or is still loading
+            if (finalAddress.isEmpty() || finalAddress.contains("GPS signal not found") || finalAddress.contains("Loading")) {
+                Toast.makeText(this, "Please wait for valid location", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             SettingsStore.save(this, KEY_LOCATION_MODE, "current");
+
+            // PROFESSIONAL FIX: Send the actual address back to the editor
             Intent result = new Intent();
             result.putExtra("location_mode", "current");
+            result.putExtra("manual_address", finalAddress);
             setResult(RESULT_OK, result);
             finish();
         });
@@ -97,19 +110,40 @@ public class loc_09 extends AppCompatActivity {
         blackOverlay.setOnClickListener(v -> finish());
     }
 
+    @SuppressLint("MissingPermission")
+    private void fetchCurrentGPSLocation() {
+        txtMapAddress.setText("Loading location...");
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+            if (location != null) {
+                lat = location.getLatitude();
+                lon = location.getLongitude();
+                updateLocationAndAddress(lat, lon);
+            } else {
+                txtMapAddress.setText("GPS signal not found. Please check your location settings.");
+            }
+        });
+    }
+
+    private void updateLocationAndAddress(double latitude, double longitude) {
+        showLocationOnMap(latitude, longitude);
+        new Thread(() -> {
+            String liveAddress = fetchAddressFromOSM(latitude, longitude);
+            runOnUiThread(() -> txtMapAddress.setText(liveAddress));
+        }).start();
+    }
+
     private void setupMapSettings() {
         Configuration.getInstance().setOsmdroidTileCache(getCacheDir());
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
         map.getController().setZoom(17.0);
-
     }
 
     private void showLocationOnMap(double latitude, double longitude) {
         GeoPoint node = new GeoPoint(latitude, longitude);
         map.getController().setCenter(node);
 
-        Marker startMarker = new Marker(map); // Using org.osmdroid.views.overlay.Marker
+        Marker startMarker = new Marker(map);
         startMarker.setPosition(node);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 
@@ -117,18 +151,19 @@ public class loc_09 extends AppCompatActivity {
         map.getOverlays().add(startMarker);
         map.invalidate();
     }
+
     private String fetchAddressFromOSM(double lat, double lon) {
         HttpURLConnection conn = null;
         try {
-            // Use a very specific User-Agent string
             String urlStr = String.format(Locale.US, "https://nominatim.openstreetmap.org/reverse?format=json&lat=%f&lon=%f", lat, lon);
             URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
 
-            // IMPORTANT: Change "MyUniqueAppName" to your actual app name
-            conn.setRequestProperty("User-Agent", "GunjanSiddhiApp/1.0 (contact@example.com)");
+            // PROFESSIONAL FIX: Unique User-Agent to prevent getting blocked by OSM
+            conn.setRequestProperty("User-Agent", "GunjanSiddhiStampApp/1.1");
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(5000);
+
             if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 StringBuilder response = new StringBuilder();
@@ -136,41 +171,15 @@ public class loc_09 extends AppCompatActivity {
                 while ((line = reader.readLine()) != null) response.append(line);
 
                 JSONObject json = new JSONObject(response.toString());
-                return json.optString("display_name", "Address found, but name empty");
-            } else {
-                return "Server Error: " + conn.getResponseCode();
+                return json.optString("display_name", "Address not found");
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            return "Network Error: " + e.getMessage();
+            Log.e("LOCATION_ERROR", "Fetch failed", e);
         } finally {
             if (conn != null) conn.disconnect();
         }
+        return "Network error. Could not load address.";
     }
-//    private String fetchAddressFromOSM(double lat, double lon) {
-//        HttpURLConnection conn = null;
-//        try {
-//            String urlStr = String.format(Locale.US, "https://nominatim.openstreetmap.org/reverse?format=json&lat=%f&lon=%f", lat, lon);
-//            URL url = new URL(urlStr);
-//            conn = (HttpURLConnection) url.openConnection();
-////            conn.setRequestProperty("User-Agent", getPackageName());
-//            conn.setRequestProperty("User-Agent", "MyCustomCameraApp/1.0 (contact@example.com)");
-//            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-//                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//                StringBuilder response = new StringBuilder();
-//                String line;
-//                while ((line = reader.readLine()) != null) response.append(line);
-//
-//                JSONObject json = new JSONObject(response.toString());
-//                return json.optString("display_name", "Address not found");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (conn != null) conn.disconnect();
-//        }
-//        return "Network Error";
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -203,6 +212,39 @@ public class loc_09 extends AppCompatActivity {
         if (map != null) map.onPause();
     }
 }
+
+
+
+
+
+
+//donr
+//    private String fetchAddressFromOSM(double lat, double lon) {
+//        HttpURLConnection conn = null;
+//        try {
+//            String urlStr = String.format(Locale.US, "https://nominatim.openstreetmap.org/reverse?format=json&lat=%f&lon=%f", lat, lon);
+//            URL url = new URL(urlStr);
+//            conn = (HttpURLConnection) url.openConnection();
+////            conn.setRequestProperty("User-Agent", getPackageName());
+//            conn.setRequestProperty("User-Agent", "MyCustomCameraApp/1.0 (contact@example.com)");
+//            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//                StringBuilder response = new StringBuilder();
+//                String line;
+//                while ((line = reader.readLine()) != null) response.append(line);
+//
+//                JSONObject json = new JSONObject(response.toString());
+//                return json.optString("display_name", "Address not found");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (conn != null) conn.disconnect();
+//        }
+//        return "Network Error";
+//    }
+
+   //done
 //package com.example.gunjan_siddhisoftwarecompany;
 //
 //import android.content.Intent;

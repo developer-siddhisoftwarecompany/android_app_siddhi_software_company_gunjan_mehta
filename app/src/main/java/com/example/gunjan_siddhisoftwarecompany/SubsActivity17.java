@@ -166,13 +166,16 @@ public class SubsActivity17 extends AppCompatActivity {
                     SubscriptionEntity sub = new SubscriptionEntity();
                     sub.id = 1; // Used for "WHERE id = 1" in your DAO
                     sub.trialStartDate = System.currentTimeMillis();
-                    sub.isPremium = false;
+                    sub.isPremium = true;
 
                     db.subscriptionDao().updateSubscription(sub);
 
                     runOnUiThread(() -> {
-                        startActivity(new Intent(this, thanku_18.class));
-                        finish();
+//                        startActivity(new Intent(this, thanku_18.class));
+                        Intent i = new Intent(this, thanku_18.class);
+//                        finish();
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
                     });
                 } catch (Exception e) {
                     runOnUiThread(() -> Toast.makeText(this, "Database Error", Toast.LENGTH_SHORT).show());

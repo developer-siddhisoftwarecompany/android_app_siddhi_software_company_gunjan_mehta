@@ -15,6 +15,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public interface OnPhotoClickListener {
         void onPhotoClick(String imagePath);
+        void onPhotoLongClick(int position, String imagePath);
     }
 
     private final List<PhotoItem> list;
@@ -55,6 +56,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (holder instanceof DateVH) {
             ((DateVH) holder).txtDate.setText(item.dateText);
         } else if (holder instanceof PhotoVH) {
+            PhotoVH photoHolder = (PhotoVH) holder;
             // Use Glide to load the image into the holder's ImageView
             Glide.with(holder.itemView.getContext())
                     .load(item.imagePath)
@@ -62,10 +64,18 @@ public class PhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .into(((PhotoVH) holder).imgPhoto);
 
             // FIX: Set a Click Listener so the photo only opens when touched
-            holder.itemView.setOnClickListener(v -> {
+            photoHolder.imgPhoto.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onPhotoClick(item.imagePath);
                 }
+            });
+
+
+            photoHolder.imgPhoto.setOnLongClickListener(v -> {
+                if (listener != null) {
+                    listener.onPhotoLongClick(position, item.imagePath);
+                }
+                return true;
             });
         }
     }

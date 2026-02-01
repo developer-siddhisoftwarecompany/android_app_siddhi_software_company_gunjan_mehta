@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
@@ -65,8 +66,10 @@ public class grid_05 extends AppCompatActivity {
         btnCapture.setOnClickListener(v -> {
             v.animate().scaleX(0.8f).scaleY(0.8f).setDuration(50).withEndAction(() -> {
                 v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(50);
-                takePhoto(); // Now we need to add this method below!
+                String savedFolder = SettingsStore.get(this, "custom_folder_name", "");
+                takePhoto(savedFolder);
             });
+
         });
 
 
@@ -143,7 +146,7 @@ public class grid_05 extends AppCompatActivity {
                 imageCapture = new ImageCapture.Builder().build();
                 CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
 
-                cameraProvider.unbindAll();
+
                 cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
 
             } catch (Exception e) {
@@ -151,7 +154,7 @@ public class grid_05 extends AppCompatActivity {
             }
         }, ContextCompat.getMainExecutor(this));
     }
-    private void takePhoto() {
+    private void takePhoto(String folderName) {
         if (imageCapture == null) return;
 
         // Create a name and location to save the photo
@@ -159,7 +162,9 @@ public class grid_05 extends AppCompatActivity {
         android.content.ContentValues contentValues = new android.content.ContentValues();
         contentValues.put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, "IMG_" + timeStamp);
         contentValues.put(android.provider.MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
-
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            contentValues.put(android.provider.MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + folderName);
+        }
         ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions
                 .Builder(getContentResolver(),
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
